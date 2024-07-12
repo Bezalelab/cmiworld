@@ -1,0 +1,15 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="icons/facebook">
+<g clip-path="url(#clip0_4193_254)">
+<rect width="32" height="32" rx="6" fill="#292929"/>
+<g id="Vector">
+<path d="M22.0988 32.0037V19.666H26.2406L26.9014 14.8671L22.0988 14.81V11.7198C22.0988 10.3152 22.4826 9.35197 24.4807 9.35197H27.0081V5.03104C25.7774 4.84375 24.5468 4.84375 23.3162 4.84375C19.6376 4.84375 17.0927 7.08339 17.0927 11.2304V14.7904L12.9414 14.8804V19.7204H17.1014V32.0037H22.0988Z" fill="#6E6E6E"/>
+</g>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_4193_254">
+<rect width="32" height="32" rx="6" fill="white"/>
+</clipPath>
+</defs>
+</svg>

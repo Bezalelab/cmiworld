@@ -1,0 +1,300 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import Donations from '@/components/Donations.astro';
+const images = [
+	{ url: import('@/assets/countries/hungary/main.png') },
+	{ url: import('@/assets/countries/hungary/1.jpg') },
+	{ url: import('@/assets/countries/hungary/2.jpg') },
+	{ url: import('@/assets/countries/hungary/3.jpg') },
+];
+---
+
+<Layout title='Welcome to Astro.'>
+	<div class='container py-20 lg:py-25'>
+		<div class='md:max-w-[880px] mx-auto mb-20'>
+
+			<div class='mb-8 md:mb-16'>
+				<span class='section-caption'>Since 1997</span>
+				<h1 class='text-xl md:text-2xl'>Hungary</h1>
+			</div>
+
+			<div class='embla pb-12'>
+				<div class='embla__viewport relative'>
+					<div class='embla__container flex'>
+						{
+							images.map(image => (
+								<div class='embla__slide mb-4 h-[400px] md:h-[480px]'>
+									<Image src={image.url} alt='image' quality={100} class='size-full object-cover' />
+								</div>
+							))
+						}
+					</div>
+					<div class='embla__progress-bar'>
+						<div class='embla__progress-bar-fill'></div>
+					</div>
+				</div>
+				<div class='embla-thumbs'>
+					<div class='embla-thumbs__viewport overflow-hidden'>
+						<div class='embla-thumbs__container flex gap-2'>
+							{
+								images.map((image, index) => (
+									<div class={`embla-thumbs__slide ${index === 0 && 'embla-thumbs__slide--selected'}`}>
+										<button type='button' class='embla-thumbs__slide__number size-[100px]'>
+											<Image src={image.url} alt='image' class='size-full object-cover' />
+										</button>
+									</div>
+								))
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class='relative overflow-x-auto mb-10'>
+				<table class='w-full text-left'>
+					<thead class='text-md uppercase bg-[#EEEEEF] text-black'>
+						<tr>
+							<th scope='col' class='px-6 py-4'> Key stats</th>
+							<th scope='col'> </th>
+						</tr>
+					</thead>
+					<tbody class='text-sm text-black'>
+						<tr>
+							<th scope='row' class='px-6 py-4 w-[240px] font-medium whitespace-nowrap'> Сapital </th>
+							<td class='px-6 py-4 min-w-[300px]'> Budapest </td>
+						</tr>
+						<tr class='bg-[#EEEEEF]'>
+							<th scope='row' class='px-6 py-4 w-[240px] font-medium whitespace-nowrap'> Population </th>
+							<td class='px-6 py-4 min-w-[300px]'> 9.8 million </td>
+						</tr>
+						<tr>
+							<th scope='row' class='px-6 py-4 w-[240px] font-medium whitespace-nowrap'> Spiritual condition </th>
+							<td class='px-6 py-4 min-w-[300px]'>
+								The spiritual condition in Hungary reflects a diverse religious landscape, with a significant portion of the population identifying as Roman Catholic
+							</td>
+						</tr>
+						<tr class='bg-[#EEEEEF]'>
+							<th scope='row' class='px-6 py-4 w-[240px] font-medium whitespace-nowrap'> Dominant religion </th>
+							<td class='px-6 py-4 min-w-[250px]'> Catholicism </td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<article class='prose lg:prose-lg max-w-full mb-20 prose-figcaption:text-gray-2 prose-figcaption:text-sm prose-figcaption:text-center'>
+				<h2>Our Mission in Hungary</h2>
+				<p>
+					We extend a very special welcome to you and are thrilled to have you visit our page dedicated to our mission in Hungary. At Christian Missions International (CMI), we are committed to
+					spreading the gospel of Jesus Christ and establishing strong, vibrant churches throughout Hungary. Since 2005, we have been actively working in this beautiful country, partnering with local
+					pastors and communities to fulfill our mission.
+				</p>
+				<p>
+					Our journey in Hungary began nearly two decades ago with a vision to reach the unreached and bring the light of Christ to every corner of the nation. Over the years, we have witnessed
+					incredible transformations and seen many lives changed by the power of the gospel.
+				</p>
+				<h3>Key Achievements:</h3>
+				<ul>
+					<li>
+						<strong>Church Planting: </strong>Since our inception in Hungary, we have successfully planted 25 new churches, each serving as a beacon of hope and faith in their communities. These
+						churches are located in cities and towns where there was previously no evangelical presence, ensuring that the gospel reaches those who need it most.
+					</li>
+					<li>
+						<strong>Leadership Training:</strong> We believe in equipping local leaders to carry forward the mission. Our leadership seminars have trained over 200 pastors and church leaders, empowering
+						them with the knowledge and skills needed to shepherd their congregations effectively.
+					</li>
+					<li>
+						<strong>Evangelistic Campaigns:</strong> Our evangelistic campaigns have reached thousands of individuals, spreading the message of hope and salvation. These campaigns are a cornerstone of
+						our mission, allowing us to connect with people from all walks of life and share the love of Christ.
+					</li>
+				</ul>
+				<h2>Join Us in Our Mission to Transform Hungary</h2>
+				<p>
+					We invite you to join us in this exciting mission. Whether through prayer, financial support, or active participation, your involvement can make a significant difference. Together, we can
+					bring the hope and light of Jesus Christ to every corner of Hungary.
+				</p>
+				<figure>
+					<Image src={import('@/assets/countries/hungary/article.png')} alt='image' />
+					<figcaption>We celebrated 41 years of being married in Hungary</figcaption>
+				</figure>
+				<p>Please feel free to contact us for more information or to receive a special information packet about our mission. We look forward to partnering with you in this divine journey.</p>
+				<p>In Awe of His Faithfulness,</p>
+				<h3>Contact Us:</h3>
+				<div class='*:m-0'>
+					<p>Email: jimpuhr@cmiworld.org</p>
+					<p>Phone: +1 (904) 233-0346</p>
+					<p>Address: PO Box 51531 Jacksonville, Florida 32240</p>
+				</div>
+			</article>
+
+			<section class='py-20 md:py-25 full-bleed bg-[#F8F8F8]'>
+				<div class='flex flex-col md:flex-row items-start justify-between gap-10'>
+					<div class='md:sticky md:top-30'>
+						<h2 class='font-semibold md:font-medium normal-case text-[26px] leading-[31px] md:max-w-[301px]'>Our Goals for 2024</h2>
+					</div>
+					<ol class='flex flex-col pl-8 md:pl-0 gap-10 md:max-w-[465px] text-md'>
+						<li>
+							<strong>Plant 10 New Churches:</strong> We plan to establish 10 new churches in cities with populations exceeding 20,000 where there are currently no evangelical churches. Each church will
+							receive an investment of $4000 to ensure a strong foundation and sustainable growth.
+						</li>
+						<li>
+							<strong>Strengthen Community Outreach:</strong> We will enhance our community outreach programs, focusing on social services, education, and healthcare initiatives to support local communities
+							and demonstrate the love of Christ in practical ways.
+						</li>
+						<li>
+							<strong>Expand Leadership Training:</strong> Our goal is to train an additional 100 pastors and church leaders, equipping them with advanced theological education and practical ministry skills.
+						</li>
+					</ol>
+				</div>
+			</section>
+		</div>
+
+		<div class='max-w-[880px] mx-auto mb-20'>
+			<span class='section-caption'>Get Involved Today</span>
+			<h2 class='text-xl md:text-2xl mb-8 md:mb-16'>Ready to Make a <br /> Difference in Hungary?</h2>
+			<p class='mb-6 text-md'>
+				As a result of the continuous and invaluable support, CMI has been able to make a profound impact in Eastern Europe, sharing the message of Jesus and creating new churches.
+			</p>
+			<p class='mb-6 text-md'>You can help us continue this mission by donating to the CMI fund. Together, we can bring hope and community to even more towns in need.</p>
+			<p class='text-black text-md'>“And let us consider how we may spur one another on toward love and good deeds” - Hebrews 10:24</p>
+		</div>
+
+		<Donations />
+		<div class='py-20 border-y border-black'>
+			<p class='mx-auto text-center max-w-[825px]'>
+				Your contribution is invaluable to us. Hungary is a rich field ready for harvest, and your help makes all the difference. Thank you for standing with us!
+			</p>
+		</div>
+	</div>
+</Layout>
+
+<style>
+	.embla {
+		--slide-size: 100%;
+	}
+
+	.embla__container {
+		backface-visibility: hidden;
+		touch-action: pan-y pinch-zoom;
+	}
+	.embla__slide {
+		flex: 0 0 var(--slide-size);
+		min-width: 0;
+	}
+	.embla__slide__number {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100px;
+		width: 100px;
+		flex: 0 0 100px;
+	}
+
+	.embla-thumbs__viewport {
+		overflow: hidden;
+	}
+	.embla-thumbs__container {
+		display: flex;
+	}
+	.embla-thumbs__slide {
+		flex: 0 0 100px;
+		min-width: 0;
+		padding-left: var(--thumbs-slide-spacing);
+	}
+
+	.embla__progress-bar {
+		position: absolute;
+		bottom: 14px;
+		left: 0;
+		width: 100%;
+		height: 2px;
+		background-color: #bcbcbc;
+	}
+
+	.embla__progress-bar-fill {
+		width: 0;
+		height: 100%;
+		background-color: #1e1e1e;
+	}
+
+	ol > li {
+		position: relative;
+		counter-reset: list-item var(--fx-value);
+	}
+	ol > li:before {
+		position: absolute;
+		left: -50px;
+		color: #9d9d9d;
+		content: '0' counter(list-item) '.';
+	}
+	@media screen and (max-width: 650px) {
+		ol > li:before {
+			left: -35px;
+		}
+	}
+
+	.full-bleed {
+		box-shadow: 0 0 0 100vmax #f8f8f8;
+		clip-path: inset(0 -100vmax);
+	}
+</style>
+
+<script>
+	import EmblaCarousel, { type EmblaOptionsType } from 'embla-carousel';
+	import Autoplay from 'embla-carousel-autoplay';
+	import { addThumbBtnsClickHandlers, addToggleThumbBtnsActive } from '@/components/ui/embla/EmblaCarouselThumbsButton';
+
+	const OPTIONS: EmblaOptionsType = {};
+	const OPTIONS_THUMBS: EmblaOptionsType = {
+		containScroll: 'keepSnaps',
+		dragFree: true,
+		loop: true,
+	};
+
+	const autoplayOptions = { delay: 5000, stopOnInteraction: false };
+	const viewportNodeMainCarousel = document.querySelector('.embla__viewport') as HTMLElement;
+	const viewportNodeThumbCarousel = document.querySelector('.embla-thumbs__viewport') as HTMLElement;
+	const emblaApiMain = EmblaCarousel(viewportNodeMainCarousel, OPTIONS, [Autoplay(autoplayOptions)]);
+	const emblaApiThumb = EmblaCarousel(viewportNodeThumbCarousel, OPTIONS_THUMBS);
+
+	const progressBarFill = document.querySelector('.embla__progress-bar-fill') as HTMLElement;
+
+	const updateProgressBar = () => {
+		progressBarFill.style.transitionDuration = '0s';
+		progressBarFill.style.width = '0%';
+		setTimeout(() => {
+			progressBarFill.style.transitionDuration = '5s';
+			progressBarFill.style.width = '100%';
+		}, 500);
+	};
+
+	emblaApiMain.on('select', updateProgressBar);
+	emblaApiMain.on('init', updateProgressBar);
+
+	const removeThumbBtnsClickHandlers = addThumbBtnsClickHandlers(emblaApiMain, emblaApiThumb);
+	const removeToggleThumbBtnsActive = addToggleThumbBtnsActive(emblaApiMain, emblaApiThumb);
+
+	emblaApiMain.on('destroy', removeThumbBtnsClickHandlers).on('destroy', removeToggleThumbBtnsActive);
+	emblaApiThumb.on('destroy', removeThumbBtnsClickHandlers).on('destroy', removeToggleThumbBtnsActive);
+
+	const handlePointerDown = () => {
+		emblaApiMain.plugins().autoplay?.stop(); 
+	};
+
+	const handlePointerUp = () => {
+		emblaApiMain.plugins().autoplay?.play(); 
+	};
+
+	const slidesThumbs = emblaApiThumb.slideNodes();
+	slidesThumbs.forEach(slideNode => {
+		slideNode.addEventListener('pointerdown', handlePointerDown, false);
+		slideNode.addEventListener('pointerup', handlePointerUp, false);
+	});
+
+	emblaApiMain.on('destroy', () => {
+		slidesThumbs.forEach(slideNode => {
+			slideNode.removeEventListener('pointerdown', handlePointerDown, false);
+			slideNode.removeEventListener('pointerup', handlePointerUp, false);
+		});
+	});
+</script>

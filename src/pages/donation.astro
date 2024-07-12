@@ -1,0 +1,55 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Donations from '@/components/Donations.astro';
+import { Icon } from 'astro-icon/components';
+import { Button } from '@/components/ui/button';
+
+---
+
+<Layout title='Welcome to Astro.'>
+	<div class='container pt-16 md:pt-[72px] lg:pt-25'>
+		<div class='mb-[72px] md:mb-20'>
+			<span class='section-caption'>Donation</span>
+			<h1 class='text-[29px] leading-[28px] sm:text-xl md:text-2xl xl:text-3xl max-w-[605px]'>three ways to <span class='text-gray-3'>donate</span></h1>
+		</div>
+		<div class='flex flex-col xl:flex-row gap-5'>
+			<div class='grid relative xl:max-w-[387px] place-items-center gap-6 bg-gray-5 pt-20 md:pt-25 pb-10 px-6 md:px-10'>
+				<span class='absolute text-[22px] top-6 left-6 font-medium'>01.</span>
+				<Icon name='online' class='size-[72px]' />
+				<span class='block uppercase text-[26px] md:text-xl font-medium text-black'>Give online</span>
+				<p class='text-center text-md'>Make a secure donation using a credit card, eCheck, or set up recurring payments through Pushpay.</p>
+				<Button variant='dark' size='sm' link='https://pushpay.com/g/cmiworld?src=hpp' className='normal-case'>Giving online</Button>
+			</div>
+			<div class='grid relative xl:max-w-[387px] place-items-center gap-6 bg-gray-5 pt-20 md:pt-25 pb-10 px-6 md:px-10'>
+				<span class='absolute text-[22px] top-6 left-6 font-medium'>02.</span>
+				<Icon name='sms' class='size-[72px]' />
+				<span class='block uppercase text-[26px] md:text-xl font-medium text-black'>SMS Donation</span>
+				<p class='text-center text-md'>Text "CMIWORLD" to 77977 to make a quick and easy donation from your phone today.</p>
+				<Button variant='dark' size='sm' link='sms:77977&body=CMIWORLD' className='normal-case'>Giving via SMS</Button>
+			</div>
+			<div class='flex flex-col items-center relative xl:max-w-[387px] w-full gap-6 bg-gray-5 pt-20 md:pt-25 pb-10 px-6 md:px-10'>
+				<span class='absolute text-[22px] top-6 left-6 font-medium'>03.</span>
+				<Icon name='email' class='size-[72px]' />
+				<span class='block uppercase text-[26px] md:text-xl font-medium text-black'>Mail a Check</span>
+				<span class='text-md text-center font-bold'>PO Box 51531 Jacksonville, <br /> Florida 32240</span>
+			</div>
+		</div>
+		<section class='py-16 my-20 border-t border-b border-gray-1'>
+			<p class='max-w-[825px] mx-auto text-center mb-8'>
+				If you have any questions or need assistance with your donation, please don’t hesitate to contact us. We’re here to support you every step of the way!
+			</p>
+			<div class='text-center'>
+				<Button variant='outlineDark' link='/contacts'  size='sm'>Contact us</Button>
+			</div>
+		</section>
+		<Donations />
+	</div>
+	<div class='bg-black-2'>
+		<div class='container flex-stack flex-wrap gap-6 py-6'>
+			<p class='text-sm max-w-[430px] text-gray-1'>
+				Learn more about our “Vision 2024” and see how God, through CMI, is transforming lives globally
+			</p>
+			<Button variant='outline' size='sm' link='/our-vision'>Vision 2024</Button>
+		</div>
+	</div>
+</Layout>

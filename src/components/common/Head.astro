@@ -1,0 +1,78 @@
+---
+import { AstroFont } from 'astro-font';
+---
+
+<head>
+	<AstroFont
+		config={[
+			{
+				name: 'Stix',
+				src: [
+					{
+						weight: '700',
+						style: 'bold',
+						path: './public/fonts/Stix-Bold.ttf',
+					},
+				],
+				preload: true,
+				display: 'swap',
+				selector: '.font-logo',
+				fallback: 'sans-serif',
+			},
+			{
+				name: 'Lato',
+				src: [
+					{
+						style: 'normal',
+						weight: '400',
+						path: './public/fonts/Lato-Regular.ttf',
+					},
+					{
+						style: 'medium',
+						weight: '500',
+						path: './public/fonts/Lato-Medium.ttf',
+					},
+
+					{
+						style: 'semibold',
+						weight: '600',
+						path: './public/fonts/Lato-SemiBold.ttf',
+					},
+					{
+						style: 'bold',
+						weight: '700',
+						path: './public/fonts/Lato-Bold.ttf',
+					},
+				],
+				preload: true,
+				display: 'swap',
+				selector: 'body',
+				fallback: 'sans-serif',
+			},
+			{
+				name: 'Metric',
+				src: [
+					{
+						weight: '400',
+						style: 'normal',
+						path: './public/fonts/MetricRegular.otf',
+					},
+					{
+						weight: '500',
+						style: 'normal',
+						path: './public/fonts/MetricMedium.otf',
+					},
+				],
+
+				selector: 'body',
+				display: 'swap',
+				fallback: 'sans-serif',
+			},
+		]}
+	/>
+	<meta charset='UTF-8' />
+	<meta name='description' content='Astro description' />
+	<meta name='viewport' content='width=device-width' />
+	<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
+	<title>Christian Missions International</title>
+</head>

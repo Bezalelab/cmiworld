@@ -1,0 +1,19 @@
+---
+import { Image, getImage } from 'astro:assets';
+import heroImg from '@/assets/contacts.png';
+import { Button } from './ui/button';
+const optimizedBackground = await getImage({ src: heroImg, format: 'webp', quality: 100 });
+---
+
+<div class='relative bg-cover bg-center bg-no-repeat' style={`background-image: url(${optimizedBackground.src});`}>
+	<div class='py-14 lg:py-20 container min-h-[440px] lg:min-h-[626px] grid'>
+		<p class='uppercase text-md text-white !leading-none'>Please feel free to <br /> contact us at any time</p>
+		<div class='flex flex-col items-start gap-4 sm:flex-row sm:justify-between sm:items-end mt-auto'>
+			<h2 class='text-lg sm:text-xl lg:text-2xl text-white max-w-[468px] lg:max-w-[622px]'>
+				Always ready to hear from you.
+				<span class='text-gray-1'>Get in touch!</span>
+			</h2>
+			<Button variant='outline' link='/contacts' className='!px-5 !lg:px-8'>Contact us</Button>
+		</div>
+	</div>
+</div>

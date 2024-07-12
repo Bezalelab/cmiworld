@@ -1,0 +1,121 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout title='404'>
+	<div class='pt-20 sm:pt-[170px] pb-20 md:pb-25'>
+		<div class='container'>
+			<div class='flex flex-col justify-center text-center mb-14 sm:hidden'>
+				<div class='overflow-hidden relative h-[120px] mx-auto mb-8 counters'>
+					<div class='numbers relative'>
+						<span class='text-black block text-[120px] leading-none'>9</span>
+						<span class='text-black block text-[120px] leading-none'>8</span>
+						<span class='text-black block text-[120px] leading-none'>7</span>
+						<span class='text-black block text-[120px] leading-none'>6</span>
+						<span class='text-black block text-[120px] leading-none'>5</span>
+						<span class='text-black block text-[120px] leading-none'>4</span>
+						<span class='text-black block text-[120px] leading-none'>3</span>
+						<span class='text-black block text-[120px] leading-none'>2</span>
+						<span class='text-black block text-[120px] leading-none'>1</span>
+						<span class='text-black block text-[120px] leading-none'>0</span>
+					</div>
+				</div>
+				<h1 class='mb-2 text-md'>404, page not found</h1>
+				<p class='uppercase'>You will be redirected to the home page</p>
+			</div>
+			<div class='hidden sm:block'>
+				<div class='flex justify-between items-center w-full mb-5 gap-6'>
+					<div class='overflow-hidden w-min relative h-[120px] -mb-5 counters'>
+						<div class='numbers relative'>
+							<span class='text-black block text-[120px] leading-none'>9</span>
+							<span class='text-black block text-[120px] leading-none'>8</span>
+							<span class='text-black block text-[120px] leading-none'>7</span>
+							<span class='text-black block text-[120px] leading-none'>6</span>
+							<span class='text-black block text-[120px] leading-none'>5</span>
+							<span class='text-black block text-[120px] leading-none'>4</span>
+							<span class='text-black block text-[120px] leading-none'>3</span>
+							<span class='text-black block text-[120px] leading-none'>2</span>
+							<span class='text-black block text-[120px] leading-none'>1</span>
+							<span class='text-black block text-[120px] leading-none'>0</span>
+						</div>
+					</div>
+					<div class='xl:flex-auto w-full border-b text-end xl:text-center text-[120px] leading-none text-black font-medium'>404</div>
+				</div>
+				<div class='flex justify-between xl:justify-start gap-[145px] mb-20'>
+					<span class='uppercase text-md font-medium'>you will be redirected to the home page</span>
+					<span class='uppercase text-md font-medium text-nowrap'>page not found</span>
+				</div>
+			</div>
+
+			<div class='flex flex-col md:flex-row gap-8 justify-between xl:max-w-[810px]'>
+				<div class='flex flex-col'>
+					<span class='text-md font-medium uppercase mb-6 md:mb-8 block'>Email</span>
+					<a href='mailto:jimpuhr@cmiworld.org' class='text-lg sm:text-xl font-medium sm:font-semibold text-black'>jimpuhr@cmiworld.org</a>
+					<a href='mailto:brendapuhr@gmail.com' class='text-lg sm:text-xl font-medium sm:font-semibold text-black'>brendapuhr@gmail.com</a>
+				</div>
+				<div class='flex flex-col'>
+					<span class='text-md font-medium uppercase mb-6 md:mb-8 block'>call us</span>
+					<a href='tel:+19042330346' class='text-lg sm:text-xl font-medium sm:font-semibold text-black'>+1 (904) 233-0346</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</Layout>
+
+<style>
+	.numbers {
+		animation: slide 12s ease-in-out forwards;
+		animation-delay: 1s; 
+	}
+
+	.numbers span {
+		display: block;
+		font-size: 120px;
+		width: 72px;
+		line-height: 120px;
+		font-weight: medium;
+		color: #1e1e1e;
+	}
+
+	@keyframes slide {
+		0% {
+			top: 0px;
+		}
+		10% {
+			top: -120px;
+		}
+		20% {
+			top: -240px;
+		}
+		30% {
+			top: -360px;
+		}
+		40% {
+			top: -480px;
+		}
+		50% {
+			top: -600px;
+		}
+		60% {
+			top: -720px;
+		}
+		70% {
+			top: -840px;
+		}
+		80% {
+			top: -960px;
+		}
+		90% {
+			top: -1080px;
+		}
+		100% {
+			top: -1200px;
+		}
+	}
+</style>
+
+<script>
+	setTimeout(() => {
+		window.location.href = '/';
+	}, 12000);
+</script>

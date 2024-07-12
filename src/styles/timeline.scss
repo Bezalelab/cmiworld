@@ -1,0 +1,82 @@
+.embla {
+  margin: auto;
+  --slide-size: 100%;
+}
+.embla__viewport {
+  overflow: hidden;
+}
+.embla__container {
+  backface-visibility: hidden;
+  display: flex;
+  gap: 20px;
+  touch-action: pan-y pinch-zoom;
+  margin-left: calc(var(--slide-spacing) * -1);
+}
+
+.embla__controls {
+  display: flex;
+  flex-direction: column;
+}
+.embla__buttons {
+  display: flex;
+  gap: 24px;
+}
+
+.embla__button[disabled] {
+  color: #bcbcbc;
+}
+.embla__button {
+  color: #1e1e1e;
+}
+
+.embla__dots {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 50px;
+  gap: 50px;
+  font-size: 22px;
+}
+.embla__dot {
+  position: relative;
+  display: block;
+  color: #9d9d9d;
+  transition: color 0.1s ease;
+  &:hover {
+    color: #1e1e1e;
+  }
+  :after {
+    width: 16px;
+    height: 16px;
+    background-color: #9d9d9d;
+    position: absolute;
+    content: '';
+    border-radius: 50%;
+    left: 50%;
+    bottom: -20px;
+    transform: translateX(-50%);
+  }
+}
+.embla__dot--selected {
+  color: #1e1e1e;
+  :after {
+    background-color: #1e1e1e;
+  }
+}
+
+.embla__progress {
+  margin-bottom: 30px;
+  height: 2px;
+  background-color: #e0e0e0;
+  z-index: -1;
+  bottom: 66px;
+}
+
+.embla__progress-bar {
+  height: 100%;
+  width: 0%;
+  width: 2%;
+  background-color: #1e1e1e;
+  transition: width 0.1s ease;
+}

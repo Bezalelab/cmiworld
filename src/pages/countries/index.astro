@@ -1,0 +1,101 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Card from '@/components/countries/Card.astro';
+import Join from '@/components/Join';
+const countries = [
+	{
+		title: 'Hungary',
+		city: 'Budapest',
+		description:
+			"Since 1997, we have moved to Budapest, Hungary. That's why we have a special connection with our ministry in Hungary. It is one of the most significant places where we carry out our work. Strategically located to effectively minister and provide support throughout Eastern Europe, we have been able to reach many people and bring the light of faith into their lives...",
+		slug: 'hungary',
+		image: '/src/assets/countries/hungary.png',
+	},
+	{
+		title: 'albania',
+		city: 'Tirana',
+		description: "The Gospel is already being spread in these countries through our mission and with your help. Only together and with God's help can we expand this list",
+		slug: 'albania',
+		image: '/src/assets/countries/albania.png',
+	},
+	{
+		title: 'bosnia',
+		city: 'Sarajevo',
+		description: "The Gospel is already being spread in these countries through our mission and with your help. Only together and with God's help can we expand this list...",
+		slug: 'bosnia',
+		image: '/src/assets/countries/bosnia.png',
+	},
+	{
+		title: 'Bulgaria',
+		city: 'Sofia',
+		description: "The Gospel is already being spread in these countries through our mission and with your help. Only together and with God's help can we expand this list...",
+		slug: 'bulgaria',
+		image: '/src/assets/countries/bulgaria.png',
+	},
+	{
+		title: 'Croatia',
+		city: 'Zagreb',
+		description: "The Gospel is already being spread in these countries through our mission and with your help. Only together and with God's help can we expand this list...",
+		slug: 'croatia',
+		image: '/src/assets/countries/croatia.png',
+	},
+	{
+		title: 'Czech Republic',
+		city: 'Prague, Brno, Ostrava',
+		description: "The Gospel is already being spread in these countries through our mission and with your help. Only together and with God's help can we expand this list...",
+		slug: 'croatia',
+		image: '/src/assets/countries/czech.png',
+	},
+	{
+		title: 'Poland',
+		city: 'warsaw, Krakow, gdansk, ',
+		description: "The Gospel is already being spread in these countries through our mission and with your help. Only together and with God's help can we expand this list...",
+		slug: 'croatia',
+		image: '/src/assets/countries/poland.png',
+	},
+	{
+		title: 'Romania',
+		city: 'Bucharest, Iași, Timișoara',
+		description: "The Gospel is already being spread in these countries through our mission and with your help. Only together and with God's help can we expand this list...",
+		slug: 'croatia',
+		image: '/src/assets/countries/romania.png',
+	},
+	{
+		title: 'Slovakia',
+		city: 'Bratislava',
+		description: "The Gospel is already being spread in these countries through our mission and with your help. Only together and with God's help can we expand this list...",
+		slug: 'croatia',
+		image: '/src/assets/countries/slovakia.png',
+	},
+	{
+		title: 'Serbia',
+		city: 'Belgrade, Novi Sad',
+		description: "The Gospel is already being spread in these countries through our mission and with your help. Only together and with God's help can we expand this list...",
+		slug: 'croatia',
+		image: '/src/assets/countries/serbia.png',
+	},
+	{
+		title: 'Slovenia',
+		city: 'Ljubljana',
+		description: "The Gospel is already being spread in these countries through our mission and with your help. Only together and with God's help can we expand this list...",
+		slug: 'croatia',
+		image: '/src/assets/countries/slovenia.png',
+	},
+];
+---
+
+<Layout title='Welcome to Astro.'>
+	<div class='container pt-[72px] lg:pt-25'>
+		<div class='mb-8 md:mb-14 lg:mb-20'>
+			<span class='section-caption'>Eastern Europe</span>
+			<div class='flex flex-col lg:flex-row gap-8 lg:gap-10 mb-10 md:mb-16 lg:mb-25'>
+				<h1 class='text-[29px] leading-[38px] text-xl md:text-2xl xl:text-3xl max-w-[587px] lg:max-w-full'>Countries We are <span class='text-gray-3'>Reaching</span></h1>
+				<p class='max-w-[590px]'>The Gospel is already being spread in these countries through our mission and with your help. Only together and with God's help can we expand this list.</p>
+			</div>
+		</div>
+		<ul class='grid md:grid-cols-2 gap-6 sm:gap-5 lg:gap-8 xl:gap-12'>
+			{countries.map((item, index) => <Card title={item.title} index={index} city={item.city} description={item.description} image={item.image} />)}
+		</ul>
+	</div>
+	<Join client:load />
+</Layout>

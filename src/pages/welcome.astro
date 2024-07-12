@@ -1,0 +1,99 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import Donations from '@/components/Donations.astro';
+import Contacts from '@/components/Contacts.astro';
+import Pictures from '@/components/Pictures.astro';
+import mobileImage from '@/assets/welcome/mission-mobile.png';
+import desktopImage from '@/assets/welcome/mission.png';
+---
+
+<Layout title='Welcome to Astro.'>
+	<div class='container pt-[72px] lg:pt-25'>
+		<section>
+			<div class='mb-8 md:mb-14 lg:mb-20'>
+				<span class='section-caption'> Dear Special friend</span>
+				<div class='flex flex-col lg:flex-row gap-8 lg:gap-10 mb-10 md:mb-16 lg:mb-25'>
+					<h1 class='text-xl md:text-2xl xl:text-3xl max-w-[484px] lg:max-w-full'>
+						A Very Special
+						<span class='text-gray-3'>Welcome to You</span>
+					</h1>
+					<div class='lg:max-w-[520px] xl:max-w-[590px]'>
+						<p class='mb-6'>We are so glad that you have found our web site and have opened this page for a deeper look at just who Christian Missions International is.</p>
+						<p>We trust that as you read and look at the exciting things that God is doing through this young ministry you will be blessed!</p>
+					</div>
+				</div>
+			</div>
+			<Image src={import('@/assets/welcome/welcome.png')} alt='image' class='min-h-[200px] object-cover object-left' />
+		</section>
+		<section class='py-20'>
+			<h2 class='text-xl md:text-2xl max-w-[665px] mb-10 lg:mb-16'>Stay Connected with Us <span class='text-gray-3'>and Our Mission</span></h2>
+			<div class='flex flex-col lg:flex-row gap-8 lg:gap-20'>
+				<div class='flex flex-col gap-6 text-md lg:max-w-[665px] text-gray-4'>
+					<p>
+						Please feel free to contact us at any time. We have people send us notes all over the world sharing about what God is doing in their lives and how God is using them to reach their world.
+					</p>
+					<p>Christian Missions International, has as one of it’s core beliefs that we must link up with other believers and ministries to accomplish what God has put on its heart.</p>
+					<p>So once again, please enjoy the site and feel free to contact us for a special information packet that we will gladly send you with more information about this ministry.</p>
+					<p>Below is a “general information” section that will give you a clearer idea who we are and what we do!</p>
+					<p>In Awe of His Faithfulness,</p>
+					<p>James and Brenda Puhr</p>
+				</div>
+				<div class='-order-1 lg:order-2'>
+					<Pictures mobileImgUrl={mobileImage} desktopImgUrl={desktopImage} alt='image' />
+				</div>
+			</div>
+		</section>
+		<section class='py-20 md:py-25 border-t border-[#E5E5E5]'>
+			<div class='flex flex-col md:flex-row items-start justify-between gap-10'>
+				<div class='md:sticky top-30'>
+					<h2 class='font-semibold normal-case text-xl md:max-w-[387px]'>Christian Missions International</h2>
+				</div>
+				<ol class='flex flex-col pl-8 md:pl-0 gap-10 md:max-w-[381px] lg:max-w-[640px] text-md'>
+					<li>
+						<strong>General Description:</strong> Christian Missions International (CMI) is a Missions Agency that is dedicated to the completion of Matthew 24:14 “This Gospel of the Kingdom shall be made
+						a witness to all nations and then the end shall come.”
+					</li>
+					<li>
+						<strong>Purpose:</strong> CMI exists to glorify God by taking the gospel of Jesus Christ to the nations of the world, through Bible Schools, Leadership Seminars Evangelistic Campaigns, and
+						the starting of Churches so that in this generation the Great Commission as stated in Mark 16:15 is accomplished. CMI is committed to networking with other ministries and churches in the Body
+						of Christ to accomplish its purposes. Some of the ministries that CMI networks with are: Campus Crusade for Christ, The Alliance for Saturation Church Planting, and Joyce Meyer Ministries.
+					</li>
+					<li>
+						<strong>History:</strong> CMI was founded in 1997 by missionaries Jim and Brenda Puhr. Jim and Brenda previously had served for fifteen years as missionaries with Calvary International, in
+						the nations of Costa Rica, Jamaica, United States and Russia.
+					</li>
+					<li>
+						<strong>Goals for 2024:</strong> In 2024 CMI will be focused on starting SEVEN brand-new churches in five nations in Eastern Europe. CMI will network with key national pastors in Slovakia,
+						Hungary, Poland, the Czech Republic and Romania to start these churches. Cities of populations of 20,000 or more with no evangelical churches will be targeted. To start each of the new churches
+						CMI will invest approximately $4000.
+					</li>
+					<li>
+						<strong>Goals for the next five years:</strong> In the next five years CMI plans to help start at least 75 new churches in Eastern Europe. Focus for these new churches will be in Bulgaria,
+						Slovenia, Croatia, Poland, Romania, Hungary, the Czech Republic, Bulgaria,  Slovakia and other nations in the region.
+					</li>
+				</ol>
+			</div>
+		</section>
+		<Donations />
+	</div>
+	<Contacts />
+</Layout>
+
+<style>
+	ol > li {
+		position: relative;
+		counter-reset: list-item var(--fx-value);
+	}
+	ol > li:before {
+		position: absolute;
+		left: -50px;
+		color: #9d9d9d;
+		content: '0' counter(list-item) '.';
+	}
+	@media screen and (max-width: 650px) {
+		ol > li:before {
+			left: -35px;
+		}
+	}
+</style>

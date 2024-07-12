@@ -1,0 +1,43 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Card from '@/components/blog/Card.astro';
+import Join from '@/components/Join';
+import { fetchAPI } from '@/lib/api';
+import { formatDate } from '@/utils/blog';
+
+const posts = await import('@/data/data.json');
+const years = [...new Set(posts.default.map(post => new Date(post.date).getFullYear()))];
+---
+
+<Layout title='Welcome to Astro.'>
+	<div class='container pt-[72px] lg:pt-25'>
+		<div class='mb-10 md:mb-20 lg:mb-30'>
+			<span class='section-caption'>Our blog</span>
+			<h1 class='text-[29px] leading-[38px] sm:text-xl md:text-2xl xl:text-3xl max-w-[605px]'>latest updates <span class='text-gray-3'>on our mission</span></h1>
+		</div>
+
+		<nav class='mb-12 -mr-8 md:-mr-30 xl:-mr-0'>
+			<ul class='flex gap-6 md:gap-8 scrollbar-hide overflow-auto py-1.5 flex-nowrap dates'>
+				<li class='uppercase hover:text-black text-md text-nowrap transition-colors'>
+					<a href='/blog/' class='text-black font-medium underline decoration-2 underline-offset-8'>All</a>
+				</li>
+				{
+					years.map(year => (
+						<li class='uppercase hover:text-black text-md text-nowrap transition-colors'>
+							<a href={`/blog/${year}/`}>{year}</a>
+						</li>
+					))
+				}
+			</ul>
+		</nav>
+
+		<ul class='grid md:grid-cols-2 lg:grid-cols-3 gap-x-5 lg:gap-x-[60px] gap-y-20'>
+			{
+				posts.default.map(post => (
+					<Card title={post.title} date={formatDate(post.date)} description={post.excerpt} slug={post.slug} image={post.featuredImage ? post.featuredImage.node.mediaItemUrl : '/post-preview.png'} />
+				))
+			}
+		</ul>
+	</div>
+	<Join client:load />
+</Layout>

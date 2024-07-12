@@ -1,0 +1,69 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import Donations from '@/components/Donations.astro';
+import Contacts from '@/components/Contacts.astro';
+import Pictures from '@/components/Pictures.astro';
+import mobileImage from '@/assets/welcome/mission-mobile.png';
+import desktopImage from '@/assets/welcome/mission.png';
+---
+
+<Layout title='Welcome to Astro.'>
+	<div class='container pt-[72px] lg:pt-25'>
+		<section>
+			<div class='mb-8 md:mb-14 lg:mb-20'>
+				<span class='section-caption'>Unity in Faith</span>
+				<div class='flex flex-col lg:flex-row gap-6 sm:gap-8 lg:gap-10 mb-10 md:mb-16 lg:mb-25'>
+					<h1 class='text-[29px] sm:text-xl md:text-2xl xl:text-3xl max-w-[484px] lg:max-w-full'>Statement of <span class='text-gray-3'>Faith</span></h1>
+					<p class='max-w-[590px]'>These articles of faith are presented as a basis for unity and not for purposes of judgment or division.</p>
+				</div>
+			</div>
+			<Image src={import('@/assets/statement.png')} alt='image' class='min-h-[250px] object-cover object-center' />
+		</section>
+		<section class='py-20 md:py-25 border-t border-[#E5E5E5]'>
+			<div class='flex flex-col md:flex-row items-start justify-between gap-10'>
+				<div class='md:sticky md:top-30'>
+					<h2 class='font-medium md:font-semibold normal-case text-[26px] leading-[31px] md:text-xl md:max-w-[387px]'>Core Beliefs and Doctrines of Christian Missions International</h2>
+				</div>
+				<ol class='flex flex-col pl-8 md:pl-0 gap-10 md:max-w-[381px] lg:max-w-[640px] text-md'>
+					<li><strong>The Bible:</strong> We believe the Bible is the inspired, infallible, authoritative Word of God, without error in the original languages.</li>
+					<li><strong>The Trinity:</strong> We believe the one true God manifests Himself in three persons–Father, Son, and Holy Spirit.</li>
+					<li>
+						<strong>The Deity of Jesus Christ:</strong> We believe in the deity of Jesus Christ, His virgin birth, His sinless life, His miracles, His vicarious and atoning death, His bodily resurrection, His complete
+						conquest over the powers of Satan, His ascension to the right hand of the Father, and His imminent return in like manner as He went away.
+					</li>
+					<li>
+						<strong>The Church:</strong> We believe the church consists of all those who truly believe in Jesus Christ and in His atoning death, and who trust in Him as their personal Lord and Savior.
+					</li>
+					<li><strong>Salvation:</strong> We believe that regeneration by the Holy Spirit is essential for the salvation of the lost, and that this salvation is wholly by grace through faith.</li>
+					<li><strong>The Holy Spirit:</strong> We believe in the present ministry of the Holy Spirit, by whose indwelling Christians are enabled to live godly lives.</li>
+					<li>
+						<strong>Baptism and Holy Communion:</strong> We believe in the ordinance of Baptism in water (by immersion) in the name of the Father, Son, and the Holy Spirit, on the authority of Jesus’ name.
+						We also believe in the ordinance of Holy Communion.
+					</li>
+					<li><strong>Heaven and Hell:</strong> We believe in the resurrection of both the saved and the lost: They that are lost unto eternal damnation; they that are saved unto eternal life.</li>
+					<li><strong>Unity of Believers:</strong> We believe in the spiritual unity of all who believe in our Lord Jesus Christ.</li>
+				</ol>
+			</div>
+		</section>
+	</div>
+	<Contacts />
+</Layout>
+
+<style>
+	ol > li {
+		position: relative;
+		counter-reset: list-item var(--fx-value);
+	}
+	ol > li:before {
+		position: absolute;
+		left: -50px;
+		color: #9d9d9d;
+		content: '0' counter(list-item) '.';
+	}
+	@media screen and (max-width: 650px) {
+		ol > li:before {
+			left: -35px;
+		}
+	}
+</style>

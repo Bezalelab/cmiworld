@@ -1,0 +1,141 @@
+---
+import { Image } from 'astro:assets';
+import { Tooltip } from 'astrolace:components';
+import { Icon } from 'astro-icon/components';
+import { currentYear } from '@/utils/currentYears';
+const payments = [
+	{ price: '$25', link: 'https://pushpay.com/g/cmiworld?src=hpp&a=25' },
+	{ price: '$50', link: 'https://pushpay.com/g/cmiworld?src=hpp&a=50' },
+	{ price: '$100', link: 'https://pushpay.com/g/cmiworld?src=hpp&a=100' },
+	{ price: '$250', link: 'https://pushpay.com/g/cmiworld?src=hpp&a=250' },
+	{ price: 'custom', link: 'https://pushpay.com/g/cmiworld?src=hpp' },
+];
+const items = [
+	{
+		delay: 100,
+		count: '$4,000',
+		title: 'APPROXIMATE COST TO START ONE CHURCH',
+	},
+	{
+		delay: 300,
+		count: '7+',
+		title: `NEW CHURCHES PLANNED TO OPEN IN ${currentYear()}`,
+	},
+	{
+		delay: 500,
+		caption: 'TARGETING TOWNS OF',
+		count: '20,000+',
+		title: 'PEOPLE IN EASTERN EUROPE WITHOUT A CHURCH',
+	},
+];
+---
+
+<section class='mb-20 scroll-mt-40' id='donations'>
+	<div class='grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-0 lg:gap-10 place-items-center mb-16 md:mb-25'>
+		{
+			items.map((item, index) => (
+				<div data-sal='slide-up' data-sal-delay={item.delay} class={`size-[311px] md:size-[387px] grid place-items-center text-center ${index === 1 && 'row-span-2 lg:row-span-1'} animated-circle`}>
+					<div class='flex flex-col items-center text-black'>
+						{item.caption && <span class='mb-2.5 text-md md:text-lg block font-display'>{item.caption}</span>}
+						<span class='text-3xl font-medium uppercase mb-7 counter'>{item.count}</span>
+						<p class='text-md md:text-lg font-display max-w-[258px] md:max-w-[333px]'>{item.title}</p>
+					</div>
+					<svg class='circle-svg size-[311px] md:size-[387px]' viewBox='0 0 100 100'>
+						<circle cx='50' cy='50' r='48' />
+					</svg>
+				</div>
+			))
+		}
+	</div>
+
+	<ul class='grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-4 mx-auto w-full max-w-[860px] mb-10 scroll-mt-40' id='send-money'>
+		{
+			payments.map((payment, index) => (
+				<li class={`${index === 4 && 'col-span-2 md:col-span-1'}`}>
+					<a
+						target='_blank'
+						href={payment.link}
+						class='flex items-center border border-black hover:text-black transition-colors hover:bg-white justify-center h-10 rounded-full bg-black text-white text-[20px] font-semibold uppercase'>
+						{payment.price}
+					</a>
+				</li>
+			))
+		}
+	</ul>
+	<p class='text-center uppercase font-display text-lg !leading-none text-black mb-5 md:mb-7'>Make your tax-deductible donation today</p>
+	<div class='flex items-center justify-center gap-2'>
+		<Image src={import('@/assets/ecfa.svg')} class='size-8' quality={100} alt='ecfa' />
+		<span class='text-sm'>ECFA Accredited</span>
+		<Tooltip>
+			<div slot='content'>ECFA Accreditation ensures our financial accountability and transparency.</div>
+			<Icon name='questions' size={16} />
+		</Tooltip>
+	</div>
+</section>
+
+<style>
+	.animated-circle {
+		position: relative;
+	}
+
+	.circle-svg {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		z-index: -1;
+	}
+
+	circle {
+		fill: none;
+		stroke: #1e1e1e;
+		stroke-width: 0.5;
+		stroke-dasharray: 320;
+		stroke-dashoffset: 320;
+	}
+	@media screen and (max-width: 768px) {
+		circle {
+			stroke-width: 1;
+		}
+	}
+</style>
+
+<script>
+	import { gsap } from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+	gsap.registerPlugin(ScrollTrigger);
+	document.addEventListener('DOMContentLoaded', function () {
+		const options = {
+			root: null,
+			rootMargin: '0px',
+			threshold: 0.5,
+		};
+
+		const circles = document.querySelectorAll('.animated-circle .circle-svg circle');
+
+		const callback = (entries, observer) => {
+			entries.forEach(entry => {
+				if (entry.isIntersecting) {
+					circles.forEach((circle, index) => {
+						gsap.to(circle, {
+							scrollTrigger: {
+								trigger: circle,
+								start: 'top 50%',
+								end: 'bottom 20%',
+							},
+							strokeDashoffset: 0,
+							duration: 1,
+							ease: 'none',
+						});
+					});
+				}
+			});
+		};
+
+		const observer = new IntersectionObserver(callback, options);
+		const target = document.querySelector('.animated-circle');
+		if (target) {
+			observer.observe(target);
+		}
+	});
+</script>

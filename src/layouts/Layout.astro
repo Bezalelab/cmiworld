@@ -1,0 +1,26 @@
+---
+const { title } = Astro.props;
+import Header from '@/components/common/Header';
+import Head from '@/components/common/Head.astro';
+import Footer from '@/components/common/Footer.astro';
+import '@/styles/globals.scss';
+import { WelcomeModal } from '@/components/WelcomeModal'
+
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang='en' class='scroll-smooth h-full antialiased'>
+	<Head title={title} />
+	<body class='font-sans text-md md:text-base text-gray-3 overflow-x-clip min-w-full'>
+		<div class='min-h-full flex flex-col'>
+			<Header client:load currentPath={currentPath} />
+			<main class='flex-auto pt-[82px] md:pt-25'><slot /></main>
+			<Footer />
+			<a href="/donation" aria-label='donation button' class='fixed right-10 bottom-10 hover:scale-105 transition-transform z-50 border-2 border-white rounded-full'>
+				<img src='/give.svg' alt='donations' />
+			</a>
+		</div>
+		<WelcomeModal client:idle />
+	</body>
+</html>
