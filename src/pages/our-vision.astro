@@ -3,84 +3,34 @@ import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
 import Vision from '@/components/home/Vision.astro';
 import { Button } from '@/components/ui/button';
+import { fetchAPI } from '@/lib/api';
+
+const { page } = await fetchAPI({
+	query: `
+		query vision {
+			page(idType: URI, id: "our-vision-2024") {
+				title content
+				featuredImage {
+					node {
+						mediaItemUrl
+					}
+				}
+			}
+	}
+	`,
+});
 ---
 
 <Layout title='Vision'>
 	<div class='container pt-[72px] lg:pt-25 max-w-[912px]'>
 		<div class='mb-[60px] md:mb-[74px]'>
 			<span class='section-caption'>01 jun, 2024</span>
-			<h1 class='text-xl md:text-2xl font-medium'>Our Vision <span class='text-gray-3'>2024</span></h1>
+			<h1 class='text-xl md:text-2xl font-medium'>{page.title} <span class='text-gray-3'>2024</span></h1>
 		</div>
 		<article
 			class='prose prose-lg prose-figcaption:text-gray-2 prose-figcaption:text-sm prose-figcaption:text-center prose-blockquote:text-black prose-headings:font-medium prose-img:mx-auto prose-img:min-h-[200px] prose-img:object-cover max-w-full mb-20 md:mb-25'>
-			<Image src={import('@/assets/vision/1.png')} alt='image' />
-			<h2>Vision 2024: Reaching Cities, Starting Churches, Changing Nations</h2>
-			<p>This year, we will help start between seven and ten more new churches. This is VISION 2024!</p>
-			<p>
-				I wish you could be with me to feel what I feel when I drive through the countless towns in countries like Poland, Slovakia, and Hungary. As you drive through them, you might ask the question
-				that I often ask myself: Are there any evangelical churches in this town?
-			</p>
-			<blockquote>The answer most of the time, sadly, is “NO”! There are not any evangelical churches for the people to attend.</blockquote>
-			<p>But this is changing!!! Because of you, by the end of this year at least seven new churches will have been started in towns just like these.</p>
-			<h3>Our Journey Last Year</h3>
-			<figure>
-				<Image src={import('@/assets/vision/2.png')} alt='image' />
-				<figcaption>We celebrated 41 years of being married in Hungary</figcaption>
-			</figure>
-
-			<p>
-				When we started out last year, we looked forward to “stretching” our faith to see twelve new churches started. At a cost of about $4,000.00 each to start these churches, it was a large step
-				for us. But because of the generous giving by our friends, we have helped start these churches!!!
-			</p>
-			<p>
-				When God puts something in your heart, He usually gives you a divine strategy to see the vision take place. The strategy that we felt God gave us was to partner with key Christian pastors in
-				the nations where we wanted to start the new churches.
-			</p>
-			<p>
-				We now have strong relationships with some of the key Christian leaders of the nations of Eastern Europe. These leaders are providing the leadership, the new pastors, and the ongoing oversight
-				of these new churches.
-			</p>
-			<h3>Together, We Are Changing Lives</h3>
-			<p>
-				Together, we are changing cities, towns, and individual lives. These new churches will not only see people come to Christ this year, but next year and even five years from now, people will
-				still be coming to Christ. The impact we make this year will go on and on!
-			</p>
-			<figure>
-				<Image src={import('@/assets/vision/3.png')} alt='image' />
-				<figcaption>Visiting Pastor Philip in Bulgaria</figcaption>
-			</figure>
-			<p>We are even now in the process of helping start the seven churches for this year. At least one of these churches will be in Serbia, which borders Hungary just to the south.</p>
-			<h3>Strategy for Capital Cities</h3>
-			<p>
-				Another key strategy in VISION 2024 is to start churches in each of the capital cities of Eastern Europe. In the last few years, we helped to start churches in both Warsaw, Poland, and Tirana,
-				Albania.
-			</p>
-			<h4>The Fall of the Iron Curtain</h4>
-			<p>
-				It was just 30 years ago that the “Iron Curtain” came down throughout the nations of Eastern Europe. The greatest open door to freely minister the gospel was suddenly and quite unexpectedly
-				flung wide open.
-			</p>
-			<p>
-				Shortly after the Iron Curtain fell, God began to strategically move people from around the world to reach these nations. Nations that went from almost totally closed to more freedom to
-				minister than even in the United States.
-			</p>
-			<blockquote>
-				I remember very well the early morning day in April 1990 that I first stepped foot in the then Soviet Union. Nations like East Germany, Hungary, and Poland had just declared their independence
-				from the Soviet Union.
-			</blockquote>
-			<p>Already God was strategically moving people to these nations. We moved to Russia in April 1992. And now we have been living here in Hungary since 1997.</p>
-			<h3>God Can Use Us Anywhere</h3>
-			<p>
-				One thing that we realized is that God can use us strategically wherever we are. We don’t all have to move to a foreign country to be used in a strategic manner. God wants to use all of us, no
-				matter where we live or what we do for a living, we can touch the nations strategically.
-			</p>
-			<p>Last year we helped to start seven churches here in Eastern Europe. This year, the year 2023, we will help start at least seven more churches!</p>
-			<p>
-				When we said yes to what God put in our hearts, this plan God gave us the strategic plan and touched other people’s hearts to help us do this. Because we all yielded and said yes, people are
-				serving the Lord today that last year knew nothing of the Love of our Father.
-			</p>
-			<p>Let’s continue to see our lives as strategic as we enter the next millennium. Let’s ask God to help us live in a strategic manner no matter where we live or work.</p>
-			<p>We can live strategically working at Walmart, as a school teacher or student, an executive, a housewife, or a missionary in Hungary.</p>
+			<Image src={page.featuredImage.node.mediaItemUrl} inferSize alt='image' />
+			<Fragment set:html={page.content} />
 		</article>
 	</div>
 	<Vision />
