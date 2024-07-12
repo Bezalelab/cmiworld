@@ -96,7 +96,7 @@ const Header = ({ currentPath, countries }: any) => {
                       {countries.default.map((item, index) => (
                         <li className="transitions-colors group relative p-3 text-gray-3" key={index}>
                           <a href={`/countries/${item.slug}/`} className="block">
-                              {item.title}
+                            {item.title}
                           </a>
                           <span className="absolute left-0 top-0 h-10 w-[3px] bg-gray-3 opacity-0 transition-all group-hover:opacity-100"></span>
                         </li>

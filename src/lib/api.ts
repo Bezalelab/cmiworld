@@ -5,7 +5,7 @@ interface WPGraphQLParams {
 
 export async function fetchAPI({ query, variables = {} }: WPGraphQLParams) {
 	const headers = { 'Content-Type': 'application/json' }
-	const res = await fetch('https://www.cmiworld.org/graphql', {
+	const res = await fetch('http://cmiworld.bezalelstudio.co/graphql', {
 		method: 'POST',
 		headers,
 		body: JSON.stringify({ query, variables }),

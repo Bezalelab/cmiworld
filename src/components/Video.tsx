@@ -1,7 +1,7 @@
 
 import ReactPlayer from 'react-player/lazy'
 import { ReactSVG } from 'react-svg';
-const Video = ({url}) => {
+const Video = ({url, placement}) => {
   return (
     <>
       <div className="h-[190px] md:h-[412px] lg:h-[670px]">
@@ -15,7 +15,7 @@ const Video = ({url}) => {
           light="https://www.cmiworld.org/wp-content/uploads/2023/10/YouTube-Thumbnail-October-2023.jpg"
         />
       </div>
-      <p className="mt-4 text-center text-sm"> Click on the video for a two minute update from Budapest </p>
+      <p className="mt-4 text-center text-sm"> Click on the video for a two minute update from {placement} </p>
     </>
   );
 };

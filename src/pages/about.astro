@@ -6,7 +6,6 @@ import ReadMore from '@/components/ReadMore';
 import { Icon } from 'astro-icon/components';
 import Contacts from '@/components/Contacts.astro';
 import { fetchAPI } from '@/lib/api';
-const dates = ['1980', '1982', '1987', '1988', '1992', '1995', '1997', '2024'];
 
 const { page } = await fetchAPI({
 	query: `
@@ -34,6 +33,7 @@ const { page } = await fetchAPI({
 						}
 					}
 					anUpdateFromBudapest {
+						placements
 						description
 						url
 					}
@@ -108,12 +108,12 @@ const { page } = await fetchAPI({
 		</section>
 		<section class='py-20 md:py-25'>
 			<h2 class='uppercase text-xl md:text-2xl mb-6'>
-				An Update from <span class='text-gray-3'>Budapest</span>
+				An Update from <span class='text-gray-3'> {page.about.anUpdateFromBudapest.placements}</span>
 			</h2>
 			<p class='max-w-[817px] mb-12 md:mb-16'>
 				{page.about.anUpdateFromBudapest.description}
 			</p>
-			<Video client:only='react' url={page.about.anUpdateFromBudapest.url} />
+			<Video placement={page.about.anUpdateFromBudapest.placements} client:only='react' url={page.about.anUpdateFromBudapest.url} />
 		</section>
 		<section class='py-20 md:py-25 bg-gray-5 full-bleed'>
 			<span class='section-caption'>Serving with Faith</span>
@@ -128,10 +128,10 @@ const { page } = await fetchAPI({
 					</ReadMore>
 				</div>
 				<div class='grid grid-cols-2 gap-4 -order-1 lg:order-2'>
-					<Image src={import('@/assets/puhr/4.png')} alt='Jim & Brenda Puhr' quality={100} class='lg:w-[259px] w-full h-full object-cover' />
-					<Image src={import('@/assets/puhr/5.png')} alt='Jim & Brenda Puhr' quality={100} class='lg:w-[259px] w-full h-full object-cover' />
-					<Image src={import('@/assets/puhr/6.png')} alt='Jim & Brenda Puhr' quality={100} class='lg:w-[259px] w-full h-full object-cover' />
-					<Image src={import('@/assets/puhr/7.png')} alt='Jim & Brenda Puhr' quality={100} class='lg:w-[259px] w-full h-full object-cover' />
+					<Image src={import('@/assets/puhr/4.png')} alt='Jim & Brenda Puhr' class='lg:w-[259px] w-full h-full object-cover' />
+					<Image src={import('@/assets/puhr/5.png')} alt='Jim & Brenda Puhr' class='lg:w-[259px] w-full h-full object-cover' />
+					<Image src={import('@/assets/puhr/6.png')} alt='Jim & Brenda Puhr' class='lg:w-[259px] w-full h-full object-cover' />
+					<Image src={import('@/assets/puhr/7.png')} alt='Jim & Brenda Puhr' class='lg:w-[259px] w-full h-full object-cover' />
 				</div>
 			</div>
 		</section>
@@ -166,7 +166,7 @@ const { page } = await fetchAPI({
 										<span class='text-gray-2 text-sm block mb-2'>{item.year}</span>
 										<h2 class='text-lg md:text-xl lg:text-2xl mb-6'>{item.title}</h2>
 										<div class='xl:max-w-[430px]'>
-												<Fragment set:html={item.description} />
+											<Fragment set:html={item.description} />
 										</div>
 									</div>
 									<Image src={item.image.node.mediaItemUrl} inferSize alt='slide image' class='w-full max-h-[415px] object-cover' />
