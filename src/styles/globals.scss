@@ -41,7 +41,7 @@
   .link-underline {
     border-bottom-width: 0;
     padding-bottom: 3px;
-    background-image: linear-gradient(transparent, transparent), linear-gradient(#1E1E1E, #1E1E1E);
+    background-image: linear-gradient(transparent, transparent), linear-gradient(#1e1e1e, #1e1e1e);
     background-size: 0 1.5px;
     background-position: 0 100%;
     background-repeat: no-repeat;
@@ -75,6 +75,28 @@
   h5,
   h6 {
     @apply font-medium uppercase text-black;
+  }
+
+  table {
+    @apply w-full text-left text-black;
+  }
+  table thead {
+    @apply bg-[#EEEEEF] text-md font-bold uppercase border-none;
+  }
+  table thead tr td:first-child {
+    @apply text-nowrap px-6 py-4;
+  }
+  table tbody {
+    @apply text-sm;
+  }
+  table tbody td:first-child {
+    @apply px-6 py-4 w-[240px] font-medium whitespace-nowrap
+  }
+  table tbody td:last-child {
+    @apply px-6 py-4 min-w-[300px]
+  }
+  table tbody tr:nth-child(even) {
+    @apply bg-[#EEEEEF]
   }
 }
 

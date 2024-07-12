@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { ReactSVG } from 'react-svg';
 import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
-import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '../ui/button';
 import { currentYear } from '@/utils/currentYears';
 
@@ -18,7 +18,7 @@ const menuLinks = [
   { label: 'Contact us', href: '/contacts' },
 ];
 
-const Header = ({ currentPath }: any) => {
+const Header = ({ currentPath, countries }: any) => {
   const [scroll, setScroll] = useState(false);
   useEffect(() => {
     const handleScroll = () => {
@@ -29,8 +29,8 @@ const Header = ({ currentPath }: any) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   return (
-    <header className={`fixed left-0 z-[100] w-full bg-white py-2 transition-all  ${scroll && 'shadow-md'}`}>
-      <div className="container flex w-full items-center justify-between xl:gap-8 md:py-4">
+    <header className={`fixed left-0 z-[100] w-full bg-white py-2 transition-all ${scroll && 'shadow-md'}`}>
+      <div className="container flex w-full items-center justify-between md:py-4 xl:gap-8">
         <Sheet>
           <SheetTrigger asChild className="absolute left-8 sm:relative sm:left-0 xl:hidden">
             <ReactSVG src="/burger.svg" />
@@ -51,13 +51,19 @@ const Header = ({ currentPath }: any) => {
         <nav className="mr-auto hidden justify-end xl:block">
           <ul className="flex gap-6 *:text-sm *:uppercase *:text-black">
             <li className={`${currentPath === '/about/' && 'font-semibold'}`}>
-              <a href="/about" className='link-underline'>about</a>
+              <a href="/about" className="link-underline">
+                about
+              </a>
             </li>
             <li className={`${currentPath === '/our-vision/' && 'font-semibold'}`}>
-              <a href="/our-vision" className='link-underline'>vision {currentYear()}</a>
+              <a href="/our-vision" className="link-underline">
+                vision {currentYear()}
+              </a>
             </li>
             <li className={`${currentPath === '/statement/' && 'font-semibold'}`}>
-              <a href="/statement" className='link-underline'>statement of faith</a>
+              <a href="/statement" className="link-underline">
+                statement of faith
+              </a>
             </li>
           </ul>
         </nav>
@@ -70,7 +76,9 @@ const Header = ({ currentPath }: any) => {
         <nav className="hidden xl:block">
           <ul className="flex items-center gap-6 *:text-sm *:uppercase *:text-black">
             <li className={`${currentPath === '/blog/' && 'font-semibold'}`}>
-              <a href="/blog" className='link-underline'>blog</a>
+              <a href="/blog" className="link-underline">
+                blog
+              </a>
             </li>
             <li>
               <HoverCard openDelay={300}>
@@ -85,10 +93,10 @@ const Header = ({ currentPath }: any) => {
                 <HoverCardContent>
                   <SimpleBar style={{ maxHeight: 240 }} autoHide={false} scrollbarMaxSize={100}>
                     <ul>
-                      {Array.from({ length: 8 }).map((item, index) => (
+                      {countries.default.map((item, index) => (
                         <li className="transitions-colors group relative p-3 text-gray-3" key={index}>
-                          <a href="#" className="block">
-                            Albania
+                          <a href={`/countries/${item.slug}/`} className="block">
+                              {item.title}
                           </a>
                           <span className="absolute left-0 top-0 h-10 w-[3px] bg-gray-3 opacity-0 transition-all group-hover:opacity-100"></span>
                         </li>
@@ -99,7 +107,9 @@ const Header = ({ currentPath }: any) => {
               </HoverCard>
             </li>
             <li className={`${currentPath === '/contacts/' && 'font-semibold'}`}>
-              <a href="/contacts" className='link-underline'>contact us</a>
+              <a href="/contacts" className="link-underline">
+                contact us
+              </a>
             </li>
           </ul>
         </nav>
