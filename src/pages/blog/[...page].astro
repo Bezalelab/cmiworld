@@ -2,8 +2,17 @@
 import Layout from '@/layouts/Layout.astro';
 import Card from '@/components/blog/Card.astro';
 import Join from '@/components/Join';
-import { fetchAPI } from '@/lib/api';
 import { formatDate } from '@/utils/blog';
+import Pagination from '@philnash/astro-pagination';
+
+export async function getStaticPaths({ paginate }) {
+	const posts = await import('@/data/data.json');
+	return paginate(posts.default, {
+		props: { post: posts.default.map(post => post) },
+		pageSize: 9,
+	});
+}
+const { page } = Astro.props;
 
 const posts = await import('@/data/data.json');
 const years = [...new Set(posts.default.map(post => new Date(post.date).getFullYear()))];
@@ -31,13 +40,43 @@ const years = [...new Set(posts.default.map(post => new Date(post.date).getFullY
 			</ul>
 		</nav>
 
-		<ul class='grid md:grid-cols-2 lg:grid-cols-3 gap-x-5 lg:gap-x-[60px] gap-y-20'>
+		<ul class='grid md:grid-cols-2 lg:grid-cols-3 gap-x-5 lg:gap-x-[60px] gap-y-20 mb-20'>
 			{
-				posts.default.map(post => (
+				// @ts-ignore
+				page.data.map(post => (
 					<Card title={post.title} date={formatDate(post.date)} description={post.excerpt} slug={post.slug} image={post.featuredImage ? post.featuredImage.node.mediaItemUrl : '/post-preview.png'} />
 				))
 			}
 		</ul>
+		<Pagination page={page} firstPageUrl={'/blog/'} urlPattern={'/blog/{}/'} />
 	</div>
 	<Join client:load />
 </Layout>
+
+<style lang='scss' is:global>
+	nav[role='navigation'] ul {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin: 0 auto;
+		gap: 10px;
+	}
+
+	nav[role='navigation'] a.number,
+	nav[role='navigation'] em {
+		font-style: normal;
+		&:hover {
+			color: #1E1E1E;
+		}
+	}
+
+	nav[role='navigation'] em {
+		color: #1E1E1E;
+	}
+
+	.next-page, .prev-page {
+		&:hover {
+			color: #1E1E1E;
+		}
+	}
+</style>
