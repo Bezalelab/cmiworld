@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { useCookies } from 'react-cookie';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { DialogClose } from '@radix-ui/react-dialog';
-import { X } from 'lucide-react'
+import { X } from 'lucide-react';
 
 export function WelcomeModal() {
   const [cookies, setCookie] = useCookies(['newUser']);
@@ -16,16 +16,15 @@ export function WelcomeModal() {
   }, [cookies]);
 
   const handleButtonClick = () => {
-    setCookie('newUser', 'true', { path: '/', maxAge: 3600 * 24 * 365 }); // кука на 1 год
+    setCookie('newUser', 'true', { path: '/', maxAge: 3600 * 24 * 365 });
     setIsOpen(false);
   };
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent>
-      
         <div className="flex flex-col gap-6 sm:flex-row md:gap-12">
           <div className="md:max-w-[300px]">
-            <img src="/welcome-modal.png" alt="welcome" className="h-[160px] sm:h-full w-full rounded-2xl object-cover object-[center_-30px] sm:object-center" />
+            <img src="/welcome-modal.png" alt="welcome" className="h-[160px] w-full rounded-2xl object-cover object-[center_-30px] sm:h-full sm:object-center" />
           </div>
           <div>
             <DialogHeader>
@@ -48,7 +47,7 @@ export function WelcomeModal() {
             </div>
           </div>
         </div>
-        <DialogClose className='absolute right-4 top-4' onClick={handleButtonClick}>
+        <DialogClose className="absolute right-4 top-4" onClick={handleButtonClick}>
           <X className="size-6" />
           <span className="sr-only">Close</span>
         </DialogClose>
