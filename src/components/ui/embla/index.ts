@@ -3,21 +3,7 @@ import { addPrevNextBtnsClickHandlers } from './EmblaCarouselArrowButtons';
 import { addDotBtnsAndClickHandlers } from './EmblaCarouselDotButton';
 import { addProgressBarHandlers } from './EmblaCarouselProgressBar';
 import Fade from 'embla-carousel-fade';
-import { fetchAPI } from '@/lib/api';
 
-const { page } = await fetchAPI({
-  query: `
-		query ABOUT {
-			 page(id: "about", idType: URI) {
-       about {
-         breefHistory { sliderItems { year } }
-          }
-				}
-		  }
-	`,
-});
-
-const yearsArray = page.about.breefHistory.sliderItems.map((item) => item.year.toString());
 const OPTIONS: EmblaOptionsType = {
   loop: false,
 };
