@@ -45,7 +45,7 @@ const plugins = hasFadeClass ? [Fade()] : [];
 const emblaApi = EmblaCarousel(viewportNode, OPTIONS, plugins);
 
 const removePrevNextBtnsClickHandlers = prevBtnNode && nextBtnNode ? addPrevNextBtnsClickHandlers(emblaApi, prevBtnNode, nextBtnNode) : () => {};
-const removeDotBtnsAndClickHandlers = dotsNode ? addDotBtnsAndClickHandlers(emblaApi, dotsNode, yearsArray) : () => {};
+const removeDotBtnsAndClickHandlers = dotsNode ? addDotBtnsAndClickHandlers(emblaApi, dotsNode) : () => {};
 const removeProgressBarHandlers = progressBarNode && progressContainerNode && dotsNode ? addProgressBarHandlers(emblaApi, progressBarNode, progressContainerNode, dotsNode) : () => {};
 
 emblaApi.on('destroy', removePrevNextBtnsClickHandlers);

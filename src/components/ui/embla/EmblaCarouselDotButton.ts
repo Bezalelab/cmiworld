@@ -1,20 +1,16 @@
 import { type EmblaCarouselType } from 'embla-carousel';
 
-export const addDotBtnsAndClickHandlers = (emblaApi: EmblaCarouselType, dotsNode: HTMLElement, labels: string[]): (() => void) => {
+export const addDotBtnsAndClickHandlers = (emblaApi: EmblaCarouselType, dotsNode: HTMLElement): (() => void) => {
   let dotNodes: HTMLElement[] = [];
 
-  const addDotBtnsWithClickHandlers = (): void => {
+  const attachClickHandlersToDots = (): void => {
     if (!dotsNode) return;
-    dotsNode.innerHTML = emblaApi
-      .scrollSnapList()
-      .map((_, index) => `<button class="embla__dot" type="button"><span class="switch-title">${labels[index]}</span></button>`)
-      .join('');
-
+    dotNodes = Array.from(dotsNode.querySelectorAll('button'));
+    
     const scrollTo = (index: number): void => {
       emblaApi.scrollTo(index);
     };
 
-    dotNodes = Array.from(dotsNode.querySelectorAll('.embla__dot'));
     dotNodes.forEach((dotNode, index) => {
       dotNode.addEventListener('click', () => scrollTo(index), false);
     });
@@ -31,14 +27,11 @@ export const addDotBtnsAndClickHandlers = (emblaApi: EmblaCarouselType, dotsNode
     });
   };
 
-  emblaApi
-    .on('init', addDotBtnsWithClickHandlers)
-    .on('reInit', addDotBtnsWithClickHandlers)
-    .on('init', toggleDotBtnsActive)
-    .on('reInit', toggleDotBtnsActive)
-    .on('select', toggleDotBtnsActive);
+  emblaApi.on('init', attachClickHandlersToDots).on('reInit', attachClickHandlersToDots).on('init', toggleDotBtnsActive).on('reInit', toggleDotBtnsActive).on('select', toggleDotBtnsActive);
 
   return (): void => {
-    dotsNode.innerHTML = '';
+    dotNodes.forEach(dotNode => {
+      dotNode.removeEventListener('click', () => {});
+    });
   };
 };
