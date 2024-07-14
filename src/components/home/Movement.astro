@@ -1,26 +1,8 @@
 ---
 import { Image } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
-const sliders = [
-	{
-		caption: 'Jacksonville, Florida',
-		title: 'Jim & Brenda Puhr in usa',
-		subtitle: 'Jim Puhr',
-		image: import('@/assets/home/movement/1.png'),
-	},
-	{
-		caption: 'Jacksonville, Florida',
-		title: 'Ministry Updates and Gratitude',
-		subtitle: 'Jim Puhr',
-		image: import('@/assets/home/movement/2.png'),
-	},
-	{
-		caption: 'Jacksonville, Florida',
-		title: 'Celebrating Family, Faith, and Fruitful Ministry',
-		subtitle: 'Jim Puhr',
-		image: import('@/assets/home/movement/3.png'),
-	},
-];
+const posts = await import('@/data/data.json');
+const filteredPosts = posts.default.filter(item => item.posts.showOnMainPage === true);
 ---
 
 <section class='container py-20 md:py-30'>
@@ -31,14 +13,21 @@ const sliders = [
 		<div class='embla__viewport'>
 			<div class='embla__container mb-10'>
 				{
-					sliders.map(item => (
-						<a href='#' class='embla__slide !flex-[0_0_300px] md:!flex-[0_0_590px] group'>
+					filteredPosts.map(item => (
+						<a href={`/blog/${item.slug}`} class='embla__slide !flex-[0_0_300px] md:!flex-[0_0_590px] group'>
 							<div class='overflow-hidden h-[200px] md:h-auto mb-8'>
-								<Image src={item.image} alt='slide image' quality={100} class='transition-transform object-cover size-full group-hover:scale-105' />
+								<Image
+									src={item.featuredImage ? item.featuredImage.node.mediaItemUrl : '/post-preview.png'}
+									width={590}
+									height={320}
+									alt='slide image'
+									quality={100}
+									class='transition-transform object-cover size-full group-hover:scale-105'
+								/>
 							</div>
-							<span class='uppercase text-xs font-bold mb-4 block'>{item.caption}</span>
+							<span class='uppercase text-xs font-bold mb-4 block'>{item.posts.location}</span>
 							<h2 class='text-md md:text-base mb-1.5'>{item.title}</h2>
-							<span class='text-sm font-medium'>{item.subtitle}</span>
+							<span class='text-sm font-medium'>Jim Puhr</span>
 						</a>
 					))
 				}

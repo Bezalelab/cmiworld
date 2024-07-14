@@ -17,10 +17,25 @@ async function getPostsAndSaveToFile() {
   const { posts } = await fetchAPI({
     query: `
 			query BLOG {
-					posts (first: 200) {
-						nodes { slug 	title content date excerpt featuredImage {node { mediaItemUrl } } }
-					}
-				}
+          posts(first: 200) {
+            nodes {
+              slug
+              title
+              content
+              date
+              excerpt
+              featuredImage {
+                node {
+                  mediaItemUrl
+                }
+              }
+              posts {
+                showOnMainPage
+                location
+              }
+            }
+          }
+        }
 			`,
   });
 

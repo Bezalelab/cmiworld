@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import { useInView } from 'react-intersection-observer';
 import { countries } from '@/utils/countries';
 import MapTooltips from '../ui/map-tooltips';
 import { gsap } from 'gsap';
@@ -59,9 +58,31 @@ export function Map() {
   const handleToggle = (state) => {
     setCurrentState(state);
     const item = items.find((i) => i.title === state);
-    if (item) {
+    if (item && window.innerWidth > 768) {
+      let progress;
+      switch (state) {
+        case 'countries':
+          progress = 0;
+          break;
+        case 'churches':
+          progress = 0.5;
+          break;
+        case 'years':
+          progress = 1;
+          break;
+        default:
+          progress = 0;
+      }
+
+      gsap.to(progressBarRef.current, {
+        height: `${progress * maxBarHeight}px`,
+        width: '2px',
+      });
+    } else if (item) {
+      // Для экранов <= 768px оставляем горизонтальное заполнение
       gsap.to(progressBarRef.current, {
         width: `${(item.progress / 100) * (window.innerWidth - 2 * 32)}px`,
+        height: '1px',
       });
     }
   };

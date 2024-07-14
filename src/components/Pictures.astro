@@ -15,7 +15,6 @@ const mobileImg = await getImage({
 	format: 'webp',
 	width: 736,
 	height: 320,
-	
 });
 
 const desktopImg = await getImage({
@@ -27,7 +26,7 @@ const desktopImg = await getImage({
 ---
 
 <picture>
-	<source media='(max-width: 1087px)'  srcset={mobileImg.src} />
+	<source media='(max-width: 1087px)' srcset={mobileImg.src} />
 	<source media='(min-width: 1087px)' srcset={desktopImg.src} />
 	<img src={desktopImg.src} alt={alt} class='min-h-[240px] object-cover' />
 </picture>

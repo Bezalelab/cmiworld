@@ -2,12 +2,12 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
 import { Toaster } from '@/components/ui/toaster';
+import { useRef, useState } from 'react';
 import { AutosizeTextarea } from '@/components/ui/autosize-textarea';
-import { Input } from './ui/input';
-
+import emailjs from '@emailjs/browser';
 const contactsItems = [
   { id: 'first_name', label: 'First Name' },
   { id: 'last_name', label: 'Last Name' },
@@ -25,7 +25,9 @@ const formSchema = z.object({
 });
 
 const ContactsForm = () => {
+  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const formRef = useRef<HTMLFormElement>(null);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -34,13 +36,30 @@ const ContactsForm = () => {
       email: '',
       phone: '',
       message: '',
-    },
+    }
   });
 
+  const { reset } = form;
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    toast({
-      description: 'Your email has been sent.',
-    });
+    if (!formRef.current) return;
+
+    setLoading(true);
+    emailjs.sendForm('contact_service', 'contact_form', formRef.current, '_rRrAA4e-mW0B07ps').then(
+      (result) => {
+        setLoading(false);
+        toast({
+          description: 'Your email has been sent.',
+        });
+        reset();
+      },
+      (error) => {
+        setLoading(false);
+        toast({
+          description: 'Something went wrong. Do it again later',
+        });
+      },
+    );
   }
 
   const onNumberOnlyChange = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -57,7 +76,7 @@ const ContactsForm = () => {
   return (
     <div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="mb-10 max-w-[820px]">
+        <form onSubmit={form.handleSubmit(onSubmit)} ref={formRef} className="mb-10 max-w-[820px]">
           <div className="mb-10 grid gap-x-5 gap-y-12 sm:grid-cols-2">
             {contactsItems.map((item) => (
               <div key={item.id} className={`${item.id === 'message' && 'sm:col-span-2'}`}>
@@ -69,20 +88,16 @@ const ContactsForm = () => {
                       <FormControl>
                         {item.id !== 'message' ? (
                           <>
-                            <Input
+                            <input
                               onKeyDown={item.id === 'phone' ? onNumberOnlyChange : undefined}
                               {...field}
                               id={item.id}
                               placeholder={item.label}
-                              className={`!rounded-none border-x-0 border-b border-gray-2 !placeholder-gray-2 focus:!border-black focus:!placeholder-black ${fieldState.invalid && '!border-[#FF9292] placeholder:!text-[#FF9292]'} border-t-0 p-0 placeholder:uppercase`}
+                              className={`h-10 w-full border-b text-sm text-black outline-none placeholder:uppercase focus:border-black focus:placeholder:text-black ${fieldState.invalid ? 'border-[#FF9292] placeholder:text-[#FF9292]' : 'border-gray-2 placeholder-gray-2'}`}
                             />
                           </>
                         ) : (
-                          <AutosizeTextarea
-                            {...field}
-                            placeholder="MESSAGE"
-                            className={`focus:!border-black  focus:!placeholder-black !rounded-none ${fieldState.invalid && 'placeholder-![#FF9292] border-[#FF9292]'}`}
-                          />
+                          <AutosizeTextarea {...field} placeholder="MESSAGE" className={`${fieldState.invalid && 'border-[#FF9292] !placeholder-[#FF9292]'}`} />
                         )}
                       </FormControl>
                     </FormItem>
@@ -91,12 +106,11 @@ const ContactsForm = () => {
               </div>
             ))}
           </div>
-          <Button type="submit" variant="outlineDark" className="px-10">
-            Send
+          <Button type="submit" variant="outlineDark" className="px-10" disabled={loading ? true : false}>
+            {loading ? 'Sending...' : 'Send'}
           </Button>
         </form>
       </Form>
-
       <Toaster />
     </div>
   );
