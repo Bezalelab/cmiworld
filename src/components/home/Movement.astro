@@ -15,7 +15,7 @@ const filteredPosts = posts.default.filter(item => item.posts.showOnMainPage ===
 				{
 					filteredPosts.map(item => (
 						<a href={`/blog/${item.slug}`} class='embla__slide !flex-[0_0_300px] md:!flex-[0_0_590px] group'>
-							<div class='overflow-hidden h-[200px] md:h-auto mb-8'>
+							<div class='overflow-hidden h-[200px] md:h-[320px] mb-8'>
 								<Image
 									src={item.featuredImage ? item.featuredImage.node.mediaItemUrl : '/post-preview.png'}
 									width={590}
