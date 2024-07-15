@@ -11,21 +11,9 @@ const links = [
 	{ label: 'Blog', url: '/blog' },
 	{ label: 'Contact us', url: '/contacts' },
 ];
-const countries = [
-	{ label: 'Albania', url: '/' },
-	{ label: 'Bosnia', url: '/' },
-	{ label: 'Bulgaria', url: '/' },
-	{ label: 'Croatia', url: '/' },
-	{ label: 'Czech Republic', url: '/' },
-	{ label: 'Hungary', url: '/' },
-	{ label: 'Poland', url: '/' },
-	{ label: 'Romania', url: '/' },
-	{ label: 'Serbia', url: '/' },
-	{ label: 'Slovakia', url: '/' },
-	{ label: 'Slovenia', url: '/' },
-];
+const countries = await import('@/data/countries.json');
 const touch = [
-	{ label: '+1 (904) 233-0346', url: '+1(904)2330346' },
+	{ label: '+1 (904) 233-0346', url: 'tel:+1(904)2330346' },
 	{ label: 'jimpuhr@cmiworld.org', url: 'mailto:jimpuhr@cmiworld.org' },
 	{ label: 'PO Box 51531 Jacksonville, Florida 32240', url: '#' },
 ];
@@ -67,10 +55,10 @@ const touch = [
 					<span class='block uppercase text-gray-3 mb-8 font-display'>Countries</span>
 					<ul class='grid grid-cols-2 gap-x-10'>
 						{
-							countries.map(country => (
+							countries.default.map(country => (
 								<li class='mb-4 last:mb-0'>
-									<a class='text-gray-1 whitespace-nowrap' href={country.url}>
-										{country.label}
+									<a class='text-gray-1 whitespace-nowrap' href={`/countries/${country.slug}`}>
+										{country.title}
 									</a>
 								</li>
 							))
