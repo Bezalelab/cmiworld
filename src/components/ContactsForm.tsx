@@ -36,7 +36,7 @@ const ContactsForm = () => {
       email: '',
       phone: '',
       message: '',
-    }
+    },
   });
 
   const { reset } = form;
@@ -45,7 +45,7 @@ const ContactsForm = () => {
     if (!formRef.current) return;
 
     setLoading(true);
-    emailjs.sendForm('contact_service', 'contact_form', formRef.current, '_rRrAA4e-mW0B07ps').then(
+    emailjs.sendForm('service_c43d9si', 'template_gefrcvk', formRef.current, '0k9_FzjV3UUd_ew8E').then(
       (result) => {
         setLoading(false);
         toast({
