@@ -20,7 +20,7 @@ const formSchema = z.object({
   first_name: z.string().min(1, 'First Name is required'),
   last_name: z.string().min(1, 'Last Name is required'),
   email: z.string().email('Invalid email address').min(1, 'Email is required'),
-  phone: z.string().regex(/^\+?\d*$/, 'Invalid phone number'),
+  phone: z.string().regex(/^\+?\d*$/, 'Invalid phone number').min(1, 'Phone is required'),
   message: z.string().max(300, { message: 'The message cannot contain more than 300 characters' }).min(1, 'Message is required'),
 });
 
