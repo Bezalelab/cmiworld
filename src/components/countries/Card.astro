@@ -15,7 +15,7 @@ const { city, title, description, image, index, slug } = Astro.props;
 
 <li class={`bg-gray-5 ${index === 0 && 'md:col-span-2'}`}>
 	<a href={`/countries/${slug}/`} class={`flex ${index === 0 ? 'flex-col lg:flex-row' : 'flex-col'}`}>
-		<div class={`${index === 0 ? ' h-[240px] sm:h-[320px] lg:h-auto' : 'h-[240px] lg:h-[320px]'} overflow-hidden`}>
+		<div class={`${index === 0 ? ' h-[240px] sm:h-[320px] lg:h-auto' : 'h-[240px] lg:h-[320px]'} overflow-hidden lg:max-w-[590px] lg:w-full`}>
 			<Image src={image} inferSize quality={100} alt='image' alt={title} class='object-cover size-full hover:scale-105 transition-transform' />
 		</div>
 		<div class={`p-6 lg:p-10 ${index === 0 && 'lg:max-w-[600px]'}`}>
