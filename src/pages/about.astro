@@ -84,6 +84,56 @@ const { page } = await fetchAPI({
 
 <Layout title='Jim & Brenda Puhr'>
 	<div class='container pt-[72px] lg:pt-25'>
+		<section class='pb-20 md:pb-25'>
+			<h2 class='text-[30px] leading-[38px] md:text-2xl lg:text-3xl mb-4 md:mb-9 text-center'>Brief History of the Ministry of <spa class='text-gray-3'>Jim and Brenda Puhr</spa></h2>
+			<p class='text-center max-w-[753px] mx-auto mb-20 md:mb-40'>
+				{page.about.breefHistory.description}
+			</p>
+			<div class='embla fade'>
+				<div class='embla__controls mb-16 md:mb-20 -mr-8'>
+					<div class='overflow-x-auto overflow-y-hidden scrollbar-hide relative' id='progressBar'>
+						<div class='embla__dots pr-8'>
+							{
+								page.about.breefHistory.sliderItems.map(item => (
+									<button class='embla__dot' type='button'>
+										<span class='switch-title'>{item.year}</span>
+									</button>
+								))
+							}
+						</div>
+						<div class='embla__progress -mt-10'>
+							<div class='embla__progress-bar'></div>
+						</div>
+					</div>
+					<div class='embla__buttons'>
+						<button class='embla__button embla__button--prev' type='button'>
+							<Icon name='arrow-long' class='size-8 rotate-180 embla__button-svg' />
+						</button>
+						<button class='embla__button embla__button--next' type='button'>
+							<Icon name='arrow-long' class='size-8 embla__button-svg' />
+						</button>
+					</div>
+				</div>
+				<div class='embla__viewport'>
+					<div class='embla__container'>
+						{
+							page.about.breefHistory.sliderItems.map((item, index) => (
+								<div class='embla__slide flex flex-col xl:flex-row items-start gap-10 lg:gap-20 flex-[0_0_100%]'>
+									<div class='xl:flex-[0_0_539px]'>
+										<span class='text-gray-2 text-sm block mb-2'>{item.year}</span>
+										<h2 class='text-lg md:text-xl lg:text-2xl mb-6'>{item.title}</h2>
+										<div class='xl:max-w-[430px]'>
+											<Fragment set:html={item.description} />
+										</div>
+									</div>
+									<Image src={item.image.node.mediaItemUrl} inferSize alt='slide image' class='w-full max-h-[415px] object-cover' />
+								</div>
+							))
+						}
+					</div>
+				</div>
+			</div>
+		</section>
 		<span class='section-caption'> Our story </span>
 		<div class='flex flex-col lg:flex-row gap-5 mb-10 md:mb-16 lg:mb-25'>
 			<h1 class='text-xl md:text-2xl xl:text-3xl'>Jim & Brenda <span class='text-gray-3'>Puhr</span></h1>
@@ -132,56 +182,6 @@ const { page } = await fetchAPI({
 					<Image src={import('@/assets/puhr/5.png')} alt='Jim & Brenda Puhr' class='lg:w-[259px] w-full h-full object-cover' />
 					<Image src={import('@/assets/puhr/6.png')} alt='Jim & Brenda Puhr' class='lg:w-[259px] w-full h-full object-cover' />
 					<Image src={import('@/assets/puhr/7.png')} alt='Jim & Brenda Puhr' class='lg:w-[259px] w-full h-full object-cover' />
-				</div>
-			</div>
-		</section>
-		<section class='py-20 md:py-25'>
-			<h2 class='text-[30px] leading-[38px] md:text-2xl lg:text-3xl mb-4 md:mb-9 text-center'>Brief History of the Ministry of <spa class='text-gray-3'>Jim and Brenda Puhr</spa></h2>
-			<p class='text-center max-w-[753px] mx-auto mb-20 md:mb-40'>
-				{page.about.breefHistory.description}
-			</p>
-			<div class='embla fade'>
-				<div class='embla__controls mb-16 md:mb-20 -mr-8'>
-					<div class='overflow-x-auto overflow-y-hidden scrollbar-hide relative' id='progressBar'>
-						<div class='embla__dots pr-8'>
-							
-							{page.about.breefHistory.sliderItems.map(item => (
-						
-								<button class="embla__dot" type="button">
-									<span class="switch-title">{item.year}</span>
-								</button>
-							))}
-						</div>
-						<div class='embla__progress -mt-10'>
-							<div class='embla__progress-bar'></div>
-						</div>
-					</div>
-					<div class='embla__buttons'>
-						<button class='embla__button embla__button--prev' type='button'>
-							<Icon name='arrow-long' class='size-8 rotate-180 embla__button-svg' />
-						</button>
-						<button class='embla__button embla__button--next' type='button'>
-							<Icon name='arrow-long' class='size-8 embla__button-svg' />
-						</button>
-					</div>
-				</div>
-				<div class='embla__viewport'>
-					<div class='embla__container'>
-						{
-							page.about.breefHistory.sliderItems.map((item, index) => (
-								<div class='embla__slide flex flex-col xl:flex-row items-start gap-10 lg:gap-20 flex-[0_0_100%]'>
-									<div class='xl:flex-[0_0_539px]'>
-										<span class='text-gray-2 text-sm block mb-2'>{item.year}</span>
-										<h2 class='text-lg md:text-xl lg:text-2xl mb-6'>{item.title}</h2>
-										<div class='xl:max-w-[430px]'>
-											<Fragment set:html={item.description} />
-										</div>
-									</div>
-									<Image src={item.image.node.mediaItemUrl} inferSize alt='slide image' class='w-full max-h-[415px] object-cover' />
-								</div>
-							))
-						}
-					</div>
 				</div>
 			</div>
 		</section>

@@ -21,14 +21,16 @@ const Join = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>, e) {
-   console.log('sss')
+    
   }
 
   return (
     <div className="join container my-20 lg:my-30">
       <div className="flex flex-col gap-8 border-b border-t border-black py-20">
-        <h2 className="text-center text-2xl uppercase lg:text-3xl">RECEIVE OUR NEWSLETTER</h2>
-        <p className="mx-auto max-w-[456px] text-center text-xs text-black sm:text-sm">Join us every week, from wherever you are in the world, to connect with Jesus and community</p>
+        <h2 className="text-center text-2xl uppercase lg:text-3xl"> Receive our e-letter</h2>
+        <p className="mx-auto max-w-[456px] text-center text-xs text-black sm:text-sm">
+           If you would like to receive out e-letter that we sent out regularly (about every 2 months)  about our ministry just give sign up below
+        </p>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="mx-auto w-full max-w-[387px]">
             <FormField
