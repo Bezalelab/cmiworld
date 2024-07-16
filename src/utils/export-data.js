@@ -42,7 +42,7 @@ async function getPostsAndSaveToFile() {
   const { countries } = await fetchAPI({
     query: `
 			query COUNTRIES {
-        countries (first: 100) {
+        countries (first: 200) {
           nodes {
             title slug 
             featuredImage {
@@ -50,7 +50,7 @@ async function getPostsAndSaveToFile() {
                 mediaItemUrl
               }
             }
-            countryContent { city content description caption
+            countryContent { city content description caption numberOfCities numberOfChurces codeLang
               images {
                 nodes {
                   mediaItemUrl

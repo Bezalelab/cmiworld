@@ -6,6 +6,7 @@ import Fade from 'embla-carousel-fade';
 
 const OPTIONS: EmblaOptionsType = {
   loop: false,
+  align: 'start'
 };
 
 const emblaNode = document.querySelector('.embla') as HTMLElement | null;

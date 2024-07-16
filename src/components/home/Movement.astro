@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
 const posts = await import('@/data/data.json');
-const filteredPosts = posts.default.filter(item => item.posts.showOnMainPage === true);
+
 ---
 
 <section class='container py-20 md:py-30'>
@@ -13,7 +13,7 @@ const filteredPosts = posts.default.filter(item => item.posts.showOnMainPage ===
 		<div class='embla__viewport'>
 			<div class='embla__container mb-10'>
 				{
-					filteredPosts.map(item => (
+					posts.default.slice(0, 5).map(item => (
 						<a href={`/blog/${item.slug}`} class='embla__slide !flex-[0_0_300px] md:!flex-[0_0_590px] group'>
 							<div class='overflow-hidden h-[200px] md:h-[320px] mb-8'>
 								<Image

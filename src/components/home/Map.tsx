@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import { countries } from '@/utils/countries';
+import { countries, TestCountries } from '@/utils/countries';
 import MapTooltips from '../ui/map-tooltips';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
+import jsonData from '@/data/countries.json';
 gsap.registerPlugin(ScrollTrigger);
 
 const items = [
@@ -12,7 +12,8 @@ const items = [
   { count: 25, title: 'years', progress: 100 },
 ];
 
-export function Map() {
+export function Map({ countriesData }) {
+  console.log( TestCountries(jsonData))
   const [currentState, setCurrentState] = useState('countries');
   const sectionRef = useRef(null);
   const progressBarRef = useRef(null);
@@ -79,7 +80,6 @@ export function Map() {
         width: '2px',
       });
     } else if (item) {
-      // Для экранов <= 768px оставляем горизонтальное заполнение
       gsap.to(progressBarRef.current, {
         width: `${(item.progress / 100) * (window.innerWidth - 2 * 32)}px`,
         height: '1px',
@@ -125,7 +125,7 @@ export function Map() {
         <div className="absolute -bottom-20 -left-[500px] sm:-left-[400px] md:-bottom-40 md:-left-[300px] lg:left-0 lg:top-20 lg:translate-x-[200px] xl:translate-x-[400px]" id="map">
           <div className="relative after:pointer-events-none after:absolute after:top-20 after:z-10 after:h-[350px] after:w-full after:bg-steps md:mb-20 lg:mb-0 lg:after:hidden">
             <img src="/europe.svg" alt="map" className="max-w-none" />
-            <MapTooltips items={countries} currentState={currentState} />
+            <MapTooltips items={TestCountries(jsonData)} currentState={currentState} data={countriesData} />
           </div>
         </div>
       </div>
