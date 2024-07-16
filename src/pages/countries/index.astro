@@ -3,6 +3,11 @@ import Layout from '@/layouts/Layout.astro';
 import Card from '@/components/countries/Card.astro';
 import Join from '@/components/Join';
 const countries = await import('@/data/countries.json');
+countries.default.sort((a, b) => {
+  if (a.slug === 'hungary') return -1;
+  if (b.slug === 'hungary') return 1;
+  return 0;
+});
 ---
 
 <Layout title='Welcome to Astro.'>
