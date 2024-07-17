@@ -24,35 +24,35 @@ export function Map({ countriesData }) {
       const nextIndex = (currentIndex + 1) % items.length;
       const nextItem = items[nextIndex];
 
-      const isReturningToStart = currentIndex === items.length - 1 && nextIndex === 0;
+      const isReturningToStart = currentIndex === items.length - 1;
 
       if (window.innerWidth > 768) {
-        if (isReturningToStart) {
-          // Быстро возвращаем в начальное положение
-          gsap.set(progressBarRef.current, { height: 0, width: '3px' });
-        } else {
-          gsap.to(progressBarRef.current, {
-            height: `${(nextIndex / (items.length - 1)) * maxBarHeight}px`,
-            width: '3px',
-            duration: intervalDuration,
-            ease: 'linear',
-          });
-        }
+        gsap.to(progressBarRef.current, {
+          height: isReturningToStart ? `${maxBarHeight}px` : `${(nextIndex / (items.length - 1)) * maxBarHeight}px`,
+          width: '3px',
+          duration: intervalDuration,
+          ease: 'linear',
+          onComplete: () => {
+            if (isReturningToStart) {
+              gsap.set(progressBarRef.current, { height: 0 });
+            }
+          }
+        });
       } else {
-        if (isReturningToStart) {
-          // Быстро возвращаем в начальное положение
-          gsap.set(progressBarRef.current, { width: 0, height: '1px' });
-        } else {
-          gsap.to(progressBarRef.current, {
-            width: `${nextItem.progress}%`,
-            height: '1px',
-            duration: intervalDuration,
-            ease: 'linear',
-          });
-        }
+        gsap.to(progressBarRef.current, {
+          width: isReturningToStart ? '100%' : `${nextItem.progress}%`,
+          height: '1px',
+          duration: intervalDuration,
+          ease: 'linear',
+          onComplete: () => {
+            if (isReturningToStart) {
+              gsap.set(progressBarRef.current, { width: 0 });
+            }
+          }
+        });
       }
 
-      gsap.delayedCall(isReturningToStart ? 0.1 : intervalDuration, () => {
+      gsap.delayedCall(intervalDuration, () => {
         setCurrentState(nextItem.title);
         currentIndex = nextIndex;
       });
@@ -89,7 +89,7 @@ export function Map({ countriesData }) {
               {items.map((item, index) => (
                 <li
                   key={index}
-                  className={`relative z-20 w-fit cursor-pointer pt-10 transition-colors after:absolute after:-top-[7px] after:size-4 after:-translate-x-1/2 after:rounded-full last:after:left-full lg:pt-0 lg:after:-left-[55px]  lg:after:-top-[5px] lg:first:after:top-10 lg:last:after:-left-[55px] lg:last:after:top-10 [&:nth-child(2)]:after:left-1/2 lg:[&:nth-child(2)]:after:-left-[55px]  lg:[&:nth-child(2)]:after:top-12 ${
+                  className={`relative z-20 w-fit pt-10 transition-colors after:absolute after:-top-[7px] after:size-4 after:-translate-x-1/2 after:rounded-full last:after:left-full lg:pt-0 lg:after:-left-[55px]  lg:after:-top-[5px] lg:first:after:top-10 lg:last:after:-left-[55px] lg:last:after:top-10 [&:nth-child(2)]:after:left-1/2 lg:[&:nth-child(2)]:after:-left-[55px]  lg:[&:nth-child(2)]:after:top-12 ${
                     currentState === item.title ? 'text-black after:bg-black' : 'text-gray-1 after:bg-gray-1'
                   }`}>
                   <div className="flex flex-col gap-2">
