@@ -1,10 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
-import { countries, TestCountries } from '@/utils/countries';
+import { TestCountries } from '@/utils/countries';
 import MapTooltips from '../ui/map-tooltips';
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import jsonData from '@/data/countries.json';
-gsap.registerPlugin(ScrollTrigger);
 
 const items = [
   { count: 10, title: 'countries', progress: 0 },
@@ -13,48 +11,53 @@ const items = [
 ];
 
 export function Map({ countriesData }) {
-  console.log( TestCountries(jsonData))
   const [currentState, setCurrentState] = useState('countries');
   const sectionRef = useRef(null);
   const progressBarRef = useRef(null);
   const maxBarHeight = 375;
 
   useEffect(() => {
-    const section = sectionRef.current;
-    const progressBar = progressBarRef.current;
-
-    if (section && window.innerWidth > 768) {
-      const updateProgress = (progress) => {
-        const height = progress * maxBarHeight;
-        gsap.to(progressBar, {
-          height: `${height}px`,
-        });
-      };
-
-      const updateState = (self) => {
-        const progress = self.progress;
-        if (progress >= 0.5 && progress < 1) {
-          setCurrentState('churches');
-        } else if (progress >= 1) {
-          setCurrentState('years');
-        } else {
-          setCurrentState('countries');
-        }
-      };
-
-      ScrollTrigger.create({
-        trigger: section,
-        pin: true,
-        start: 'center 25%',
-        end: '+=300%',
-        scrub: true,
-        onUpdate: (self) => {
-          updateState(self);
-          updateProgress(self.progress);
-        },
+    const interval = setInterval(() => {
+      setCurrentState((prevState) => {
+        const currentIndex = items.findIndex((item) => item.title === prevState);
+        const nextIndex = (currentIndex + 1) % items.length;
+        return items[nextIndex].title;
       });
-    }
+    }, 5000);
+
+    return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    const item = items.find((i) => i.title === currentState);
+    if (item) {
+      if (window.innerWidth > 768) {
+        let progress;
+        switch (currentState) {
+          case 'countries':
+            progress = 0;
+            break;
+          case 'churches':
+            progress = 0.5;
+            break;
+          case 'years':
+            progress = 1;
+            break;
+          default:
+            progress = 0;
+        }
+        gsap.to(progressBarRef.current, {
+          height: `${progress * maxBarHeight}px`,
+          width: '3px',
+        });
+      } else {
+        gsap.to(progressBarRef.current, {
+          width: `${(item.progress / 100) * (window.innerWidth - 2 * 32)}px`,
+          height: '1px',
+        });
+      }
+    }
+  }, [currentState]);
 
   const handleToggle = (state) => {
     setCurrentState(state);
@@ -103,13 +106,13 @@ export function Map({ countriesData }) {
             </a>
           </div>
           <div className="relative z-20">
-            <div className="absolute left-0 top-0 h-[1px] w-full bg-gray-300 lg:top-12 lg:h-[375px] lg:w-[2px]"></div>
-            <div className="absolute left-0 top-0 h-[1px] overflow-x-hidden bg-black lg:top-12 lg:h-0 lg:w-[2px]" ref={progressBarRef}></div>
+            <div className="absolute left-0 top-0 h-[1px] w-full bg-gray-300 lg:top-12 lg:h-[375px] lg:w-[3px]"></div>
+            <div className="absolute left-0 top-0 h-[1px] overflow-x-hidden bg-black lg:top-12 lg:h-0 lg:w-[3px]" ref={progressBarRef}></div>
             <ol className="relative flex justify-between lg:z-0 lg:flex-col lg:gap-10 lg:pl-14">
               {items.map((item, index) => (
                 <li
                   key={index}
-                  className={`relative z-20 w-fit cursor-pointer pt-10 transition-colors after:absolute after:-top-[7px] after:size-4 after:-translate-x-1/2 after:rounded-full last:after:left-full lg:pt-0 lg:after:-left-14 lg:after:-top-[5px] lg:first:after:top-10 lg:last:after:-left-14 lg:last:after:top-10 [&:nth-child(2)]:after:left-1/2 lg:[&:nth-child(2)]:after:-left-14 lg:[&:nth-child(2)]:after:top-12 ${
+                  className={`relative z-20 w-fit cursor-pointer pt-10 transition-colors after:absolute after:-top-[7px] after:size-4 after:-translate-x-1/2 after:rounded-full last:after:left-full lg:pt-0 lg:after:-left-[54.5px] lg:after:-top-[5px] lg:first:after:top-10 lg:last:after:-left-[54.5px] lg:last:after:top-10 [&:nth-child(2)]:after:left-1/2 lg:[&:nth-child(2)]:after:-left-[54.5px] lg:[&:nth-child(2)]:after:top-12 ${
                     currentState === item.title ? 'text-black after:bg-black' : 'text-gray-1 after:bg-gray-1'
                   }`}
                   onClick={() => handleToggle(item.title)}>
