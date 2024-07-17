@@ -81,7 +81,7 @@
     @apply w-full text-left text-black;
   }
   table thead {
-    @apply bg-[#EEEEEF] text-md font-bold uppercase border-none;
+    @apply border-none bg-[#EEEEEF] text-md font-bold uppercase;
   }
   table thead tr td:first-child {
     @apply text-nowrap px-6 py-4;
@@ -90,13 +90,13 @@
     @apply text-sm;
   }
   table tbody td:first-child {
-    @apply px-6 py-4 w-[240px] font-medium whitespace-nowrap
+    @apply w-[240px] whitespace-nowrap px-6 py-4 font-medium;
   }
   table tbody td:last-child {
-    @apply px-6 py-4 min-w-[300px]
+    @apply min-w-[300px] px-6 py-4;
   }
   table tbody tr:nth-child(even) {
-    @apply bg-[#EEEEEF]
+    @apply bg-[#EEEEEF];
   }
 }
 
@@ -121,4 +121,8 @@
 .react-player__preview > * {
   position: relative;
   z-index: 2;
+}
+
+.ctct-form-element {
+  @apply mx-auto !flex !h-10 !w-full !rounded-full !border !border-black !bg-white !px-6 !py-3 !text-sm !font-medium !text-black !ring-offset-white placeholder:text-black;
 }

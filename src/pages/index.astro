@@ -6,20 +6,21 @@ import Movement from '@/components/home/Movement.astro';
 import Vision from '@/components/home/Vision.astro';
 import Involved from '@/components/home/Involved.astro';
 import Donations from '@/components/Donations.astro';
-import Join from '@/components/Join';
+import Join from '@/components/Join.astro';
 const countries = await import('@/data/countries.json');
 ---
 
 <Layout title='Welcome to Astro.'>
+	
 	<Hero />
-	<Map client:only='react' countriesData={countries}/>
+	<Map client:only='react' countriesData={countries} />
 	<Movement />
 	<Vision />
 	<Involved />
 	<div class='container donations'>
 		<Donations />
 	</div>
-	<Join client:visible />
+	<Join />
 </Layout>
 
 

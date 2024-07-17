@@ -5,7 +5,6 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { useInView } from 'react-intersection-observer';
 
 const MapTooltips = ({ items, currentState, data }) => {
-  console.log(items)
   const [openStates, setOpenStates] = useState(Array(items.length).fill(false));
   const [shownTooltips, setShownTooltips] = useState([]);
   const [isHoveringMap, setIsHoveringMap] = useState(false);
