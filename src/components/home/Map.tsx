@@ -69,7 +69,7 @@ export function Map({ countriesData }) {
           progress = 0;
           break;
         case 'churches':
-          progress = 0.5;
+          progress = 0.55;
           break;
         case 'years':
           progress = 1;
