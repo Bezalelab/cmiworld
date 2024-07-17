@@ -15,80 +15,57 @@ export function Map({ countriesData }) {
   const sectionRef = useRef(null);
   const progressBarRef = useRef(null);
   const maxBarHeight = 375;
+  const intervalDuration = 5;
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentState((prevState) => {
-        const currentIndex = items.findIndex((item) => item.title === prevState);
-        const nextIndex = (currentIndex + 1) % items.length;
-        return items[nextIndex].title;
-      });
-    }, 5000);
+    let currentIndex = 0;
 
-    return () => clearInterval(interval);
-  }, []);
+    const updateProgressBar = () => {
+      const nextIndex = (currentIndex + 1) % items.length;
+      const nextItem = items[nextIndex];
 
-  useEffect(() => {
-    const item = items.find((i) => i.title === currentState);
-    if (item) {
+      const isReturningToStart = currentIndex === items.length - 1 && nextIndex === 0;
+
       if (window.innerWidth > 768) {
-        let progress;
-        switch (currentState) {
-          case 'countries':
-            progress = 0;
-            break;
-          case 'churches':
-            progress = 0.5;
-            break;
-          case 'years':
-            progress = 1;
-            break;
-          default:
-            progress = 0;
+        if (isReturningToStart) {
+          // Быстро возвращаем в начальное положение
+          gsap.set(progressBarRef.current, { height: 0, width: '3px' });
+        } else {
+          gsap.to(progressBarRef.current, {
+            height: `${(nextIndex / (items.length - 1)) * maxBarHeight}px`,
+            width: '3px',
+            duration: intervalDuration,
+            ease: 'linear',
+          });
         }
-        gsap.to(progressBarRef.current, {
-          height: `${progress * maxBarHeight}px`,
-          width: '3px',
-        });
       } else {
-        gsap.to(progressBarRef.current, {
-          width: `${(item.progress / 100) * (window.innerWidth - 2 * 32)}px`,
-          height: '1px',
-        });
-      }
-    }
-  }, [currentState]);
-
-  const handleToggle = (state) => {
-    setCurrentState(state);
-    const item = items.find((i) => i.title === state);
-    if (item && window.innerWidth > 768) {
-      let progress;
-      switch (state) {
-        case 'countries':
-          progress = 0;
-          break;
-        case 'churches':
-          progress = 0.55;
-          break;
-        case 'years':
-          progress = 1;
-          break;
-        default:
-          progress = 0;
+        if (isReturningToStart) {
+          // Быстро возвращаем в начальное положение
+          gsap.set(progressBarRef.current, { width: 0, height: '1px' });
+        } else {
+          gsap.to(progressBarRef.current, {
+            width: `${nextItem.progress}%`,
+            height: '1px',
+            duration: intervalDuration,
+            ease: 'linear',
+          });
+        }
       }
 
-      gsap.to(progressBarRef.current, {
-        height: `${progress * maxBarHeight}px`,
-        width: '2px',
+      gsap.delayedCall(isReturningToStart ? 0.1 : intervalDuration, () => {
+        setCurrentState(nextItem.title);
+        currentIndex = nextIndex;
       });
-    } else if (item) {
-      gsap.to(progressBarRef.current, {
-        width: `${(item.progress / 100) * (window.innerWidth - 2 * 32)}px`,
-        height: '1px',
-      });
-    }
-  };
+    };
+
+    const interval = setInterval(updateProgressBar, intervalDuration * 1000);
+    updateProgressBar(); // Start the first iteration immediately
+
+    return () => {
+      clearInterval(interval);
+      gsap.killTweensOf(progressBarRef.current);
+    };
+  }, []);
 
   return (
     <section className="map container pt-20 md:pt-[120px]" id="eastern" ref={sectionRef}>
@@ -112,10 +89,9 @@ export function Map({ countriesData }) {
               {items.map((item, index) => (
                 <li
                   key={index}
-                  className={`relative z-20 w-fit cursor-pointer pt-10 transition-colors after:absolute after:-top-[7px] after:size-4 after:-translate-x-1/2 after:rounded-full last:after:left-full lg:pt-0 lg:after:-left-[54.5px] lg:after:-top-[5px] lg:first:after:top-10 lg:last:after:-left-[54.5px] lg:last:after:top-10 [&:nth-child(2)]:after:left-1/2 lg:[&:nth-child(2)]:after:-left-[54.5px] lg:[&:nth-child(2)]:after:top-12 ${
+                  className={`relative z-20 w-fit cursor-pointer pt-10 transition-colors after:absolute after:-top-[7px] after:size-4 after:-translate-x-1/2 after:rounded-full last:after:left-full lg:pt-0 lg:after:-left-[55px]  lg:after:-top-[5px] lg:first:after:top-10 lg:last:after:-left-[55px] lg:last:after:top-10 [&:nth-child(2)]:after:left-1/2 lg:[&:nth-child(2)]:after:-left-[55px]  lg:[&:nth-child(2)]:after:top-12 ${
                     currentState === item.title ? 'text-black after:bg-black' : 'text-gray-1 after:bg-gray-1'
-                  }`}
-                  onClick={() => handleToggle(item.title)}>
+                  }`}>
                   <div className="flex flex-col gap-2">
                     <span className="lg:text-25 text-[40px] font-medium leading-none text-current sm:text-2xl md:text-3xl md:font-normal lg:text-[100px] lg:leading-[110px]">{item.count}+</span>
                     <span className="text-sm capitalize text-current md:text-lg">{item.title}</span>
