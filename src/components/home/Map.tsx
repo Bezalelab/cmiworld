@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { countries, TestCountries } from '@/utils/countries';
+import { TestCountries } from '@/utils/countries';
 import MapTooltips from '../ui/map-tooltips';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -12,79 +12,61 @@ const items = [
   { count: 25, title: 'years', progress: 100 },
 ];
 
-export function Map({ countriesData }) {
+export function Map() {
   const [currentState, setCurrentState] = useState('countries');
   const sectionRef = useRef(null);
   const progressBarRef = useRef(null);
   const maxBarHeight = 375;
+  const intervalDuration = 5;
 
   useEffect(() => {
-    const section = sectionRef.current;
-    const progressBar = progressBarRef.current;
+    let currentIndex = 0;
 
-    if (section && window.innerWidth > 768) {
-      const updateProgress = (progress) => {
-        const height = progress * maxBarHeight;
-        gsap.to(progressBar, {
-          height: `${height}px`,
-        });
-      };
+    const updateProgressBar = () => {
+      const nextIndex = (currentIndex + 1) % items.length;
 
-      const updateState = (self) => {
-        const progress = self.progress;
-        if (progress >= 0.5 && progress < 1) {
-          setCurrentState('churches');
-        } else if (progress >= 1) {
-          setCurrentState('years');
+      const nextItem = items[nextIndex];
+
+      const isReturningToStart = currentIndex === items.length - 1 && nextIndex === 0;
+
+      if (window.innerWidth > 768) {
+        if (isReturningToStart) {
+          gsap.set(progressBarRef.current, { height: 0, width: '3px' });
         } else {
-          setCurrentState('countries');
+          gsap.to(progressBarRef.current, {
+            height: `${(nextIndex / (items.length - 1)) * maxBarHeight}px`,
+            width: '3px',
+            duration: intervalDuration,
+            ease: 'linear',
+          });
         }
-      };
-
-      ScrollTrigger.create({
-        trigger: section,
-        pin: true,
-        start: 'center 25%',
-        end: '+=300%',
-        scrub: true,
-        onUpdate: (self) => {
-          updateState(self);
-          updateProgress(self.progress);
-        },
-      });
-    }
-  }, []);
-
-  const handleToggle = (state) => {
-    setCurrentState(state);
-    const item = items.find((i) => i.title === state);
-    if (item && window.innerWidth > 768) {
-      let progress;
-      switch (state) {
-        case 'countries':
-          progress = 0;
-          break;
-        case 'churches':
-          progress = 0.5;
-          break;
-        case 'years':
-          progress = 1;
-          break;
-        default:
-          progress = 0;
+      } else {
+        if (isReturningToStart) {
+          gsap.set(progressBarRef.current, { width: 0, height: '3px' });
+        } else {
+          gsap.to(progressBarRef.current, {
+            width: `${nextItem.progress}%`,
+            height: '3px',
+            duration: intervalDuration,
+            ease: 'linear',
+          });
+        }
       }
 
-      gsap.to(progressBarRef.current, {
-        height: `${progress * maxBarHeight}px`,
-        width: '2px',
+      gsap.delayedCall(isReturningToStart ? 0.1 : intervalDuration, () => {
+        setCurrentState(nextItem.title);
+        currentIndex = nextIndex;
       });
-    } else if (item) {
-      gsap.to(progressBarRef.current, {
-        width: `${(item.progress / 100) * (window.innerWidth - 2 * 32)}px`,
-        height: '1px',
-      });
-    }
-  };
+    };
+
+    const interval = setInterval(updateProgressBar, intervalDuration * 1000);
+    updateProgressBar(); // Start the first iteration immediately
+
+    return () => {
+      clearInterval(interval);
+      gsap.killTweensOf(progressBarRef.current);
+    };
+  }, []);
 
   return (
     <section className="map container pt-20 md:pt-[120px]" id="eastern" ref={sectionRef}>
@@ -102,16 +84,15 @@ export function Map({ countriesData }) {
             </a>
           </div>
           <div className="relative z-20">
-            <div className="absolute left-0 top-0 h-[1px] w-full bg-gray-300 lg:top-12 lg:h-[375px] lg:w-[2px]"></div>
-            <div className="absolute left-0 top-0 h-[1px] overflow-x-hidden bg-black lg:top-12 lg:h-0 lg:w-[2px]" ref={progressBarRef}></div>
+            <div className="absolute left-0 top-0 h-[3px] w-full bg-gray-300 lg:top-12 lg:h-[375px] lg:w-[3px]"></div>
+            <div className="absolute left-0 top-0 h-[3px] overflow-x-hidden bg-black lg:top-12 lg:h-0 lg:w-[3px]" ref={progressBarRef}></div>
             <ol className="relative flex justify-between lg:z-0 lg:flex-col lg:gap-10 lg:pl-14">
               {items.map((item, index) => (
                 <li
                   key={index}
-                  className={`relative z-20 w-fit cursor-pointer pt-10 transition-colors after:absolute after:-top-[7px] after:size-4 after:-translate-x-1/2 after:rounded-full last:after:left-full lg:pt-0 lg:after:-left-14 lg:after:-top-[5px] lg:first:after:top-10 lg:last:after:-left-14 lg:last:after:top-10 [&:nth-child(2)]:after:left-1/2 lg:[&:nth-child(2)]:after:-left-14 lg:[&:nth-child(2)]:after:top-12 ${
+                  className={`relative z-20 w-fit pt-10 transition-colors after:absolute after:-top-[7px] after:size-4 after:-translate-x-1/2 after:rounded-full last:after:left-full lg:pt-0 lg:after:-left-[55px] lg:after:-top-[5px] lg:first:after:top-10 lg:last:after:-left-[55px] lg:last:after:top-10 [&:nth-child(2)]:after:left-1/2 lg:[&:nth-child(2)]:after:-left-[55px] lg:[&:nth-child(2)]:after:top-12 ${
                     currentState === item.title ? 'text-black after:bg-black' : 'text-gray-1 after:bg-gray-1'
-                  }`}
-                  onClick={() => handleToggle(item.title)}>
+                  }`}>
                   <div className="flex flex-col gap-2">
                     <span className="lg:text-25 text-[40px] font-medium leading-none text-current sm:text-2xl md:text-3xl md:font-normal lg:text-[100px] lg:leading-[110px]">{item.count}+</span>
                     <span className="text-sm capitalize text-current md:text-lg">{item.title}</span>
@@ -124,7 +105,7 @@ export function Map({ countriesData }) {
         <div className="absolute -bottom-20 -left-[500px] sm:-left-[400px] md:-bottom-40 md:-left-[300px] lg:left-0 lg:top-20 lg:translate-x-[200px] xl:translate-x-[400px]" id="map">
           <div className="relative after:pointer-events-none after:absolute after:top-20 after:z-10 after:h-[350px] after:w-full after:bg-steps md:mb-20 lg:mb-0 lg:after:hidden">
             <img src="/europe.svg" alt="map" className="max-w-none" />
-            <MapTooltips items={TestCountries(jsonData)} currentState={currentState} data={countriesData} />
+            <MapTooltips items={TestCountries(jsonData)} currentState={currentState} />
           </div>
         </div>
       </div>

@@ -4,7 +4,7 @@ import { CircleFlag } from 'react-circle-flags';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useInView } from 'react-intersection-observer';
 
-const MapTooltips = ({ items, currentState, data }) => {
+const MapTooltips = ({ items, currentState }) => {
   const [openStates, setOpenStates] = useState(Array(items.length).fill(false));
   const [shownTooltips, setShownTooltips] = useState([]);
   const [isHoveringMap, setIsHoveringMap] = useState(false);
@@ -92,11 +92,12 @@ const MapTooltips = ({ items, currentState, data }) => {
                 <CircleFlag countryCode={item.city} width="22" className="z-10 h-[22px] rounded-full border-2 lg:pointer-events-none" />
               </PopoverTrigger>
               <PopoverContent className="absolute !-left-6 !-top-10 pr-3" onMouseEnter={() => handleMouseEnter(idx)} onMouseLeave={() => handleMouseLeave(idx)}>
-                <CircleFlag countryCode={item.city} className="z-10 rounded-full lg:pointer-events-none" width="36" />
-                <div className="flex flex-col gap-0.5">
-                  <span className="text-xs font-bold text-black">{item.name}</span>
-                  <span className="text-[12px] leading-none">{item.countCity} cities</span>
-                </div>
+                <a href={`/countries/${item.slug}/`} className="flex items-center gap-2">
+                  <CircleFlag countryCode={item.city} className="z-10 rounded-full lg:pointer-events-none" width="36" />
+                  <div className="flex flex-col gap-0.5">
+                    <span className="text-xs font-bold text-black">{item.name}</span>
+                  </div>
+                </a>
               </PopoverContent>
             </Popover>
           ) : (
@@ -104,12 +105,13 @@ const MapTooltips = ({ items, currentState, data }) => {
               <PopoverTrigger className="relative h-[22px] outline-none" onMouseEnter={() => handleMouseEnter(idx)} onMouseLeave={() => handleMouseLeave(idx)} onClick={() => handleClick(idx)}>
                 <img src="/churches.svg" className="h-[22px]" />
               </PopoverTrigger>
-              <PopoverContent className="absolute !-left-6 !-top-10" onMouseEnter={() => handleMouseEnter(idx)} onMouseLeave={() => handleMouseLeave(idx)}>
-                <img src="/churches-tooltip.svg" className="size-9" />
-                <div className="flex flex-col gap-0.5">
-                  <span className="text-xs font-bold text-black">{item.name}</span>
-                  <span className="text-[12px] leading-none">{item.countChurches} churches</span>
-                </div>
+              <PopoverContent className="absolute !-left-6 !-top-10 pr-3" onMouseEnter={() => handleMouseEnter(idx)} onMouseLeave={() => handleMouseLeave(idx)}>
+                <a href={`/countries/${item.slug}/`} className="flex items-center gap-2">
+                  <img src="/churches-tooltip.svg" className="size-9" />
+                  <div className="flex flex-col gap-0.5">
+                    <span className="text-xs font-bold text-black">{item.name}</span>
+                  </div>
+                </a>
               </PopoverContent>
             </Popover>
           )}

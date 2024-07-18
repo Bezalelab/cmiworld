@@ -6,8 +6,7 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 import { Toaster } from '@/components/ui/toaster';
 import SVG from 'react-inlinesvg';
-import { useEffect } from 'react';
-import emailjs from '@emailjs/browser';
+
 const formSchema = z.object({
   email: z.string().email(),
 });
@@ -21,31 +20,59 @@ const Join = () => {
     },
   });
 
-  useEffect(() => {
-    window._ctct_m = '00a2182e38d16bb79f9f5557e6625eec';
+  async function onSubmit(values: z.infer<typeof formSchema>, e: React.FormEvent) {
+    e.preventDefault();
+    try {
+      const response = await fetch('https://lp.constantcontactpages.com/sl/KwvWUDR', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email_address: values.email }),
+      });
 
-    const script = document.createElement('script');
-    script.src = 'https://static.ctctcdn.com/js/signup-form-widget/current/signup-form-widget.min.js';
-    script.async = true;
-    script.id = 'signupScript';
-
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
-
-
+      if (response.ok) {
+        toast({
+          title: 'Success',
+          description: "You've successfully subscribed to our newsletter!",
+        });
+        form.reset();
+      } else {
+        throw new Error('Failed to subscribe');
+      }
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to subscribe. Please try again later.',
+        variant: 'destructive',
+      });
+    }
+  }
 
   return (
     <div className="join container my-20 lg:my-30">
       <div className="flex flex-col gap-8 border-b border-t border-black py-20">
-        <h2 className="text-center text-2xl uppercase lg:text-3xl"> Receive our e-letter</h2>
-        <p className="mx-auto max-w-[456px] text-center text-xs text-black sm:text-sm">
-          If you would like to receive out e-letter that we sent out regularly (about every 2 months) about our ministry just give sign up below
-        </p>
-        <div className="ctct-inline-form" data-form-id="52d7608f-0ed9-47bf-885f-bd2a8393a8ad"></div>
+        <h2 className="text-center text-2xl uppercase lg:text-3xl">RECEIVE OUR NEWSLETTER</h2>
+        <p className="mx-auto max-w-[456px] text-center text-xs text-black sm:text-sm">Join us every week, from wherever you are in the world, to connect with Jesus and community</p>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="mx-auto w-full max-w-[387px]">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input placeholder="Email" {...field} />
+                  </FormControl>
+                  <button type="submit" className="absolute end-5 top-1/2 -translate-y-1/2" aria-label="submit button">
+                    <SVG src="/arrow-long.svg" />
+                  </button>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </form>
+        </Form>
       </div>
       <Toaster />
     </div>

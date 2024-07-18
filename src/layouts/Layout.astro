@@ -12,11 +12,10 @@ const currentPath = Astro.url.pathname;
 <!doctype html>
 <html lang='en' class='scroll-smooth h-full antialiased'>
 	<Head title={title} />
-	<body class='font-sans text-md md:text-base text-gray-3 overflow-x-clip min-w-full'>
+	<body class='font-sans text-md md:text-base text-gray-3 min-w-full'>
 		<div class='min-h-full flex flex-col'>
 			<Header client:load currentPath={currentPath} countries={countries} />
-			<div class="ctct-inline-form" data-form-id="52d7608f-0ed9-47bf-885f-bd2a8393a8ad"></div>
-			<main class='flex-auto pt-[82px] md:pt-25'><slot /></main>
+			<main class='flex-auto pt-[82px] md:pt-25 overflow-x-clip '><slot /></main>
 			<Footer />
 			<a href="/donation" aria-label='donation button' class='fixed right-10 bottom-10 hover:scale-105 transition-transform z-50 border-2 border-white rounded-full'>
 				<img src='/give.svg' alt='donations' />
