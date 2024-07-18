@@ -23,7 +23,7 @@ const Join = () => {
   async function onSubmit(values: z.infer<typeof formSchema>, e: React.FormEvent) {
     e.preventDefault();
     try {
-      const response = await fetch('https://lp.constantcontactpages.com/sl/KwvWUDR', {
+      const response = await fetch('https://cmiauto.bezalelstudio.co/email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
