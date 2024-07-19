@@ -2,7 +2,6 @@
 import { Image } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
 const posts = await import('@/data/data.json');
-
 ---
 
 <section class='container py-20 md:py-30'>
@@ -25,7 +24,7 @@ const posts = await import('@/data/data.json');
 									class='transition-transform object-cover size-full group-hover:scale-105'
 								/>
 							</div>
-							<span class='uppercase text-xs font-bold mb-4 block'>{item.posts.location}</span>
+							<span class='uppercase text-xs font-bold mb-4 block'>{item.posts.location ? item.posts.location : 'JACKSONVILLE, FLORIDA'}</span>
 							<h2 class='text-md md:text-base mb-1.5'>{item.title}</h2>
 							<span class='text-sm font-medium'>Jim Puhr</span>
 						</a>
