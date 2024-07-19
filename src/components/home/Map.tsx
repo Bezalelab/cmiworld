@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
-import { countries } from '@/utils/countries';
+import { TestCountries } from '@/utils/countries';
 import MapTooltips from '../ui/map-tooltips';
 import { useSpring, animated } from '@react-spring/web';
-
+import jsonData from '@/data/countries.json';
 const items = [
   { count: 10, title: 'countries', progress: 0 },
   { count: 200, title: 'churches', progress: 50 },
@@ -97,7 +97,7 @@ export function Map() {
         <div className="absolute -bottom-20 -left-[500px] sm:-left-[400px] md:-bottom-40 md:-left-[300px] lg:left-0 lg:top-20 lg:translate-x-[200px] xl:translate-x-[400px]" id="map">
           <div className="relative after:pointer-events-none after:absolute after:top-20 after:z-10 after:h-[350px] after:w-full after:bg-steps md:mb-20 lg:mb-0 lg:after:hidden">
             <img src="/europe.svg" alt="map" className="max-w-none" />
-            <MapTooltips items={countries} currentState={currentState} />
+            <MapTooltips items={TestCountries(jsonData)} currentState={currentState} />
           </div>
         </div>
       </div>
