@@ -54,6 +54,13 @@ export function Map() {
     ...(window.innerWidth < 768 ? { width: `${progress * 1}%`, height: '3px' } : { height: `${progress * 3.75}px` }),
   });
 
+  const itemIndex = items.findIndex((i) => i.title === currentState);
+  const mappedItems = items.map((item, index) => ({
+    ...item,
+    isActive: index === itemIndex,
+    isActiveOrPassed: index <= itemIndex,
+  }));
+
   return (
     <section className="map container pt-20 md:pt-[120px]" id="eastern">
       <div className="relative mb-10 flex h-[900px] w-full flex-col md:h-[950px] lg:flex-row xl:h-auto">
@@ -78,13 +85,13 @@ export function Map() {
                 ...progressAnimation,
               }}></animated.div>
             <ol className="relative flex justify-between lg:z-0 lg:flex-col lg:gap-10 lg:pl-14">
-              {items.map((item, index) => (
+              {mappedItems.map((item, index) => (
                 <li
                   key={index}
                   onClick={() => handleItemClick(item.title)}
                   className={`relative z-20 w-fit cursor-pointer pt-10 transition-colors after:absolute after:-top-[7px] after:size-4 after:-translate-x-1/2 after:rounded-full last:after:left-full lg:pt-0 lg:after:-left-14 lg:after:-top-[5px] lg:first:after:top-10 lg:last:after:-left-14 lg:last:after:top-10 [&:nth-child(2)]:after:left-1/2 lg:[&:nth-child(2)]:after:-left-14 lg:[&:nth-child(2)]:after:top-12 ${
-                    currentState === item.title ? 'text-black after:bg-black' : 'text-gray-1 after:bg-gray-1'
-                  }`}>
+                    item.isActive ? 'text-black' : 'text-gray-1'
+                  } ${item.isActiveOrPassed ? 'after:bg-black' : 'after:bg-gray-1'}`}>
                   <div className="flex flex-col gap-2">
                     <span className="lg:text-25 text-[40px] font-medium leading-none text-current sm:text-2xl md:text-3xl md:font-normal lg:text-[100px] lg:leading-[110px]">{item.count}+</span>
                     <span className="text-sm capitalize text-current md:text-lg">{item.title}</span>
