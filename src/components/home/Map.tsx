@@ -51,7 +51,7 @@ export function Map() {
 
   const progressAnimation = useSpring({
     config: { duration: 250 },
-    ...(window.innerWidth < 768 ? { width: `${progress * 1}%`, height: '3px' } : { height: `${progress * 3.75}px` }),
+    ...(window.innerWidth < 768 ? { width: `${progress * 1}%`, height: '3px' } : { height: `${progress * 3.8}px` }),
   });
 
   const itemIndex = items.findIndex((i) => i.title === currentState);
