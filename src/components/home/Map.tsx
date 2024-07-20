@@ -29,7 +29,7 @@ export function Map() {
           const nextIndex = (currentIndex + 1) % items.length;
           return items[nextIndex].title;
         });
-      }, 5000);
+      }, 3000);
     };
 
     startAutoplay();
@@ -46,7 +46,7 @@ export function Map() {
         const nextIndex = (currentIndex + 1) % items.length;
         return items[nextIndex].title;
       });
-    }, 5000);
+    }, 3000);
   };
 
   const progressAnimation = useSpring({
