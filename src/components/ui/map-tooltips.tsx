@@ -3,7 +3,6 @@ import { CircleFlag } from 'react-circle-flags';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 const MapTooltips = ({ items, currentState }) => {
-  console.log(currentState)
   const [openPopover, setOpenPopover] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
   const [userInteracting, setUserInteracting] = useState(false);
