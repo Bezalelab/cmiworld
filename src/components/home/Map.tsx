@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { TestCountries } from '@/utils/countries';
 import MapTooltips from '../ui/map-tooltips';
 import { useSpring, animated } from '@react-spring/web';
@@ -13,35 +13,49 @@ export function Map() {
   const [currentState, setCurrentState] = useState('countries');
   const [currentProgress, setCurrentProgress] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const currentProgressRef = useRef(0);
   const intervalRef = useRef(null);
   const animationRef = useRef(null);
   const pauseTimeoutRef = useRef(null);
 
-  const animateProgress = (timestamp) => {
+  const setProgress = useCallback((progress) => {
+    currentProgressRef.current = progress;
+    // Здесь мы обновляем DOM напрямую, без вызова ререндера
+    const progressBar = document.getElementById('progress-bar');
+    if (progressBar) {
+      if (window.innerWidth < 768) {
+        progressBar.style.width = `${progress}%`;
+      } else {
+        progressBar.style.height = `${progress * 3.8}px`;
+      }
+    }
+  }, []);
+
+  const animateProgress = useCallback((timestamp) => {
     if (!animationRef.current.startTime) {
       animationRef.current.startTime = timestamp;
     }
 
     const elapsed = timestamp - animationRef.current.startTime;
-    const duration = 5000;
+    const duration = 5000; // 5 seconds
 
     let newProgress;
     if (currentState === 'countries') {
-      newProgress = (elapsed / duration) * 52;
+      newProgress = (elapsed / duration) * 50;
     } else if (currentState === 'churches') {
       newProgress = 50 + (elapsed / duration) * 50;
     } else {
-      newProgress = 100;
+      newProgress = 100; // Для 'years' прогресс остается на 100%
     }
 
     if (elapsed < duration) {
-      setCurrentProgress(newProgress);
+      setProgress(newProgress);
       animationRef.current.frameId = requestAnimationFrame(animateProgress);
     } else {
-      setCurrentProgress(currentState === 'years' ? 100 : newProgress);
+      setProgress(currentState === 'years' ? 100 : newProgress);
       animationRef.current.frameId = null;
     }
-  };
+  }, [currentState, setProgress]);
 
   useEffect(() => {
     if (isPaused) return;
@@ -50,18 +64,18 @@ export function Map() {
       cancelAnimationFrame(animationRef.current.frameId);
     }
 
-    if (currentState === 'countries' && currentProgress === 100) {
-      setCurrentProgress(0);
+    if (currentState === 'countries' && currentProgressRef.current === 100) {
+      setProgress(0);
       setTimeout(() => {
         animationRef.current = {
           startTime: null,
-          frameId: requestAnimationFrame(animateProgress),
+          frameId: requestAnimationFrame(animateProgress)
         };
       }, 250);
     } else {
       animationRef.current = {
         startTime: null,
-        frameId: requestAnimationFrame(animateProgress),
+        frameId: requestAnimationFrame(animateProgress)
       };
     }
 
@@ -70,7 +84,7 @@ export function Map() {
         cancelAnimationFrame(animationRef.current.frameId);
       }
     };
-  }, [currentState, isPaused]);
+  }, [currentState, isPaused, animateProgress, setProgress]);
 
   useEffect(() => {
     intervalRef.current = setInterval(() => {
@@ -84,16 +98,16 @@ export function Map() {
     return () => clearInterval(intervalRef.current);
   }, []);
 
-  const handleItemClick = (title) => {
+  const handleItemClick = useCallback((title) => {
     setCurrentState(title);
     clearInterval(intervalRef.current);
-
+    
     if (title === 'countries') {
-      setCurrentProgress(0);
+      setProgress(0);
     } else if (title === 'churches') {
-      setCurrentProgress(50);
+      setProgress(50);
     } else if (title === 'years') {
-      setCurrentProgress(100);
+      setProgress(100);
     }
 
     setIsPaused(true);
@@ -110,7 +124,7 @@ export function Map() {
         });
       }, 5000);
     }, 3000);
-  };
+  }, [setProgress]);
 
   const progressAnimation = useSpring({
     config: { duration: 250 },
