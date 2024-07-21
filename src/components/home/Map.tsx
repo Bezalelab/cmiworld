@@ -11,35 +11,68 @@ const items = [
 
 export function Map() {
   const [currentState, setCurrentState] = useState('countries');
-  const [progress, setProgress] = useState(0);
+  const [currentProgress, setCurrentProgress] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const intervalRef = useRef(null);
+  const animationRef = useRef(null);
+  const pauseTimeoutRef = useRef(null);
 
-  useEffect(() => {
-    const selectedItem = items.find((item) => item.title === currentState);
-    if (selectedItem) {
-      setProgress(selectedItem.progress);
+  const animateProgress = (timestamp) => {
+    if (!animationRef.current.startTime) {
+      animationRef.current.startTime = timestamp;
     }
-  }, [currentState]);
+
+    const elapsed = timestamp - animationRef.current.startTime;
+    const duration = 5000;
+
+    let newProgress;
+    if (currentState === 'countries') {
+      newProgress = (elapsed / duration) * 52;
+    } else if (currentState === 'churches') {
+      newProgress = 50 + (elapsed / duration) * 50;
+    } else {
+      newProgress = 100;
+    }
+
+    if (elapsed < duration) {
+      setCurrentProgress(newProgress);
+      animationRef.current.frameId = requestAnimationFrame(animateProgress);
+    } else {
+      setCurrentProgress(currentState === 'years' ? 100 : newProgress);
+      animationRef.current.frameId = null;
+    }
+  };
 
   useEffect(() => {
-    const startAutoplay = () => {
-      intervalRef.current = setInterval(() => {
-        setCurrentState((prevState) => {
-          const currentIndex = items.findIndex((item) => item.title === prevState);
-          const nextIndex = (currentIndex + 1) % items.length;
-          return items[nextIndex].title;
-        });
-      }, 5000);
+    if (isPaused) return;
+
+    if (animationRef.current?.frameId) {
+      cancelAnimationFrame(animationRef.current.frameId);
+    }
+
+    if (currentState === 'countries' && currentProgress === 100) {
+      setCurrentProgress(0);
+      setTimeout(() => {
+        animationRef.current = {
+          startTime: null,
+          frameId: requestAnimationFrame(animateProgress),
+        };
+      }, 250);
+    } else {
+      animationRef.current = {
+        startTime: null,
+        frameId: requestAnimationFrame(animateProgress),
+      };
+    }
+
+    return () => {
+      if (animationRef.current?.frameId) {
+        cancelAnimationFrame(animationRef.current.frameId);
+      }
     };
+  }, [currentState, isPaused]);
 
-    startAutoplay();
-
-    return () => clearInterval(intervalRef.current);
-  }, []);
-
-  const handleItemClick = (title) => {
-    setCurrentState(title);
-    clearInterval(intervalRef.current);
+  useEffect(() => {
     intervalRef.current = setInterval(() => {
       setCurrentState((prevState) => {
         const currentIndex = items.findIndex((item) => item.title === prevState);
@@ -47,11 +80,41 @@ export function Map() {
         return items[nextIndex].title;
       });
     }, 5000);
+
+    return () => clearInterval(intervalRef.current);
+  }, []);
+
+  const handleItemClick = (title) => {
+    setCurrentState(title);
+    clearInterval(intervalRef.current);
+
+    if (title === 'countries') {
+      setCurrentProgress(0);
+    } else if (title === 'churches') {
+      setCurrentProgress(50);
+    } else if (title === 'years') {
+      setCurrentProgress(100);
+    }
+
+    setIsPaused(true);
+    if (pauseTimeoutRef.current) {
+      clearTimeout(pauseTimeoutRef.current);
+    }
+    pauseTimeoutRef.current = setTimeout(() => {
+      setIsPaused(false);
+      intervalRef.current = setInterval(() => {
+        setCurrentState((prevState) => {
+          const currentIndex = items.findIndex((item) => item.title === prevState);
+          const nextIndex = (currentIndex + 1) % items.length;
+          return items[nextIndex].title;
+        });
+      }, 5000);
+    }, 3000);
   };
 
   const progressAnimation = useSpring({
     config: { duration: 250 },
-    ...(window.innerWidth < 768 ? { width: `${progress * 1}%`, height: '3px' } : { height: `${progress * 3.8}px` }),
+    ...(window.innerWidth < 768 ? { width: `${currentProgress}%`, height: '3px' } : { height: `${currentProgress * 3.8}px` }),
   });
 
   const itemIndex = items.findIndex((i) => i.title === currentState);
@@ -77,19 +140,19 @@ export function Map() {
             </a>
           </div>
           <div className="relative z-20">
-            <div className="absolute left-0 top-0 h-[3px] w-full bg-gray-300 lg:top-12 lg:h-[375px] lg:w-[2px]"></div>
+            <div className="absolute left-0 top-0 h-[3px] w-full bg-gray-300 lg:top-12 lg:h-[375px] lg:w-[3px]"></div>
             <animated.div
-              className="absolute left-0 top-0 h-[3px] overflow-x-hidden bg-black lg:top-12 lg:w-[2px]"
+              className="absolute left-0 top-0 h-[3px] overflow-x-hidden bg-black lg:top-12 lg:w-[3px]"
               id="progress-bar"
               style={{
                 ...progressAnimation,
               }}></animated.div>
-            <ol className="relative flex justify-between lg:z-0 lg:flex-col lg:gap-10 lg:pl-14">
+            <ol className="lg5 :z-0 relative flex justify-between lg:flex-col lg:gap-10 lg:pl-14">
               {mappedItems.map((item, index) => (
                 <li
                   key={index}
                   onClick={() => handleItemClick(item.title)}
-                  className={`relative z-20 w-fit cursor-pointer pt-10 transition-colors after:absolute after:-top-[7px] after:size-4 after:-translate-x-1/2 after:rounded-full last:after:left-full lg:pt-0 lg:after:-left-14 lg:after:-top-[5px] lg:first:after:top-10 lg:last:after:-left-14 lg:last:after:top-10 [&:nth-child(2)]:after:left-1/2 lg:[&:nth-child(2)]:after:-left-14 lg:[&:nth-child(2)]:after:top-12 ${
+                  className={`relative z-20 w-fit cursor-pointer pt-10 transition-colors after:absolute after:-top-[7px] after:size-4 after:-translate-x-1/2 after:rounded-full last:after:left-full lg:pt-0 lg:after:-left-[55px] lg:after:-top-[5px] lg:first:after:top-10 lg:last:after:-left-[55px] lg:last:after:top-10 [&:nth-child(2)]:after:left-1/2 lg:[&:nth-child(2)]:after:-left-[55px] lg:[&:nth-child(2)]:after:top-12 ${
                     item.isActive ? 'text-black' : 'text-gray-1'
                   } ${item.isActiveOrPassed ? 'after:bg-black' : 'after:bg-gray-1'}`}>
                   <div className="flex flex-col gap-2">
