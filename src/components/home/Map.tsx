@@ -11,51 +11,77 @@ const items = [
 
 export function Map() {
   const [currentState, setCurrentState] = useState('countries');
-  const [currentProgress, setCurrentProgress] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const currentProgressRef = useRef(0);
   const intervalRef = useRef(null);
   const animationRef = useRef(null);
   const pauseTimeoutRef = useRef(null);
 
-  const setProgress = useCallback((progress) => {
-    currentProgressRef.current = progress;
-    // Здесь мы обновляем DOM напрямую, без вызова ререндера
-    const progressBar = document.getElementById('progress-bar');
-    if (progressBar) {
-      if (window.innerWidth < 768) {
-        progressBar.style.width = `${progress}%`;
+  const setProgress = useCallback((progress, duration = 250) => {
+    const startProgress = currentProgressRef.current;
+    const startTime = performance.now();
+
+    const animateToProgress = (timestamp) => {
+      const elapsed = timestamp - startTime;
+      if (elapsed < duration) {
+        const t = elapsed / duration;
+        const currentProgress = startProgress + (progress - startProgress) * t;
+        currentProgressRef.current = currentProgress;
+
+        const progressBar = document.getElementById('progress-bar');
+        if (progressBar) {
+          if (window.innerWidth < 768) {
+            progressBar.style.width = `${currentProgress}%`;
+          } else {
+            progressBar.style.height = `${currentProgress * 3.8}px`;
+          }
+        }
+
+        requestAnimationFrame(animateToProgress);
       } else {
-        progressBar.style.height = `${progress * 3.8}px`;
+        currentProgressRef.current = progress;
+        const progressBar = document.getElementById('progress-bar');
+        if (progressBar) {
+          if (window.innerWidth < 768) {
+            progressBar.style.width = `${progress}%`;
+          } else {
+            progressBar.style.height = `${progress * 3.8}px`;
+          }
+        }
       }
-    }
+    };
+
+    requestAnimationFrame(animateToProgress);
   }, []);
 
-  const animateProgress = useCallback((timestamp) => {
-    if (!animationRef.current.startTime) {
-      animationRef.current.startTime = timestamp;
-    }
+  const animateProgress = useCallback(
+    (timestamp) => {
+      if (!animationRef.current.startTime) {
+        animationRef.current.startTime = timestamp;
+      }
 
-    const elapsed = timestamp - animationRef.current.startTime;
-    const duration = 5000; // 5 seconds
+      const elapsed = timestamp - animationRef.current.startTime;
+      const duration = 5000; // 5 seconds
 
-    let newProgress;
-    if (currentState === 'countries') {
-      newProgress = (elapsed / duration) * 50;
-    } else if (currentState === 'churches') {
-      newProgress = 50 + (elapsed / duration) * 50;
-    } else {
-      newProgress = 100; // Для 'years' прогресс остается на 100%
-    }
+      let newProgress;
+      if (currentState === 'countries') {
+        newProgress = (elapsed / duration) * 50;
+      } else if (currentState === 'churches') {
+        newProgress = 50 + (elapsed / duration) * 50;
+      } else {
+        newProgress = 100; // Для 'years' прогресс остается на 100%
+      }
 
-    if (elapsed < duration) {
-      setProgress(newProgress);
-      animationRef.current.frameId = requestAnimationFrame(animateProgress);
-    } else {
-      setProgress(currentState === 'years' ? 100 : newProgress);
-      animationRef.current.frameId = null;
-    }
-  }, [currentState, setProgress]);
+      if (elapsed < duration) {
+        setProgress(newProgress, 0); // Устанавливаем длительность 0 для плавной анимации
+        animationRef.current.frameId = requestAnimationFrame(animateProgress);
+      } else {
+        setProgress(currentState === 'years' ? 100 : newProgress, 0);
+        animationRef.current.frameId = null;
+      }
+    },
+    [currentState, setProgress],
+  );
 
   useEffect(() => {
     if (isPaused) return;
@@ -69,13 +95,13 @@ export function Map() {
       setTimeout(() => {
         animationRef.current = {
           startTime: null,
-          frameId: requestAnimationFrame(animateProgress)
+          frameId: requestAnimationFrame(animateProgress),
         };
       }, 250);
     } else {
       animationRef.current = {
         startTime: null,
-        frameId: requestAnimationFrame(animateProgress)
+        frameId: requestAnimationFrame(animateProgress),
       };
     }
 
@@ -98,38 +124,36 @@ export function Map() {
     return () => clearInterval(intervalRef.current);
   }, []);
 
-  const handleItemClick = useCallback((title) => {
-    setCurrentState(title);
-    clearInterval(intervalRef.current);
-    
-    if (title === 'countries') {
-      setProgress(0);
-    } else if (title === 'churches') {
-      setProgress(50);
-    } else if (title === 'years') {
-      setProgress(100);
-    }
+  const handleItemClick = useCallback(
+    (title) => {
+      setCurrentState(title);
+      clearInterval(intervalRef.current);
 
-    setIsPaused(true);
-    if (pauseTimeoutRef.current) {
-      clearTimeout(pauseTimeoutRef.current);
-    }
-    pauseTimeoutRef.current = setTimeout(() => {
-      setIsPaused(false);
-      intervalRef.current = setInterval(() => {
-        setCurrentState((prevState) => {
-          const currentIndex = items.findIndex((item) => item.title === prevState);
-          const nextIndex = (currentIndex + 1) % items.length;
-          return items[nextIndex].title;
-        });
-      }, 5000);
-    }, 3000);
-  }, [setProgress]);
+      if (title === 'countries') {
+        setProgress(0, 500); // Устанавливаем длительность 500ms для плавной анимации
+      } else if (title === 'churches') {
+        setProgress(50, 500);
+      } else if (title === 'years') {
+        setProgress(100, 500);
+      }
 
-  const progressAnimation = useSpring({
-    config: { duration: 250 },
-    ...(window.innerWidth < 768 ? { width: `${currentProgress}%`, height: '3px' } : { height: `${currentProgress * 3.8}px` }),
-  });
+      setIsPaused(true);
+      if (pauseTimeoutRef.current) {
+        clearTimeout(pauseTimeoutRef.current);
+      }
+      pauseTimeoutRef.current = setTimeout(() => {
+        setIsPaused(false);
+        intervalRef.current = setInterval(() => {
+          setCurrentState((prevState) => {
+            const currentIndex = items.findIndex((item) => item.title === prevState);
+            const nextIndex = (currentIndex + 1) % items.length;
+            return items[nextIndex].title;
+          });
+        }, 5000);
+      }, 3000);
+    },
+    [setProgress],
+  );
 
   const itemIndex = items.findIndex((i) => i.title === currentState);
   const mappedItems = items.map((item, index) => ({
@@ -156,10 +180,11 @@ export function Map() {
           <div className="relative z-20">
             <div className="absolute left-0 top-0 h-[3px] w-full bg-gray-300 lg:top-12 lg:h-[375px] lg:w-[3px]"></div>
             <animated.div
-              className="absolute left-0 top-0 h-[3px] overflow-x-hidden bg-black lg:top-12 lg:w-[3px]"
               id="progress-bar"
+              className="absolute left-0 top-0 h-[3px] overflow-x-hidden bg-black lg:top-12 lg:w-[2px]"
               style={{
-                ...progressAnimation,
+                width: window.innerWidth < 768 ? `${currentProgressRef.current}%` : '3px',
+                height: window.innerWidth < 768 ? '3px' : `${currentProgressRef.current * 3.8}px`,
               }}></animated.div>
             <ol className="lg5 :z-0 relative flex justify-between lg:flex-col lg:gap-10 lg:pl-14">
               {mappedItems.map((item, index) => (
