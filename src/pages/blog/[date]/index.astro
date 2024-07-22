@@ -33,14 +33,14 @@ const years = [...new Set(posts.default.map(post => new Date(post.date).getFullY
 			<h1 class='text-[29px] leading-[38px] sm:text-xl md:text-2xl xl:text-3xl max-w-[605px]'>latest updates <span class='text-gray-3'>on our mission</span></h1>
 		</div>
 
-		<nav class='mb-12 -mr-8 md:-mr-30 xl:-mr-0'>
+		<nav class='mb-12 dates-wrapper'>
 			<ul class='flex gap-6 md:gap-8 scrollbar-hide overflow-auto py-1.5 flex-nowrap dates'>
 				<li class='uppercase hover:text-black text-md text-nowrap transition-colors'>
 					<a href='/blog/' class={`${year === undefined && 'text-black font-medium underline decoration-2 underline-offset-8'}`}>All</a>
 				</li>
 				{
 					years.map(year => (
-						<li class='uppercase hover:text-black text-md text-nowrap transition-colors'>
+						<li class='uppercase hover:text-black text-md text-nowrap transition-colors last:pr-8'>
 							<a href={`/blog/${year}`} class={`${year === Astro.props.year && 'text-black font-medium underline decoration-2 underline-offset-8'}`}>
 								{year}
 							</a>
