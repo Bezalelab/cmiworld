@@ -38,7 +38,6 @@ export function Map({ children }) {
             progressBar.style.height = `${currentProgress * 3.8}px`;
           }
         }
-
         requestAnimationFrame(animateToProgress);
       } else {
         currentProgressRef.current = progress;
@@ -71,11 +70,11 @@ export function Map({ children }) {
       } else if (currentState === 'churches') {
         newProgress = 50 + (elapsed / duration) * 50;
       } else {
-        newProgress = 100; // Для 'years' прогресс остается на 100%
+        newProgress = 100;
       }
 
       if (elapsed < duration) {
-        setProgress(newProgress, 0); // Устанавливаем длительность 0 для плавной анимации
+        setProgress(newProgress, 0);
         animationRef.current.frameId = requestAnimationFrame(animateProgress);
       } else {
         setProgress(currentState === 'years' ? 100 : newProgress, 0);
@@ -93,7 +92,7 @@ export function Map({ children }) {
       {
         root: null,
         rootMargin: '0px',
-        threshold: 0.1, // Триггер, когда хотя бы 10% элемента видно
+        threshold: 0.1,
       },
     );
 
@@ -110,7 +109,6 @@ export function Map({ children }) {
 
   useEffect(() => {
     if (!isVisible) {
-      // Остановить все анимации и интервалы, когда карта не видна
       clearInterval(intervalRef.current);
       if (animationRef.current?.frameId) {
         cancelAnimationFrame(animationRef.current.frameId);
