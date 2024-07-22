@@ -229,7 +229,7 @@ export function Map({ children }) {
         <div className="absolute -bottom-20 -left-[500px] sm:-left-[400px] md:-bottom-40 md:-left-[300px] lg:left-0 lg:top-20 lg:translate-x-[200px] xl:translate-x-[400px]" id="map">
           <div className="relative after:pointer-events-none after:absolute after:top-20 after:z-10 after:h-[350px] after:w-full after:bg-steps md:mb-20 lg:mb-0 lg:after:hidden">
             {children}
-            <MapTooltips items={TestCountries(jsonData)} currentState={currentState}   isActive={inView}  />
+            <MapTooltips items={TestCountries(jsonData)} isActive={inView} />
           </div>
         </div>
       </div>

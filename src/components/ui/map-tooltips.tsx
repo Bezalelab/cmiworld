@@ -74,7 +74,7 @@ const MapTooltips = ({ items, currentState, isActive }) => {
         <div key={idx} className="group absolute" style={{ right: `${item.right}%`, top: `${item.top}%` }}>
           <Popover open={openPopover === idx}>
             <PopoverTrigger className="relative h-[22px] outline-none" onClick={() => handleClick(idx)} onMouseEnter={() => handleMouseEnter(idx)} onMouseLeave={handleMouseLeave}>
-              <CircleFlag countryCode={item.city} className="z-10 size-6 rounded-full border-2" />
+            <CircleFlag countryCode={item.city} className="z-10 size-6 rounded-full border-2" />
             </PopoverTrigger>
             <PopoverContent className="absolute !-left-6 !-top-10 pr-3" onMouseEnter={() => handleMouseEnter(idx)} onMouseLeave={handleMouseLeave}>
               <a href={`/countries/${item.slug}/`} className="flex items-center gap-2">

@@ -238,6 +238,8 @@ const { country } = Astro.props;
 
 	const tables = document.querySelectorAll('table');
 
+	console.log(tables)
+
 	if (tables.length > 0) {
 		tables.forEach(table => {
 			const div = document.createElement('div');
