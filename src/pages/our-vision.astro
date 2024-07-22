@@ -28,7 +28,7 @@ const { page } = await fetchAPI({
 			<h1 class='text-xl md:text-2xl font-medium'>{page.title} <span class='text-gray-3'>2024</span></h1>
 		</div>
 		<article
-			class='prose prose-lg prose-figcaption:text-gray-2 prose-figcaption:text-sm prose-figcaption:text-center prose-blockquote:text-black prose-headings:font-medium prose-img:mx-auto prose-img:min-h-[200px] prose-img:object-cover max-w-full mb-20 md:mb-25'>
+			class='prose prose-lg prose-figure:!w-full prose-figcaption:text-gray-2 prose-figcaption:text-sm prose-figcaption:text-center prose-blockquote:text-black prose-headings:font-medium prose-img:mx-auto prose-img:min-h-[200px] prose-img:object-cover max-w-full mb-20 md:mb-25'>
 			<Image src={page.featuredImage.node.mediaItemUrl} inferSize alt='image' />
 			<Fragment set:html={page.content} />
 		</article>

@@ -90,9 +90,9 @@ const { page } = await fetchAPI({
 				{page.about.breefHistory.description}
 			</p>
 			<div class='embla fade'>
-				<div class='embla__controls mb-16 md:mb-20 -mr-8'>
+				<div class='embla__controls mb-16 md:mb-20 -mr-8 xl:-mr-0'>
 					<div class='overflow-x-auto overflow-y-hidden scrollbar-hide relative' id='progressBar'>
-						<div class='embla__dots pr-8'>
+						<div class='embla__dots'>
 							{
 								page.about.breefHistory.sliderItems.map(item => (
 									<button class='embla__dot' type='button'>
