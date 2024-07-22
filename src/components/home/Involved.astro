@@ -2,31 +2,29 @@
 import { Image } from 'astro:assets';
 import { Button } from '../ui/button';
 ---
-<div data-sal="slide-up" data-sal-duration='500'>
-	<div class='pt-17 container involved' >
-		<span class='section-caption'>Get Involved Today</span>
-		<h2 class='section-title max-w-[865px] mb-14 md:mb-20 lg:mb-25'>
-			Let your <span class='text-gray-1'>light shine</span> before men
-		</h2>
-	</div>
-	<section class='full-width-split-screen mb-30'>
-		<Image src={import('@/assets/home/involved.png')} quality={90} alt='involved' class='object-cover h-[240px] sm:h-[400px] mb-12 lg:mb-0' />
-		<div class='flex flex-col items-start justify-between px-8 lg:px-0 lg:pl-12'>
-			<date class='text-md uppercase font-medium mb-4 block'>29 May, 2024 </date>
-			<h3 class='text-xl font-semibold mb-7 normal-case'>Passionate about helping start a church in Eastern Europe?</h3>
-			<div class='mb-7'>
-				<p class='text-base md:text-[28px] md:leading-[32px] mb-8'>
-					You or your church can be a vital link to reaching Eastern Europe and Russia with the Gospel of Jesus Christ. There are still thousands of towns that do not have an evangelical church!
-				</p>
-				<p class='text-base md:text-[28px] md:leading-[32px]'>
-					This is where CMI comes in. We believe that together we can make a difference in many of these towns. Partner with us to bring hope and faith to towns in need of spiritual guidance.
-				</p>
-			</div>
-			<Button variant='outlineDark' link='/#donations'>Make a difference</Button>
-		</div>
-	</section>
-</div>
 
+<div class='pt-17 container involved'>
+	<span class='section-caption'>Get Involved Today</span>
+	<h2 class='section-title max-w-[865px] mb-14 md:mb-20 lg:mb-25'>
+		Let your <span class='text-gray-1'>light shine</span> before men
+	</h2>
+</div>
+<section class='full-width-split-screen mb-30'>
+	<Image src={import('@/assets/home/involved.png')} quality={90} alt='involved' class='object-cover h-[240px] sm:h-[400px] mb-12 lg:mb-0' />
+	<div class='flex flex-col items-start justify-between px-8 lg:px-0 lg:pl-12'>
+		<date class='text-md uppercase font-medium mb-4 block'>29 May, 2024 </date>
+		<h3 class='text-xl font-semibold mb-7 normal-case'>Passionate about helping start a church in Eastern Europe?</h3>
+		<div class='mb-7'>
+			<p class='text-base md:text-[28px] md:leading-[32px] mb-8'>
+				You or your church can be a vital link to reaching Eastern Europe and Russia with the Gospel of Jesus Christ. There are still thousands of towns that do not have an evangelical church!
+			</p>
+			<p class='text-base md:text-[28px] md:leading-[32px]'>
+				This is where CMI comes in. We believe that together we can make a difference in many of these towns. Partner with us to bring hope and faith to towns in need of spiritual guidance.
+			</p>
+		</div>
+		<Button variant='outlineDark' link='/#donations'>Make a difference</Button>
+	</div>
+</section>
 
 <style>
 	:root {
