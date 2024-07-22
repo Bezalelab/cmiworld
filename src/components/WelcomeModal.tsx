@@ -10,8 +10,12 @@ export function WelcomeModal() {
   const [isOpen, setIsOpen] = useState(!cookies.newUser);
 
   useEffect(() => {
-    if (cookies.newUser) {
-      setIsOpen(false);
+    if (!cookies.newUser) {
+      const timer = setTimeout(() => {
+        setIsOpen(true);
+      }, 3000);
+
+      return () => clearTimeout(timer);
     }
   }, [cookies]);
 
