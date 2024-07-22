@@ -16,7 +16,7 @@ const Video = () => {
       <Button variant="default" onClick={handlePlay}> Watch now </Button>
       {playing && (
         <div className="absolute left-0 top-0 size-full">
-          <ReactPlayer ref={playerRef} controls={true} muted={true} onEnded={handleVideoEnded} url="https://www.youtube.com/watch?v=UWf1T6quGoI" width="100%" height="100%" playing={true} />
+          <ReactPlayer ref={playerRef} controls={true} onEnded={handleVideoEnded} url="https://www.youtube.com/watch?v=UWf1T6quGoI" width="100%" height="100%" playing={true} />
         </div>
       )}
     </div>
