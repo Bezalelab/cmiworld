@@ -14,10 +14,10 @@ async function fetchAPI({ query }) {
 }
 
 async function getPostsAndSaveToFile() {
-  const { posts } = await fetchAPI({
+  const {posts} = await fetchAPI({
     query: `
 			query BLOG {
-          posts(first: 200) {
+          posts(first: 1000) {
             nodes {
               slug
               title
@@ -30,7 +30,6 @@ async function getPostsAndSaveToFile() {
                 }
               }
               posts {
-                showOnMainPage
                 location
               }
             }
@@ -39,10 +38,12 @@ async function getPostsAndSaveToFile() {
 			`,
   });
 
+  
+
   const { countries } = await fetchAPI({
     query: `
 			query COUNTRIES {
-        countries (first: 200) {
+        countries (first: 1000) {
           nodes {
             title slug 
             featuredImage {
