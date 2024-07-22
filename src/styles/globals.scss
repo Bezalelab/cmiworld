@@ -51,10 +51,6 @@
 }
 
 @layer base {
-  html {
-    overflow-x: clip;
-  }
-
   strong {
     @apply text-black;
   }
