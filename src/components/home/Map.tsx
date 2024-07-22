@@ -12,10 +12,12 @@ const items = [
 export function Map({ children }) {
   const [currentState, setCurrentState] = useState('countries');
   const [isPaused, setIsPaused] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const currentProgressRef = useRef(0);
   const intervalRef = useRef(null);
   const animationRef = useRef(null);
   const pauseTimeoutRef = useRef(null);
+  const mapRef = useRef(null);
 
   const setProgress = useCallback((progress, duration = 250) => {
     const startProgress = currentProgressRef.current;
@@ -84,6 +86,38 @@ export function Map({ children }) {
   );
 
   useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1, // Триггер, когда хотя бы 10% элемента видно
+      },
+    );
+
+    if (mapRef.current) {
+      observer.observe(mapRef.current);
+    }
+
+    return () => {
+      if (mapRef.current) {
+        observer.unobserve(mapRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) {
+      // Остановить все анимации и интервалы, когда карта не видна
+      clearInterval(intervalRef.current);
+      if (animationRef.current?.frameId) {
+        cancelAnimationFrame(animationRef.current.frameId);
+      }
+      return;
+    }
+
     if (isPaused) return;
 
     if (animationRef.current?.frameId) {
@@ -105,14 +139,6 @@ export function Map({ children }) {
       };
     }
 
-    return () => {
-      if (animationRef.current?.frameId) {
-        cancelAnimationFrame(animationRef.current.frameId);
-      }
-    };
-  }, [currentState, isPaused, animateProgress, setProgress]);
-
-  useEffect(() => {
     intervalRef.current = setInterval(() => {
       setCurrentState((prevState) => {
         const currentIndex = items.findIndex((item) => item.title === prevState);
@@ -121,8 +147,13 @@ export function Map({ children }) {
       });
     }, 5000);
 
-    return () => clearInterval(intervalRef.current);
-  }, []);
+    return () => {
+      clearInterval(intervalRef.current);
+      if (animationRef.current?.frameId) {
+        cancelAnimationFrame(animationRef.current.frameId);
+      }
+    };
+  }, [currentState, isPaused, isVisible, animateProgress, setProgress]);
 
   const handleItemClick = useCallback(
     (title) => {
@@ -163,7 +194,7 @@ export function Map({ children }) {
   }));
 
   return (
-    <section className="map container pt-20 md:pt-[120px]" id="eastern">
+    <section className="map container pt-20 md:pt-[120px]" id="eastern" ref={mapRef}>
       <div className="relative mb-10 flex h-[900px] w-full flex-col md:h-[950px] lg:flex-row xl:h-auto">
         <div className="z-20 max-w-4xl">
           <div className="mb-10">
