@@ -77,7 +77,7 @@ export function Map({ children }) {
       }
 
       const elapsed = timestamp - animationRef.current.startTime;
-      const duration = 5000; // 5 seconds
+      const duration = 5000; 
 
       let newProgress;
       if (currentState === 'countries') {
@@ -85,11 +85,11 @@ export function Map({ children }) {
       } else if (currentState === 'churches') {
         newProgress = 50 + (elapsed / duration) * 50;
       } else {
-        newProgress = 100; // Для 'years' прогресс остается на 100%
+        newProgress = 100; 
       }
 
       if (elapsed < duration) {
-        setProgress(newProgress, 0); // Устанавливаем длительность 0 для плавной анимации
+        setProgress(newProgress, 0); 
         animationRef.current.frameId = requestAnimationFrame(animateProgress);
       } else {
         setProgress(currentState === 'years' ? 100 : newProgress, 0);
