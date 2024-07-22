@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
+import postPreview from '@/assets/post-preview.png';
 const posts = await import('@/data/data.json');
 ---
 
@@ -15,14 +16,10 @@ const posts = await import('@/data/data.json');
 					posts.default.slice(0, 5).map(item => (
 						<a href={`/blog/${item.slug}`} class='embla__slide !flex-[0_0_300px] md:!flex-[0_0_590px] group'>
 							<div class='overflow-hidden h-[200px] md:h-[320px] mb-8'>
-								<Image
-									src={item.featuredImage ? item.featuredImage.node.mediaItemUrl : '/post-preview.png'}
-									width={590}
-									height={320}
-									alt='slide image'
-									quality={100}
-									class='transition-transform object-cover size-full group-hover:scale-105'
-								/>
+								{item.featuredImage ? 
+								<Image src={item.featuredImage.node.mediaItemUrl} width={590} height={320} alt='slide image' quality={90} class='transition-transform object-cover size-full group-hover:scale-105' />  :
+								<Image src={postPreview} alt='slide image' quality={90} class='transition-transform object-cover size-full group-hover:scale-105' />	
+							} 
 							</div>
 							<span class='uppercase text-xs font-bold mb-4 block'>{item.posts.location ? item.posts.location : 'JACKSONVILLE, FLORIDA'}</span>
 							<h2 class='text-md md:text-base mb-1.5'>{item.title}</h2>

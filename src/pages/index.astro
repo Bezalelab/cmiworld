@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import Layout from '@/layouts/Layout.astro';
 import Hero from '@/components/home/Hero.astro';
 import { Map } from '@/components/home/Map';
@@ -7,11 +8,14 @@ import Vision from '@/components/home/Vision.astro';
 import Involved from '@/components/home/Involved.astro';
 import Donations from '@/components/Donations.astro';
 import Join from '@/components/Join';
+import map from '@/assets/europe.svg';
 ---
 
 <Layout title='Welcome to Astro.'>
 	<Hero />
-	<Map client:only='react' />
+	<Map client:only='react'>
+		<Image src={map} alt='map' class="max-w-none"  />
+	</Map>
 	<Movement />
 	<Vision />
 	<Involved />

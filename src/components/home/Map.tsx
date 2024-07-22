@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { TestCountries } from '@/utils/countries';
 import MapTooltips from '../ui/map-tooltips';
-import { useSpring, animated } from '@react-spring/web';
+import { animated } from '@react-spring/web';
 import jsonData from '@/data/countries.json';
 const items = [
   { count: 10, title: 'countries', progress: 0 },
@@ -9,7 +9,7 @@ const items = [
   { count: 25, title: 'years', progress: 100 },
 ];
 
-export function Map() {
+export function Map({ children }) {
   const [currentState, setCurrentState] = useState('countries');
   const [isPaused, setIsPaused] = useState(false);
   const currentProgressRef = useRef(0);
@@ -130,7 +130,7 @@ export function Map() {
       clearInterval(intervalRef.current);
 
       if (title === 'countries') {
-        setProgress(0, 500); // Устанавливаем длительность 500ms для плавной анимации
+        setProgress(0, 500);
       } else if (title === 'churches') {
         setProgress(50, 500);
       } else if (title === 'years') {
@@ -205,7 +205,7 @@ export function Map() {
         </div>
         <div className="absolute -bottom-20 -left-[500px] sm:-left-[400px] md:-bottom-40 md:-left-[300px] lg:left-0 lg:top-20 lg:translate-x-[200px] xl:translate-x-[400px]" id="map">
           <div className="relative after:pointer-events-none after:absolute after:top-20 after:z-10 after:h-[350px] after:w-full after:bg-steps md:mb-20 lg:mb-0 lg:after:hidden">
-            <img src="/europe.svg" alt="map" className="max-w-none" />
+            {children}
             <MapTooltips items={TestCountries(jsonData)} currentState={currentState} />
           </div>
         </div>
