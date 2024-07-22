@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useInView } from 'react-intersection-observer';
 import { TestCountries } from '@/utils/countries';
 import MapTooltips from '../ui/map-tooltips';
 import { animated } from '@react-spring/web';
 import jsonData from '@/data/countries.json';
+
 const items = [
   { count: 10, title: 'countries', progress: 0 },
   { count: 200, title: 'churches', progress: 50 },
@@ -10,53 +12,66 @@ const items = [
 ];
 
 export function Map({ children }) {
+  const [ref, inView] = useInView({
+    threshold: 0.1,
+    triggerOnce: false,
+  });
+
   const [currentState, setCurrentState] = useState('countries');
   const [isPaused, setIsPaused] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
   const currentProgressRef = useRef(0);
   const intervalRef = useRef(null);
   const animationRef = useRef(null);
   const pauseTimeoutRef = useRef(null);
-  const mapRef = useRef(null);
 
-  const setProgress = useCallback((progress, duration = 250) => {
-    const startProgress = currentProgressRef.current;
-    const startTime = performance.now();
+  const setProgress = useCallback(
+    (progress, duration = 250) => {
+      if (!inView) return;
 
-    const animateToProgress = (timestamp) => {
-      const elapsed = timestamp - startTime;
-      if (elapsed < duration) {
-        const t = elapsed / duration;
-        const currentProgress = startProgress + (progress - startProgress) * t;
-        currentProgressRef.current = currentProgress;
+      const startProgress = currentProgressRef.current;
+      const startTime = performance.now();
 
-        const progressBar = document.getElementById('progress-bar');
-        if (progressBar) {
-          if (window.innerWidth < 768) {
-            progressBar.style.width = `${currentProgress}%`;
-          } else {
-            progressBar.style.height = `${currentProgress * 3.8}px`;
+      const animateToProgress = (timestamp) => {
+        if (!inView) return;
+
+        const elapsed = timestamp - startTime;
+        if (elapsed < duration) {
+          const t = elapsed / duration;
+          const currentProgress = startProgress + (progress - startProgress) * t;
+          currentProgressRef.current = currentProgress;
+
+          const progressBar = document.getElementById('progress-bar');
+          if (progressBar) {
+            if (window.innerWidth < 768) {
+              progressBar.style.width = `${currentProgress}%`;
+            } else {
+              progressBar.style.height = `${currentProgress * 3.8}px`;
+            }
+          }
+
+          requestAnimationFrame(animateToProgress);
+        } else {
+          currentProgressRef.current = progress;
+          const progressBar = document.getElementById('progress-bar');
+          if (progressBar) {
+            if (window.innerWidth < 768) {
+              progressBar.style.width = `${progress}%`;
+            } else {
+              progressBar.style.height = `${progress * 3.8}px`;
+            }
           }
         }
-        requestAnimationFrame(animateToProgress);
-      } else {
-        currentProgressRef.current = progress;
-        const progressBar = document.getElementById('progress-bar');
-        if (progressBar) {
-          if (window.innerWidth < 768) {
-            progressBar.style.width = `${progress}%`;
-          } else {
-            progressBar.style.height = `${progress * 3.8}px`;
-          }
-        }
-      }
-    };
+      };
 
-    requestAnimationFrame(animateToProgress);
-  }, []);
+      requestAnimationFrame(animateToProgress);
+    },
+    [inView],
+  );
 
   const animateProgress = useCallback(
     (timestamp) => {
+      if (!inView) return;
+
       if (!animationRef.current.startTime) {
         animationRef.current.startTime = timestamp;
       }
@@ -70,45 +85,22 @@ export function Map({ children }) {
       } else if (currentState === 'churches') {
         newProgress = 50 + (elapsed / duration) * 50;
       } else {
-        newProgress = 100;
+        newProgress = 100; // Для 'years' прогресс остается на 100%
       }
 
       if (elapsed < duration) {
-        setProgress(newProgress, 0);
+        setProgress(newProgress, 0); // Устанавливаем длительность 0 для плавной анимации
         animationRef.current.frameId = requestAnimationFrame(animateProgress);
       } else {
         setProgress(currentState === 'years' ? 100 : newProgress, 0);
         animationRef.current.frameId = null;
       }
     },
-    [currentState, setProgress],
+    [currentState, setProgress, inView],
   );
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1,
-      },
-    );
-
-    if (mapRef.current) {
-      observer.observe(mapRef.current);
-    }
-
-    return () => {
-      if (mapRef.current) {
-        observer.unobserve(mapRef.current);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!isVisible) {
+    if (!inView) {
       clearInterval(intervalRef.current);
       if (animationRef.current?.frameId) {
         cancelAnimationFrame(animationRef.current.frameId);
@@ -151,10 +143,12 @@ export function Map({ children }) {
         cancelAnimationFrame(animationRef.current.frameId);
       }
     };
-  }, [currentState, isPaused, isVisible, animateProgress, setProgress]);
+  }, [currentState, isPaused, inView, animateProgress, setProgress]);
 
   const handleItemClick = useCallback(
     (title) => {
+      if (!inView) return;
+
       setCurrentState(title);
       clearInterval(intervalRef.current);
 
@@ -181,7 +175,7 @@ export function Map({ children }) {
         }, 5000);
       }, 3000);
     },
-    [setProgress],
+    [setProgress, inView],
   );
 
   const itemIndex = items.findIndex((i) => i.title === currentState);
@@ -192,7 +186,7 @@ export function Map({ children }) {
   }));
 
   return (
-    <section className="map container pt-20 md:pt-[120px]" id="eastern" ref={mapRef}>
+    <section className="map container pt-20 md:pt-[120px]" id="eastern" ref={ref}>
       <div className="relative mb-10 flex h-[900px] w-full flex-col md:h-[950px] lg:flex-row xl:h-auto">
         <div className="z-20 max-w-4xl">
           <div className="mb-10">
@@ -235,7 +229,7 @@ export function Map({ children }) {
         <div className="absolute -bottom-20 -left-[500px] sm:-left-[400px] md:-bottom-40 md:-left-[300px] lg:left-0 lg:top-20 lg:translate-x-[200px] xl:translate-x-[400px]" id="map">
           <div className="relative after:pointer-events-none after:absolute after:top-20 after:z-10 after:h-[350px] after:w-full after:bg-steps md:mb-20 lg:mb-0 lg:after:hidden">
             {children}
-            <MapTooltips items={TestCountries(jsonData)} currentState={currentState} />
+            <MapTooltips items={TestCountries(jsonData)} currentState={currentState}   isActive={inView}  />
           </div>
         </div>
       </div>

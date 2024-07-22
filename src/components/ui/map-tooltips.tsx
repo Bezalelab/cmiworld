@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { CircleFlag } from 'react-circle-flags';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
-const MapTooltips = ({ items, currentState }) => {
+const MapTooltips = ({ items, currentState, isActive }) => {
   const [openPopover, setOpenPopover] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
   const [userInteracting, setUserInteracting] = useState(false);
@@ -21,6 +21,12 @@ const MapTooltips = ({ items, currentState }) => {
   }, []);
 
   useEffect(() => {
+    if (!isActive) {
+      clearInterval(intervalRef.current);
+      setOpenPopover(null);
+      return;
+    }
+
     const openNewPopover = () => {
       if (!userInteracting && items.length > 0) {
         let newIndex;
@@ -34,10 +40,10 @@ const MapTooltips = ({ items, currentState }) => {
     intervalRef.current = setInterval(openNewPopover, 3000);
 
     return () => clearInterval(intervalRef.current);
-  }, [items, openPopover, userInteracting]);
+  }, [items, openPopover, userInteracting, isActive]);
 
   const handleMouseEnter = (index) => {
-    if (!isMobile) {
+    if (!isMobile && isActive) {
       clearTimeout(timeoutRef.current);
       setOpenPopover(index);
       setUserInteracting(true);
@@ -45,7 +51,7 @@ const MapTooltips = ({ items, currentState }) => {
   };
 
   const handleMouseLeave = () => {
-    if (!isMobile) {
+    if (!isMobile && isActive) {
       timeoutRef.current = setTimeout(() => {
         setOpenPopover(null);
         setUserInteracting(false);
@@ -54,11 +60,13 @@ const MapTooltips = ({ items, currentState }) => {
   };
 
   const handleClick = (index) => {
-    if (isMobile) {
+    if (isMobile && isActive) {
       setOpenPopover(openPopover === index ? null : index);
       setUserInteracting(openPopover !== index);
     }
   };
+
+  if (!isActive) return null;
 
   return (
     <div>
