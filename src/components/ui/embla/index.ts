@@ -2,6 +2,7 @@ import EmblaCarousel, { type EmblaOptionsType } from 'embla-carousel';
 import { addPrevNextBtnsClickHandlers } from './EmblaCarouselArrowButtons';
 import { addDotBtnsAndClickHandlers } from './EmblaCarouselDotButton';
 import { addProgressBarHandlers } from './EmblaCarouselProgressBar';
+import AutoHeight from 'embla-carousel-auto-height'
 import Fade from 'embla-carousel-fade';
 
 const OPTIONS: EmblaOptionsType = {
@@ -27,7 +28,7 @@ if (!viewportNode) {
 
 const hasFadeClass = emblaNode.classList.contains('fade');
 
-const plugins = hasFadeClass ? [Fade()] : [];
+const plugins = hasFadeClass ? [Fade(), AutoHeight()] : [];
 
 const emblaApi = EmblaCarousel(viewportNode, OPTIONS, plugins);
 
