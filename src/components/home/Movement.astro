@@ -10,7 +10,7 @@ const posts = await import('@/data/data.json');
 	<h2 class='section-title mb-6 max-w-2xl'>AROUND THE <span class='text-gray-3'>CMI Movement</span></h2>
 	<p class='max-w-[590px] text-md md:text-base mb-16 md:mb-20'>Learn about the transformative impact of our collective efforts in spreading the good news across Eastern Europe.</p>
 	<div class='embla'>
-		<div class='embla__viewport'>
+		<div class='embla__viewport !overflow-visible'>
 			<div class='embla__container mb-10'>
 				{
 					posts.default.slice(0, 5).map(item => (

@@ -13,9 +13,9 @@ const currentPath = Astro.url.pathname;
 <!doctype html>
 <html lang='en' class='scroll-smooth antialiased'>
 	<Head title={title} />
-	<body class='font-sans text-md md:text-base text-gray-3 overflow-x-hidden'>
+	<body class='font-sans text-md md:text-base text-gray-3'>
 		<Header client:load currentPath={currentPath} countries={countries} />
-		<main class='flex-auto pt-[82px] md:pt-25'><slot /></main>
+		<main class='flex-auto pt-[82px] md:pt-25 overflow-x-hidden'><slot /></main>
 		<Footer />
 		<WelcomeModal client:idle />
 	</body>
