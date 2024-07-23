@@ -3,17 +3,17 @@ import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 import icon from 'astro-icon';
 import matthiesenxyzlace from '@matthiesenxyz/astrolace';
+import sitemap from "@astrojs/sitemap";
+import robots from "astro-robots"; // Add code manually
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://cmiworld.org',
   image: {
-    remotePatterns: [{ protocol: "https" }],
+    remotePatterns: [{
+      protocol: "https"
+    }]
   },
-  integrations: [
-    react(),
-    tailwind({
-      applyBaseStyles: false,
-    }),
-    icon(),
-    matthiesenxyzlace(),
-  ],
+  integrations: [react(), tailwind({
+    applyBaseStyles: false
+  }), icon(), matthiesenxyzlace(), sitemap(), robots()]
 });

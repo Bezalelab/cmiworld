@@ -198,7 +198,7 @@ export function Map() {
               Albania, Bosnia, Bulgaria, Croatia, Czech Republic, Hungary, Poland, Romania, Serbia, Slovakia and Slovenia already have new churches with God's help through CMI.
             </p>
             <a href="/countries" className="text-[18px] font-medium text-black underline decoration-2 underline-offset-4">
-              Learn more
+              Explore our missions
             </a>
           </div>
           <div className="relative z-20">

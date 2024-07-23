@@ -1,10 +1,8 @@
 ---
 import { getImage } from 'astro:assets';
-import { Icon } from 'astro-icon/components';
 import heroImg from '@/assets/home/hero.png';
-import { Button } from '../ui/button';
 import HeroVideo from './HeroVideo';
-const optimizedBackground = await getImage({ src: heroImg, format: 'webp', quality: 90 });
+const optimizedBackground = await getImage({ src: heroImg, format: 'webp'});
 ---
 
 <div class='container'>

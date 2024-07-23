@@ -8,6 +8,8 @@
 .embla__container {
   backface-visibility: hidden;
   display: flex;
+  align-items: start;
+  transition: height 0.2s;
   gap: 20px;
   touch-action: pan-y pinch-zoom;
 }
