@@ -4,6 +4,7 @@ import { TestCountries } from '@/utils/countries';
 import MapTooltips from '../ui/map-tooltips';
 import { animated } from '@react-spring/web';
 import jsonData from '@/data/countries.json';
+import { ReactSVG } from 'react-svg';
 
 const items = [
   { count: 10, title: 'countries', progress: 0 },
@@ -11,7 +12,7 @@ const items = [
   { count: 25, title: 'years', progress: 100 },
 ];
 
-export function Map({ children }) {
+export function Map() {
   const [ref, inView] = useInView({
     threshold: 0.1,
     triggerOnce: false,
@@ -77,7 +78,7 @@ export function Map({ children }) {
       }
 
       const elapsed = timestamp - animationRef.current.startTime;
-      const duration = 5000; 
+      const duration = 5000;
 
       let newProgress;
       if (currentState === 'countries') {
@@ -85,11 +86,11 @@ export function Map({ children }) {
       } else if (currentState === 'churches') {
         newProgress = 50 + (elapsed / duration) * 50;
       } else {
-        newProgress = 100; 
+        newProgress = 100;
       }
 
       if (elapsed < duration) {
-        setProgress(newProgress, 0); 
+        setProgress(newProgress, 0);
         animationRef.current.frameId = requestAnimationFrame(animateProgress);
       } else {
         setProgress(currentState === 'years' ? 100 : newProgress, 0);
@@ -186,7 +187,7 @@ export function Map({ children }) {
   }));
 
   return (
-    <section className="map container pt-20 md:pt-[120px]" id="eastern" ref={ref}>
+    <section className="map container overflow-hidden pt-20 md:overflow-visible md:pt-[120px]" id="eastern" ref={ref}>
       <div className="relative mb-10 flex h-[900px] w-full flex-col md:h-[950px] lg:flex-row xl:h-auto">
         <div className="z-20 max-w-4xl">
           <div className="mb-10">
@@ -228,7 +229,7 @@ export function Map({ children }) {
         </div>
         <div className="absolute -bottom-20 -left-[500px] sm:-left-[400px] md:-bottom-40 md:-left-[300px] lg:left-0 lg:top-20 lg:translate-x-[200px] xl:translate-x-[400px]" id="map">
           <div className="relative after:pointer-events-none after:absolute after:top-20 after:z-10 after:h-[350px] after:w-full after:bg-steps md:mb-20 lg:mb-0 lg:after:hidden">
-            {children}
+            <ReactSVG src="/europe.svg" />
             <MapTooltips items={TestCountries(jsonData)} isActive={inView} />
           </div>
         </div>

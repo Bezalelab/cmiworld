@@ -30,7 +30,7 @@ const items = [
 ];
 ---
 
-<section class='mb-20 scroll-mt-40' id='donations'>
+<section class={`mb-20 scroll-mt-40 ${Astro.url.pathname === '/' && 'container'}`} id='donations'>
 	<div class='grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-0 lg:gap-10 place-items-center mb-16 md:mb-25'>
 		{
 			items.map((item, index) => (
