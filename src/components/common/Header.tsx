@@ -1,5 +1,5 @@
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { ReactSVG } from 'react-svg';
 import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
@@ -32,7 +32,7 @@ const Header = ({ currentPath, countries }: any) => {
     <header className={`fixed left-0 z-[100] w-full bg-white py-2 transition-all ${scroll && 'shadow-md'}`}>
       <div className="container flex w-full items-center justify-between md:py-4 xl:gap-8">
         <Sheet>
-          <SheetTrigger asChild className="absolute left-8 sm:relative sm:left-0 xl:hidden z-10">
+          <SheetTrigger className="absolute left-8 sm:relative sm:left-0 xl:hidden z-10">
             <ReactSVG src="/burger.svg" />
           </SheetTrigger>
           <SheetContent side="left">
@@ -67,7 +67,7 @@ const Header = ({ currentPath, countries }: any) => {
             </li>
           </ul>
         </nav>
-        <a href="/" className="text-center mx-auto lg:absolute lg:left-1/2 lg:-translate-x-1/2">
+        <a href="/" className="text-center mx-auto w-[190px] lg:absolute lg:left-1/2 lg:-translate-x-1/2">
           <span className={`font-logo text-black transition-all ${scroll ? 'text-[34px] leading-none' : 'text-[48px] leading-[32px]'}`}>cmi</span>
           <p className={`transform text-nowrap pt-[14px] font-display text-[12px] font-medium uppercase leading-none text-gray-3 transition-all ease-in-out ${scroll ? 'hidden' : 'block'}`}>
             Christian Missions International
