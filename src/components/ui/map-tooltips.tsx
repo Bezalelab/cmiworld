@@ -23,15 +23,16 @@ const MapTooltips = ({ items, isActive }) => {
       return;
     }
 
+    const bgIndex = items.findIndex((item) => item.city === 'hu');
+    setOpenPopover(bgIndex !== -1 ? bgIndex : 0);
+
     const interval = setInterval(() => {
-      if (items.length > 0) {
-        const newIndex = Math.floor(Math.random() * items.length);
-        setOpenPopover(newIndex);
-      }
+      const newIndex = Math.floor(Math.random() * items.length);
+      setOpenPopover(newIndex);
     }, 2000);
 
     return () => clearInterval(interval);
-  }, [items, isActive]);
+  }, [isActive]);
 
   const handleInteraction = (index) => {
     if (isMobile) {
