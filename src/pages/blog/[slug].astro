@@ -70,9 +70,10 @@ const next = posts.default[currentIndex - 1];
 
 <script>
 	document.addEventListener('DOMContentLoaded', () => {
-		const images = document.querySelectorAll('img');
+		const images: NodeListOf<HTMLImageElement> = document.querySelectorAll('article img');
 		const regex = /^http:\/\/www\.cmiworld\.org\/wp-content\/uploads\/(\d{4}\/\d{2}\/.*?)(?:-\d+x\d+)?\.(jpeg|jpg|png)$/;
-		images.forEach(img => {
+
+		images.forEach((img: HTMLImageElement) => {
 			const currentUrl = img.src;
 			const match = currentUrl.match(regex);
 			if (match) {
