@@ -67,3 +67,15 @@ const next = posts.default[currentIndex - 1];
 		</div>
 	</div>
 </Layout>
+
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const links: NodeListOf<HTMLImageElement> = document.querySelectorAll('a[href] > img');
+		links.forEach((img: HTMLImageElement) => {
+			const parentLink = img.parentElement as HTMLAnchorElement;
+			if (parentLink && parentLink.href && img.src) {
+				img.src = parentLink.href;
+			}
+		});
+	});
+</script>
