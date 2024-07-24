@@ -28,7 +28,7 @@ const MapTooltips = ({ items, isActive }) => {
         const newIndex = Math.floor(Math.random() * items.length);
         setOpenPopover(newIndex);
       }
-    }, 3000);
+    }, 2000);
 
     return () => clearInterval(interval);
   }, [items, isActive]);

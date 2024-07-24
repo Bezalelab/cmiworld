@@ -78,7 +78,7 @@ export function Map() {
       }
 
       const elapsed = timestamp - animationRef.current.startTime;
-      const duration = 5000;
+      const duration = 3800; // Увеличиваем длительность анимации до 3.8 секунд
 
       let newProgress;
       if (currentState === 'countries') {
@@ -136,7 +136,7 @@ export function Map() {
         const nextIndex = (currentIndex + 1) % items.length;
         return items[nextIndex].title;
       });
-    }, 5000);
+    }, 4000); // Оставляем интервал 4 секунды
 
     return () => {
       clearInterval(intervalRef.current);
@@ -173,7 +173,7 @@ export function Map() {
             const nextIndex = (currentIndex + 1) % items.length;
             return items[nextIndex].title;
           });
-        }, 5000);
+        }, 4000);
       }, 3000);
     },
     [setProgress, inView],
@@ -185,7 +185,6 @@ export function Map() {
     isActive: index === itemIndex,
     isActiveOrPassed: index <= itemIndex,
   }));
-
   return (
     <section className="map container overflow-hidden pt-20 md:overflow-visible md:pt-[120px]" id="eastern" ref={ref}>
       <div className="relative mb-10 flex h-[900px] w-full flex-col md:h-[950px] lg:flex-row xl:h-auto">

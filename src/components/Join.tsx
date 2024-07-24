@@ -5,7 +5,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 import { Toaster } from '@/components/ui/toaster';
-import SVG from 'react-inlinesvg';
+import { ReactSVG } from 'react-svg';
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -65,7 +65,7 @@ const Join = () => {
                     <Input placeholder="Email" {...field} />
                   </FormControl>
                   <button type="submit" className="absolute end-5 top-1/2 -translate-y-1/2" aria-label="submit button">
-                    <SVG src="/arrow-long.svg" />
+                    <ReactSVG src="/arrow-long.svg" />
                   </button>
                   <FormMessage />
                 </FormItem>
