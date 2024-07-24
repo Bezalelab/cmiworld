@@ -70,12 +70,11 @@ const next = posts.default[currentIndex - 1];
 
 <script>
 	document.addEventListener('DOMContentLoaded', () => {
-		const images: NodeListOf<HTMLImageElement> = document.querySelectorAll('img');
+		const images = document.querySelectorAll('img');
 		const regex = /^http:\/\/www\.cmiworld\.org\/wp-content\/uploads\/(\d{4}\/\d{2}\/.*?)-\d+x\d+\.(jpeg|jpg|png)$/;
-		images.forEach((img: HTMLImageElement) => {
+		images.forEach(img => {
 			const parentLink = img.closest('a');
-			const newUrl = parentLink && parentLink.href ? parentLink.href : 
-			img.src.replace(regex, 'http://cmiworld.bezalelstudio.co/wp-content/uploads/$1.$2');
+			const newUrl = parentLink && parentLink.href ? parentLink.href : img.src.replace(regex, 'http://cmiworld.bezalelstudio.co/wp-content/uploads/$1.$2');
 			if (newUrl !== img.src) {
 				img.src = newUrl;
 			}
