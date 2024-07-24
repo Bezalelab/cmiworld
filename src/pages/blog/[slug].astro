@@ -37,7 +37,7 @@ const next = posts.default[currentIndex - 1];
 			<h1 class='text-xl md:text-2xl'>{post.title}</h1>
 		</div>
 		<article
-			class='border-b pb-12 prose prose-lg prose-p:text-gray-3 prose-figcaption:text-gray-2 prose-figcaption:text-sm prose-figcaption:text-center prose-blockquote:text-black prose-headings:font-medium prose-img:mx-auto prose-img:min-h-[200px] prose-img:object-cover max-w-full mb-12 article'>
+			class='border-b pb-12 prose prose-lg prose-p:text-gray-3 prose-figcaption:text-gray-2 prose-figcaption:text-sm prose-figcaption:text-center prose-blockquote:text-black prose-headings:font-medium prose-img:mx-auto prose-img:min-h-[200px] prose-img:object-cover max-w-full mb-12 prose-img:w-full'>
 			<Image src={post.featuredImage ? post.featuredImage.node.mediaItemUrl : import('@/assets/vision/1.png')} width={880} height={400} alt='image' />
 			<Markup
 				content={post.content}
@@ -71,11 +71,12 @@ const next = posts.default[currentIndex - 1];
 <script>
 	document.addEventListener('DOMContentLoaded', () => {
 		const images = document.querySelectorAll('img');
-		const regex = /^http:\/\/www\.cmiworld\.org\/wp-content\/uploads\/(\d{4}\/\d{2}\/.*?)-\d+x\d+\.(jpeg|jpg|png)$/;
+		const regex = /^http:\/\/www\.cmiworld\.org\/wp-content\/uploads\/(\d{4}\/\d{2}\/.*?)(?:-\d+x\d+)?\.(jpeg|jpg|png)$/;
 		images.forEach(img => {
-			const parentLink = img.closest('a');
-			const newUrl = parentLink && parentLink.href ? parentLink.href : img.src.replace(regex, 'http://cmiworld.bezalelstudio.co/wp-content/uploads/$1.$2');
-			if (newUrl !== img.src) {
+			const currentUrl = img.src;
+			const match = currentUrl.match(regex);
+			if (match) {
+				const newUrl = `http://cmiworld.bezalelstudio.co/wp-content/uploads/${match[1]}.${match[2]}`;
 				img.src = newUrl;
 			}
 		});
