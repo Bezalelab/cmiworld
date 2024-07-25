@@ -5,10 +5,9 @@ interface Props {
 	image: string;
 	description: string;
 	title: string;
-	date: string;
 	slug: string;
 }
-const { date, title, description, image, slug } = Astro.props;
+const { title, description, image, slug } = Astro.props;
 ---
 
 <li>
@@ -16,7 +15,6 @@ const { date, title, description, image, slug } = Astro.props;
 		<div class='h-[210px] overflow-hidden mb-8'>
 			<Image src={image} width={370} quality={90} height={210} alt={title} class='object-cover object-center size-full hover:scale-105 transition-transform' />
 		</div>
-		<date class='text-sm block mb-4'>{date}</date>
 		<h2 class='uppercase text-[22px] leading-[26px] mb-6'>{title}</h2>
 		<div class='overflow-ellipsis line-clamp-2 text-md mb-6'><Fragment set:html={description} /></div>
 		<Button link={`/blog/${slug}/`} variant='outlineDark' className='text-gray-3 border-gray-3' size='sm'>Read more</Button>

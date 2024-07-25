@@ -3,83 +3,79 @@ import Layout from '@/layouts/Layout.astro';
 import { Icon } from 'astro-icon/components';
 import { Image } from 'astro:assets';
 import { formatDate } from '@/utils/blog';
-import { Markup, Markdown } from 'astro-remote';
+import { Markup } from 'astro-remote';
 
 interface Post {
-	slug: string;
-	date: string;
-	title: string;
-	content: string;
-	featuredImage: any;
+  slug: string;
+  title: string;
+  content: string;
+  featuredImage: any;
 }
 
 const posts = await import('@/data/data.json');
 
 export async function getStaticPaths() {
-	const posts = await import('@/data/data.json');
-	return posts.default.map((post: any) => {
-		return {
-			params: { slug: post.slug },
-			props: { post },
-		};
-	});
+  const posts = await import('@/data/data.json');
+  return posts.default.map((post: any) => {
+    return {
+      params: { slug: post.slug },
+      props: { post },
+    };
+  });
 }
 const { post } = Astro.props as { post: Post };
-const currentIndex = posts.default.findIndex(project => project.slug === post.slug);
+const currentIndex = posts.default.findIndex((project) => project.slug === post.slug);
 const prev = posts.default[currentIndex + 1];
 const next = posts.default[currentIndex - 1];
 ---
 
 <Layout>
-	<div class='container py-20 lg:pt-25 lg:pb-20 max-w-[880px]'>
-		<div class='mb-16'>
-			<span class='section-caption'>{formatDate(post.date)}</span>
-			<h1 class='text-xl md:text-2xl'>{post.title}</h1>
-		</div>
-		<article
-			class='border-b pb-12 prose prose-lg prose-p:text-gray-3 prose-figcaption:text-gray-2 prose-figcaption:text-sm prose-figcaption:text-center prose-blockquote:text-black prose-headings:font-medium prose-img:mx-auto prose-img:min-h-[200px] prose-img:object-cover max-w-full mb-12 prose-img:w-full'>
-			<Image src={post.featuredImage ? post.featuredImage.node.mediaItemUrl : import('@/assets/vision/1.png')} width={880} height={400} alt='image' />
-			<Markup
-				content={post.content}
-				sanitize={{
-					dropElements: ['head', 'style'],
-					blockElements: ['html', 'body', 'span'],
-				}}
-			/>
-		</article>
+  <div class="container py-20 lg:pt-25 lg:pb-20 max-w-[880px]">
+    <h1 class="text-xl md:text-2xl mb-16">{post.title}</h1>
+    <article
+      class="border-b pb-12 prose prose-lg prose-p:text-gray-3 prose-figcaption:text-gray-2 prose-figcaption:text-sm prose-figcaption:text-center prose-blockquote:text-black prose-headings:font-medium prose-img:mx-auto prose-img:min-h-[200px] prose-img:object-cover max-w-full mb-12 prose-img:w-full">
+      <Image src={post.featuredImage ? post.featuredImage.node.mediaItemUrl : import('@/assets/vision/1.png')} width={880} height={400} alt="image" />
+      <Markup
+        content={post.content}
+        sanitize={{
+          dropElements: ['head', 'style'],
+          blockElements: ['html', 'body', 'span'],
+        }}
+      />
+    </article>
 
-		<div class='flex-stack'>
-			{
-				prev && (
-					<a href={`/blog/${prev?.slug}/`} class='flex items-center gap-4 text-sm hover:text-black transition-colors'>
-						<Icon name='arrow-long' class='rotate-180' size={22} /> Previous post
-					</a>
-				)
-			}
-			{
-				next && (
-					<a href={`/blog/${next?.slug}/`} class='flex items-center ml-auto justify-end gap-4 text-sm hover:text-black transition-colors'>
-						Next post
-						<Icon name='arrow-long' size={22} />
-					</a>
-				)
-			}
-		</div>
-	</div>
+    <div class="flex-stack">
+      {
+        prev && (
+          <a href={`/blog/${prev?.slug}/`} class="flex items-center gap-4 text-sm hover:text-black transition-colors">
+            <Icon name="arrow-long" class="rotate-180" size={22} /> Previous post
+          </a>
+        )
+      }
+      {
+        next && (
+          <a href={`/blog/${next?.slug}/`} class="flex items-center ml-auto justify-end gap-4 text-sm hover:text-black transition-colors">
+            Next post
+            <Icon name="arrow-long" size={22} />
+          </a>
+        )
+      }
+    </div>
+  </div>
 </Layout>
 
 <script>
-	document.addEventListener('DOMContentLoaded', () => {
-		const images: NodeListOf<HTMLImageElement> = document.querySelectorAll('article img');
-		const regex = /^http:\/\/www\.cmiworld\.org\/wp-content\/uploads\/(\d{4}\/\d{2}\/.*?)(?:-\d+x\d+)?\.(jpeg|jpg|png)$/;
+  document.addEventListener('DOMContentLoaded', () => {
+    const images: NodeListOf<HTMLImageElement> = document.querySelectorAll('article img');
+    const regex = /^http:\/\/www\.cmiworld\.org\/wp-content\/uploads\/(\d{4}\/\d{2}\/.*?)(?:-\d+x\d+)?\.(jpeg|jpg|png)$/;
 
-		images.forEach((img: HTMLImageElement) => {
-			const currentUrl = img.src;
-			const match = currentUrl.match(regex);
-			if (match) {
-				const newUrl = `http://cmiworld.bezalelstudio.co/wp-content/uploads/${match[1]}.${match[2]}`;
-				img.src = newUrl;
-			}
-		});
-	});
+    images.forEach((img: HTMLImageElement) => {
+      const currentUrl = img.src;
+      const match = currentUrl.match(regex);
+      if (match) {
+        const newUrl = `http://cmiworld.bezalelstudio.co/wp-content/uploads/${match[1]}.${match[2]}`;
+        img.src = newUrl;
+      }
+    });
+  });
 </script>

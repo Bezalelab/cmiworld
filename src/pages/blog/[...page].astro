@@ -2,7 +2,6 @@
 import Layout from '@/layouts/Layout.astro';
 import Card from '@/components/blog/Card.astro';
 import Join from '@/components/Join';
-import { formatDate } from '@/utils/blog';
 import Pagination from '@philnash/astro-pagination';
 
 export async function getStaticPaths({ paginate }) {
@@ -44,7 +43,7 @@ const years = [...new Set(posts.default.map(post => new Date(post.date).getFullY
 			{
 				// @ts-ignore
 				page.data.map(post => (
-					<Card title={post.title} date={formatDate(post.date)} description={post.excerpt} slug={post.slug} image={post.featuredImage ? post.featuredImage.node.mediaItemUrl : '/post-preview.png'} />
+					<Card title={post.title} description={post.excerpt} slug={post.slug} image={post.featuredImage ? post.featuredImage.node.mediaItemUrl : '/post-preview.png'} />
 				))
 			}
 		</ul>
