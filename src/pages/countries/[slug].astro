@@ -15,7 +15,7 @@ export async function getStaticPaths() {
 const { country } = Astro.props;
 ---
 
-<Layout title='Welcome to Astro.'>
+<Layout title={`${country.title} - Christian Missions International`}>
 	<div class='container py-20 lg:py-25'>
 		<div class='md:max-w-[880px] mx-auto mb-20'>
 			<div class='mb-8 md:mb-16'>

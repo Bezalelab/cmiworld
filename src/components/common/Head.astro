@@ -1,78 +1,78 @@
 ---
 import { AstroFont } from 'astro-font';
+import { AstroSeo } from '@astrolib/seo';
+const { title, description } = Astro.props;
 ---
 
 <head>
-	<AstroFont
-		config={[
-			{
-				name: 'Stix',
-				src: [
-					{
-						weight: '700',
-						style: 'bold',
-						path: './public/fonts/Stix-Bold.woff2',
-					},
-				],
-    preload: false,
-				display: 'swap',
-				selector: '.font-logo',
-				fallback: 'sans-serif',
-			},
-			{
-				name: 'Lato',
-				src: [
-					{
-						style: 'normal',
-						weight: '400',
-						path: './public/fonts/Lato-Regular.woff2',
-					},
-					{
-						style: 'medium',
-						weight: '500',
-						path: './public/fonts/Lato-Medium.woff2',
-					},
+  <AstroFont
+    config={[
+      {
+        name: 'Stix',
+        src: [
+          {
+            weight: '700',
+            style: 'bold',
+            path: './public/fonts/Stix-Bold.woff2',
+          },
+        ],
+        display: 'swap',
+        selector: '.font-logo',
+        fallback: 'sans-serif',
+      },
+      {
+        name: 'Lato',
+        src: [
+          {
+            style: 'normal',
+            weight: '400',
+            path: './public/fonts/Lato-Regular.woff2',
+          },
+          {
+            style: 'medium',
+            weight: '500',
+            path: './public/fonts/Lato-Medium.woff2',
+          },
 
-					{
-						style: 'semibold',
-						weight: '600',
-						path: './public/fonts/Lato-SemiBold.woff2',
-					},
-					{
-						style: 'bold',
-						weight: '700',
-						path: './public/fonts/Lato-Bold.woff2',
-					},
-				],
-				preload: false,
-				display: 'swap',
-				selector: 'body',
-				fallback: 'sans-serif',
-			},
-			{
-				name: 'Metric',
-				src: [
-					{
-						weight: '400',
-						style: 'normal',
-						path: './public/fonts/MetricRegular.woff2',
-					},
-					{
-						weight: '500',
-						style: 'normal',
-						path: './public/fonts/MetricMedium.woff2',
-					},
-				],
-				preload: false,
-				selector: 'body',
-				display: 'swap',
-				fallback: 'sans-serif',
-			},
-		]}
-	/>
-	<meta charset='UTF-8' />
-	<meta name='description' content='Christian Missions International' />
-	<meta name='viewport' content='width=device-width' />
-	<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
-	<title>Christian Missions International</title>
+          {
+            style: 'semibold',
+            weight: '600',
+            path: './public/fonts/Lato-SemiBold.woff2',
+          },
+          {
+            style: 'bold',
+            weight: '700',
+            path: './public/fonts/Lato-Bold.woff2',
+          },
+        ],
+        preload: false,
+        display: 'swap',
+        selector: 'body',
+        fallback: 'sans-serif',
+      },
+      {
+        name: 'Metric',
+        src: [
+          {
+            weight: '400',
+            style: 'normal',
+            path: './public/fonts/MetricRegular.woff2',
+          },
+          {
+            weight: '500',
+            style: 'normal',
+            path: './public/fonts/MetricMedium.woff2',
+          },
+        ],
+        preload: false,
+        selector: 'body',
+        display: 'swap',
+        fallback: 'sans-serif',
+      },
+    ]}
+  />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <AstroSeo title={title || 'Christian Missions International'} description={description || 'Christian Missions International'}/>
 </head>

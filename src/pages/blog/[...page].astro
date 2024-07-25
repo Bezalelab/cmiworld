@@ -5,78 +5,76 @@ import Join from '@/components/Join';
 import Pagination from '@philnash/astro-pagination';
 
 export async function getStaticPaths({ paginate }) {
-	const posts = await import('@/data/data.json');
-	return paginate(posts.default, {
-		props: { post: posts.default.map(post => post) },
-		pageSize: 9,
-	});
+  const posts = await import('@/data/data.json');
+  return paginate(posts.default, {
+    props: { post: posts.default.map((post) => post) },
+    pageSize: 9,
+  });
 }
 const { page } = Astro.props;
 
 const posts = await import('@/data/data.json');
-const years = [...new Set(posts.default.map(post => new Date(post.date).getFullYear()))];
+const years = [...new Set(posts.default.map((post) => new Date(post.date).getFullYear()))];
 ---
 
-<Layout title='Welcome to Astro.'>
-	<div class='container pt-[72px] lg:pt-25'>
-		<div class='mb-10 md:mb-20 lg:mb-30'>
-			<span class='section-caption'>Our blog</span>
-			<h1 class='text-[29px] leading-[38px] sm:text-xl md:text-2xl xl:text-3xl max-w-[605px]'>latest updates <span class='text-gray-3'>on our mission</span></h1>
-		</div>
+<Layout>
+  <div class="container pt-[72px] lg:pt-25">
+    <div class="mb-10 md:mb-20 lg:mb-30">
+      <span class="section-caption">Our blog</span>
+      <h1 class="text-[29px] leading-[38px] sm:text-xl md:text-2xl xl:text-3xl max-w-[605px]">latest updates <span class="text-gray-3">on our mission</span></h1>
+    </div>
 
-		<nav class='mb-12 dates-wrapper'>
-			<ul class='flex gap-6 md:gap-8 scrollbar-hide overflow-auto py-1.5 flex-nowrap dates'>
-				<li class='uppercase hover:text-black text-md text-nowrap transition-colors'>
-					<a href='/blog/' class='text-black font-medium underline decoration-2 underline-offset-8'>All</a>
-				</li>
-				{
-					years.map(year => (
-						<li class='uppercase hover:text-black text-md text-nowrap transition-colors last:pr-8'>
-							<a href={`/blog/${year}/`}>{year}</a>
-						</li>
-					))
-				}
-			</ul>
-		</nav>
+    <nav class="mb-12 dates-wrapper">
+      <ul class="flex gap-6 md:gap-8 scrollbar-hide overflow-auto py-1.5 flex-nowrap dates">
+        <li class="uppercase hover:text-black text-md text-nowrap transition-colors">
+          <a href="/blog/" class="text-black font-medium underline decoration-2 underline-offset-8">All</a>
+        </li>
+        {
+          years.map((year) => (
+            <li class="uppercase hover:text-black text-md text-nowrap transition-colors last:pr-8">
+              <a href={`/blog/${year}/`}>{year}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
 
-		<ul class='grid md:grid-cols-2 lg:grid-cols-3 gap-x-5 lg:gap-x-[60px] gap-y-20 mb-20'>
-			{
-				// @ts-ignore
-				page.data.map(post => (
-					<Card title={post.title} description={post.excerpt} slug={post.slug} image={post.featuredImage ? post.featuredImage.node.mediaItemUrl : '/post-preview.png'} />
-				))
-			}
-		</ul>
-		<Pagination page={page} firstPageUrl={'/blog/'} urlPattern={'/blog/{}/'} />
-	</div>
-	<Join client:load />
+    <ul class="grid md:grid-cols-2 lg:grid-cols-3 gap-x-5 lg:gap-x-[60px] gap-y-20 mb-20">
+      {
+        // @ts-ignore
+        page.data.map((post) => <Card title={post.title} description={post.excerpt} slug={post.slug} image={post.featuredImage ? post.featuredImage.node.mediaItemUrl : '/post-preview.png'} />)
+      }
+    </ul>
+    <Pagination page={page} firstPageUrl={'/blog/'} urlPattern={'/blog/{}/'} />
+  </div>
+  <Join client:load />
 </Layout>
 
-<style lang='scss' is:global>
-	nav[role='navigation'] ul {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		margin: 0 auto;
-		gap: 10px;
-	}
+<style lang="scss" is:global>
+  nav[role='navigation'] ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    gap: 10px;
+  }
 
-	nav[role='navigation'] a.number,
-	nav[role='navigation'] em {
-		font-style: normal;
-		&:hover {
-			color: #1e1e1e;
-		}
-	}
+  nav[role='navigation'] a.number,
+  nav[role='navigation'] em {
+    font-style: normal;
+    &:hover {
+      color: #1e1e1e;
+    }
+  }
 
-	nav[role='navigation'] em {
-		color: #1e1e1e;
-	}
+  nav[role='navigation'] em {
+    color: #1e1e1e;
+  }
 
-	.next-page,
-	.prev-page {
-		&:hover {
-			color: #1e1e1e;
-		}
-	}
+  .next-page,
+  .prev-page {
+    &:hover {
+      color: #1e1e1e;
+    }
+  }
 </style>
