@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { DialogClose } from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 
-export function WelcomeModal() {
+export function WelcomeModal({ children }) {
   const [cookies, setCookie] = useCookies(['newUser']);
   const [isOpen, setIsOpen] = useState(!cookies.newUser);
 
@@ -28,7 +28,8 @@ export function WelcomeModal() {
       <DialogContent>
         <div className="flex flex-col gap-6 sm:flex-row md:gap-12">
           <div className="md:max-w-[300px]">
-            <img src="/welcome-modal.png" alt="welcome" className="h-[160px] w-full rounded-2xl object-cover object-[center_-30px] sm:h-full sm:object-center" />
+            {children}
+            {/* <img src="/welcome-modal.png" alt="welcome" className="h-[160px] w-full rounded-2xl object-cover object-[center_-30px] sm:h-full sm:object-center" /> */}
           </div>
           <div>
             <DialogHeader>
