@@ -13,7 +13,7 @@ const { title, description, image, slug } = Astro.props;
 <li>
 	<a href={`/blog/${slug}/`}>
 		<div class='h-[210px] overflow-hidden mb-8'>
-			<Image src={image} inferSize quality={90} alt={title} class='object-cover object-center size-full hover:scale-105 transition-transform' />
+			<Image src={image} width={370} height={210} quality={90} alt={title} class='object-cover object-center size-full hover:scale-105 transition-transform' />
 		</div>
 		<h2 class='uppercase text-[22px] leading-[26px] mb-6'>{title}</h2>
 		<div class='overflow-ellipsis line-clamp-2 text-md mb-6'><Fragment set:html={description} /></div>
