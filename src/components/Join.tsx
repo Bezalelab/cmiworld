@@ -52,8 +52,10 @@ const Join = () => {
   return (
     <div className="join container my-20 lg:my-30">
       <div className="flex flex-col gap-8 border-b border-t border-black py-20">
-        <h2 className="text-center text-2xl uppercase lg:text-3xl">RECEIVE OUR NEWSLETTER</h2>
-        <p className="mx-auto max-w-[456px] text-center text-xs text-black sm:text-sm">Join us every week, from wherever you are in the world, to connect with Jesus and community</p>
+        <h2 className="text-center text-2xl uppercase lg:text-3xl">RECEIVE OUR E-LETTER</h2>
+        <p className="mx-auto max-w-[456px] text-center text-xs text-black sm:text-sm">
+          We send out an e-letter about every two months to keep you updated on what is happening in our lives and ministry.
+        </p>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="mx-auto w-full max-w-[387px]">
             <FormField

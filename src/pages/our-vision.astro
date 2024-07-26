@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { fetchAPI } from '@/lib/api';
 
 const { page } = await fetchAPI({
-	query: `
+  query: `
 		query vision {
 			page(idType: URI, id: "our-vision-2024") {
 				title content
@@ -21,23 +21,23 @@ const { page } = await fetchAPI({
 });
 ---
 
-<Layout title='Vision'>
-	<div class='container pt-[72px] lg:pt-25 max-w-[912px]'>
-		<div class='mb-[60px] md:mb-[74px]'>
-			<span class='section-caption'>01 jun, 2024</span>
-			<h1 class='text-xl md:text-2xl font-medium'>{page.title} <span class='text-gray-3'>2024</span></h1>
-		</div>
-		<article
-			class='prose prose-lg prose-figure:!w-full prose-figcaption:text-gray-2 prose-figcaption:text-sm prose-figcaption:text-center prose-blockquote:text-black prose-headings:font-medium prose-img:mx-auto prose-img:min-h-[200px] prose-img:object-cover max-w-full mb-20 md:mb-25'>
-			<Image src={page.featuredImage.node.mediaItemUrl} inferSize alt='image' />
-			<Fragment set:html={page.content} />
-		</article>
-	</div>
-	<Vision />
-	<div class='bg-black-2'>
-		<div class='container flex-stack flex-wrap gap-6 py-6'>
-			<p class='text-sm max-w-[430px] text-gray-1'>Discover the countries where we serve with God's help through CMI</p>
-			<Button variant='outline' size='sm' link='/countries'>Country list</Button>
-		</div>
-	</div>
+<Layout title="Vision">
+  <div class="container pt-[72px] lg:pt-25 max-w-[912px]">
+    <div class="mb-[60px] md:mb-[74px]">
+      <!-- <span class='section-caption'>01 jun, 2024</span> -->
+      <h1 class="text-xl md:text-2xl font-medium">{page.title} <span class="text-gray-3">2024</span></h1>
+    </div>
+    <article
+      class="prose prose-lg prose-figure:!w-full prose-figcaption:text-gray-2 prose-figcaption:text-sm prose-figcaption:text-center prose-blockquote:text-black prose-headings:font-medium prose-img:mx-auto prose-img:min-h-[200px] prose-img:object-cover max-w-full mb-20 md:mb-25">
+      <Image src={page.featuredImage.node.mediaItemUrl} inferSize alt="image" />
+      <Fragment set:html={page.content} />
+    </article>
+  </div>
+  <Vision />
+  <div class="bg-black-2">
+    <div class="container flex-stack flex-wrap gap-6 py-6">
+      <p class="text-sm max-w-[430px] text-gray-1">Discover the countries where we serve with God's help through CMI</p>
+      <Button variant="outline" size="sm" link="/countries">Country list</Button>
+    </div>
+  </div>
 </Layout>
