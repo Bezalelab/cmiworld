@@ -104,7 +104,7 @@ const items = [
 	import { gsap } from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 	gsap.registerPlugin(ScrollTrigger);
-	document.addEventListener('DOMContentLoaded', function () {
+	document.addEventListener('astro:page-load', () => {
 		const options = {
 			root: null,
 			rootMargin: '0px',
