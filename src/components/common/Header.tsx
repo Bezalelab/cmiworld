@@ -60,9 +60,9 @@ const Header = ({ currentPath, countries }: any) => {
                 vision {currentYear()}
               </a>
             </li>
-            <li className={`${currentPath === '/statement/' && 'font-semibold'}`}>
-              <a href="/statement" className="link-underline">
-                statement of faith
+            <li className={`${currentPath === '/welcome/' && 'font-semibold'}`}>
+              <a href="/welcome" className="link-underline">
+                welcome
               </a>
             </li>
           </ul>
