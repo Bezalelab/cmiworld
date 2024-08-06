@@ -50,9 +50,9 @@ const Header = ({ currentPath, countries }: any) => {
         </Sheet>
         <nav className="mr-auto hidden justify-end xl:block">
           <ul className="flex gap-6 *:text-sm *:uppercase *:text-black">
-            <li className={`${currentPath === '/about/' && 'font-semibold'}`}>
-              <a href="/about" className="link-underline">
-                about
+            <li className={`${currentPath === '/welcome/' && 'font-semibold'}`}>
+              <a href="/welcome" className="link-underline">
+                welcome
               </a>
             </li>
             <li className={`${currentPath === '/our-vision/' && 'font-semibold'}`}>
@@ -60,9 +60,14 @@ const Header = ({ currentPath, countries }: any) => {
                 vision {currentYear()}
               </a>
             </li>
-            <li className={`${currentPath === '/welcome/' && 'font-semibold'}`}>
-              <a href="/welcome" className="link-underline">
-                welcome
+            <li className={`${currentPath === '/about/' && 'font-semibold'}`}>
+              <a href="/about" className="link-underline">
+                about
+              </a>
+            </li>
+            <li className={`${currentPath === '/statement/' && 'font-semibold'}`}>
+              <a href="/statement" className="link-underline">
+                statement of faith
               </a>
             </li>
           </ul>
