@@ -2,14 +2,14 @@
 import { getImage } from 'astro:assets';
 import heroImg from '@/assets/home/hero.png';
 import HeroVideo from './HeroVideo';
-const optimizedBackground = await getImage({ src: heroImg, format: 'webp'});
+const optimizedBackground = await getImage({ src: heroImg, format: 'webp' });
 ---
 
-<div class='container'>
-	<div class='h-[400px] -mx-8 md:-mx-0 relative lg:h-[640px] flex flex-col bg-cover bg-[right_-80px_center] sm:bg-center bg-no-repeat' style={`background-image: url(${optimizedBackground.src});`}>
-		<div class='mt-auto pb-8 lg:pb-14 flex flex-col px-8 md:px-4 lg:px-10'>
-			<span class='font-display text-base leading-none md:text-[38px] xl:text-[40px] block mb-2 text-white'>Jim & Brenda Puhr</span>
-			<h1 class='uppercase text-base md:text-xl xl:text-2xl font-medium mb-6 lg:mb-8 text-white max-w-2xl lg:max-w-5xl'>Reaching the Nations of Eastern Europe with the Gospel</h1>
+<div class="container">
+	<div class="h-[400px] -mx-8 md:-mx-0 relative lg:h-[640px] flex flex-col bg-cover bg-[right_-80px_center] sm:bg-center bg-no-repeat" style={`background-image: url(${optimizedBackground.src});`}>
+		<div class="mt-auto pb-8 lg:pb-14 flex flex-col px-8 md:px-4 lg:px-10">
+			<span class="font-display text-base leading-none md:text-[38px] xl:text-[40px] block mb-2 text-white">Jim & Brenda Puhr</span>
+			<h1 class="uppercase text-sm md:text-lg xl:text-xl font-medium mb-6 lg:mb-8 text-white max-w-2xl lg:max-w-5xl">Reaching the Nations of Eastern Europe with the Gospel</h1>
 			<HeroVideo client:load />
 		</div>
 	</div>
