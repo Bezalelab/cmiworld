@@ -15,8 +15,10 @@ const countries = await import('@/data/countries.json');
 const touch = [
 	{ label: '+1 (904) 233-0346', url: 'tel:+1(904)2330346' },
 	{ label: 'jimpuhr@cmiworld.org', url: 'mailto:jimpuhr@cmiworld.org' },
-	{ label: 'PO Box 880363 Port St Lucie, FL 34988', url: '#' },
+	{ label: 'PO Box 880363', label2:'Port St Lucie, FL 34988', url: '#'}
 ];
+
+//PO Box 880363 Port St Lucie, FL 34988'
 ---
 
 <footer class='footer'>
@@ -70,10 +72,15 @@ const touch = [
 					<ul class='flex flex-col gap-4'>
 						{
 							touch.map(item => (
-								<li>
-									<a class='text-gray-1' href={item.url}>
+								<li key={item.url}>
+									<a class='text-gray-1 block' href={item.url}>
 										{item.label}
 									</a>
+									{item.label2 && (
+										<a class='text-gray-1 block' href={item.url}>
+											{item.label2}
+										</a>
+									)}
 								</li>
 							))
 						}
