@@ -15,37 +15,40 @@ const countries = await import('@/data/countries.json');
 const touch = [
 	{ label: '+1 (904) 233-0346', url: 'tel:+1(904)2330346' },
 	{ label: 'jimpuhr@cmiworld.org', url: 'mailto:jimpuhr@cmiworld.org' },
-	{ label: 'PO Box 880363', label2:'Port St Lucie, FL 34988', url: '#'}
+	{ label: 'PO Box 880363', label2: 'Port St Lucie, FL 34988', url: '#' },
 ];
 
 //PO Box 880363 Port St Lucie, FL 34988'
 ---
 
-<footer class='footer'>
-	<div class='container'>
-		<div class='flex-stack w-full gap-10 mb-16 py-10 border-b border-white/30'>
-			<a href='/' class='font-logo text-[48px] leading-[32px] flex-auto text-white'>cmi</a>
-			<p class='uppercase w-[185px] sm:w-auto text-md md:text-lg lg:text-xl font-medium text-white'>christian missions international</p>
+<footer class="footer">
+	<div class="container">
+		<div class="flex-stack w-full gap-10 mb-16 py-10 border-b border-white/30">
+			<a href="/" class="font-logo text-[48px] leading-[32px] flex-auto text-white">cmi</a>
+			<p class="uppercase w-[185px] sm:w-auto text-md md:text-lg lg:text-xl font-medium text-white">christian missions international</p>
 		</div>
-		<div class='flex flex-col xl:flex-row items-start gap-16 md:gap-[114px] pb-14 md:pb-[34px] lg:pb-[75px] border-b border-white/30'>
-			<div class='flex flex-col md:flex-row xl:flex-col justify-between gap-6 md:gap-8 xl:flex-[0_0_359px]'>
-				<p class='uppercase text-[26px] leading-[31px] lg:text-xl font-medium text-white'>
+		<div class="flex flex-col xl:flex-row items-start gap-16 md:gap-[114px] pb-14 md:pb-[34px] lg:pb-[75px] border-b border-white/30">
+			<div class="flex flex-col md:flex-row xl:flex-col justify-between gap-6 md:gap-8 xl:flex-[0_0_359px]">
+				<p class="uppercase text-[26px] leading-[31px] lg:text-xl font-medium text-white">
 					Please Pray for <br /> Jim & Brenda Puhr
 				</p>
-				<p class='text-gray-1 text-sm max-w-[359px]'>
+				<p class="text-gray-1 text-sm max-w-[359px]">
 					Join in praying to spread the Gospel in Eastern Europe.
-					<span class='text-white'> "And the gospel must first be preached to all nations" (Mark 13:10)" </span>
+					<span class="text-white"> "And the gospel must first be preached to all nations" (Mark 13:10)" </span>
 				</p>
-				<Image src={import('@/assets/ecfa.svg')} class='size-14 hidden xl:block' alt='ecfa' />
+				<div class="flex flex-row items-center">
+					<Image src={import('@/assets/ecfa.svg')} class="h-14 w-auto hidden xl:block" alt="ecfa" />
+					<Image src={import('@/assets/cmilogo.svg')} class="h-14 w-auto hidden xl:block ml-4" alt="cmi" />
+				</div>
 			</div>
-			<div class='flex flex-col md:flex-row gap-16 md:gap-5 items-start justify-between w-full text-sm'>
+			<div class="flex flex-col md:flex-row gap-16 md:gap-5 items-start justify-between w-full text-sm">
 				<div>
-					<span class='block uppercase text-gray-3 mb-8 font-display'>Quick links</span>
+					<span class="block uppercase text-gray-3 mb-8 font-display">Quick links</span>
 					<ul>
 						{
-							links.map(link => (
-								<li class='mb-4 last:mb-0'>
-									<a class='text-gray-1' href={link.url}>
+							links.map((link) => (
+								<li class="mb-4 last:mb-0">
+									<a class="text-gray-1" href={link.url}>
 										{link.label}
 									</a>
 								</li>
@@ -54,12 +57,12 @@ const touch = [
 					</ul>
 				</div>
 				<div>
-					<span class='block uppercase text-gray-3 mb-8 font-display'>Countries</span>
-					<ul class='grid grid-cols-2 gap-x-10'>
+					<span class="block uppercase text-gray-3 mb-8 font-display">Countries</span>
+					<ul class="grid grid-cols-2 gap-x-10">
 						{
-							countries.default.map(country => (
-								<li class='mb-4 last:mb-0'>
-									<a class='text-gray-1 whitespace-nowrap' href={`/countries/${country.slug}`}>
+							countries.default.map((country) => (
+								<li class="mb-4 last:mb-0">
+									<a class="text-gray-1 whitespace-nowrap" href={`/countries/${country.slug}`}>
 										{country.title}
 									</a>
 								</li>
@@ -67,17 +70,17 @@ const touch = [
 						}
 					</ul>
 				</div>
-				<div class='max-w-[195px] w-full'>
-					<span class='block uppercase text-gray-3 mb-8 font-display'>Get in touch</span>
-					<ul class='flex flex-col gap-4'>
+				<div class="max-w-[195px] w-full">
+					<span class="block uppercase text-gray-3 mb-8 font-display">Get in touch</span>
+					<ul class="flex flex-col gap-4">
 						{
-							touch.map(item => (
+							touch.map((item) => (
 								<li key={item.url}>
-									<a class='text-gray-1 block' href={item.url}>
+									<a class="text-gray-1 block" href={item.url}>
 										{item.label}
 									</a>
 									{item.label2 && (
-										<a class='text-gray-1 block' href={item.url}>
+										<a class="text-gray-1 block" href={item.url}>
 											{item.label2}
 										</a>
 									)}
@@ -85,28 +88,28 @@ const touch = [
 							))
 						}
 						<li>
-							<Button variant='outline' link='/donation' size='sm'>Giving online</Button>
+							<Button variant="outline" link="/donation" size="sm">Giving online</Button>
 						</li>
 					</ul>
 				</div>
 			</div>
 		</div>
-		<div class='flex-stack gap-5 py-8 lg:py-10'>
-			<ul class='flex gap-12 text-sm text-gray-3 font-display'>
-				<li><a href='/policy'>Privacy Policy</a></li>
-				<li><a href='/terms'>Terms & Conditions</a></li>
+		<div class="flex-stack gap-5 py-8 lg:py-10">
+			<ul class="flex gap-12 text-sm text-gray-3 font-display">
+				<li><a href="/policy">Privacy Policy</a></li>
+				<li><a href="/terms">Terms & Conditions</a></li>
 			</ul>
-			<Image src={import('@/assets/facebook.svg')} alt='facebook' />
+			<Image src={import('@/assets/facebook.svg')} alt="facebook" />
 		</div>
 	</div>
-	<div class='bg-black-3 p-2'>
-		<div class='container flex flex-col text-xs sm:flex-row justify-center gap-1 sm:gap-3 items-center text-gray-3'>
+	<div class="bg-black-3 p-2">
+		<div class="container flex flex-col text-xs sm:flex-row justify-center gap-1 sm:gap-3 items-center text-gray-3">
 			<span>© {currentYear} Christian Mission International</span>
-			<span class='hidden sm:block'>|</span>
-			<div class='flex items-center gap-2'>
+			<span class="hidden sm:block">|</span>
+			<div class="flex items-center gap-2">
 				<span>powered by </span>
-				<a href='https://bezalelstudio.co' target='_blank'>
-					<Image src={import('@/assets/bezael.svg')} alt='bezazel' />
+				<a href="https://bezalelstudio.co" target="_blank">
+					<Image src={import('@/assets/bezael.svg')} alt="bezazel" />
 				</a>
 			</div>
 		</div>
