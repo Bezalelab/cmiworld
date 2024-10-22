@@ -10,6 +10,7 @@ export const countries = [
   { city: 'rs', top: 72.2, right: 43 },
   { city: 'bg', top: 76, right: 37 },
   { city: 'al', top: 80, right: 43.5 },
+  { city: 'mk', top: 79, right: 41.4 },
 ]
 
 export const TestCountries = (jsonData) => {
