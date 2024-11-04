@@ -1,125 +1,127 @@
 ---
 import { Image } from 'astro:assets';
 import { Button } from '../ui/button';
+import { currentYear } from '@/utils/currentYears';
 const generalsData = await import('@/data/generals.json');
 const upComingYear = generalsData.default.upcomingYear;
+
 const links = [
-	{ label: 'Home', url: '/' },
-	{ label: 'Welcome', url: '/welcome' },
-	{ label: 'About', url: '/about' },
-	{ label: `Vision ${upComingYear}`, url: '/our-vision' },
-	{ label: 'Statements', url: '/statement' },
-	{ label: 'Blog', url: '/blog' },
-	{ label: 'Contact us', url: '/contacts' },
+  { label: 'Home', url: '/' },
+  { label: 'Welcome', url: '/welcome' },
+  { label: 'About', url: '/about' },
+  { label: `Vision ${upComingYear}`, url: '/our-vision' },
+  { label: 'Statements', url: '/statement' },
+  { label: 'Blog', url: '/blog' },
+  { label: 'Contact us', url: '/contacts' },
 ];
 const countries = await import('@/data/countries.json');
 const touch = [
-	{ label: '+1 (904) 233-0346', url: 'tel:+1(904)2330346' },
-	{ label: 'jimpuhr@cmiworld.org', url: 'mailto:jimpuhr@cmiworld.org' },
-	{ label: 'PO Box 880363', label2: 'Port St Lucie, FL 34988', url: '#' },
+  { label: '+1 (904) 233-0346', url: 'tel:+1(904)2330346' },
+  { label: 'jimpuhr@cmiworld.org', url: 'mailto:jimpuhr@cmiworld.org' },
+  { label: 'PO Box 880363', label2: 'Port St Lucie, FL 34988', url: '#' },
 ];
 
 //PO Box 880363 Port St Lucie, FL 34988'
 ---
 
-<footer class='footer'>
-	<div class='container'>
-		<div class='flex-stack w-full gap-10 mb-16 py-10 border-b border-white/30'>
-			<a href='/' class='font-logo text-[48px] leading-[32px] flex-auto text-white'>cmi</a>
-			<p class='uppercase w-[185px] sm:w-auto text-md md:text-lg lg:text-xl font-medium text-white'>christian missions international</p>
-		</div>
-		<div class='flex flex-col xl:flex-row items-start gap-16 md:gap-[114px] pb-14 md:pb-[34px] lg:pb-[75px] border-b border-white/30'>
-			<div class='flex flex-col md:flex-row xl:flex-col justify-between gap-6 md:gap-8 xl:flex-[0_0_359px]'>
-				<p class='uppercase text-[26px] leading-[31px] lg:text-xl font-medium text-white'>
-					Please Pray for <br /> Jim & Brenda Puhr
-				</p>
-				<p class='text-gray-1 text-sm max-w-[359px]'>
-					Join in praying to spread the Gospel in Eastern Europe.
-					<span class='text-white'> "And the gospel must first be preached to all nations" (Mark 13:10)" </span>
-				</p>
-				<div class='flex flex-row items-center'>
-					<Image src={import('@/assets/ecfa.svg')} class='h-14 w-auto hidden xl:block' alt='ecfa' />
-					<Image src={import('@/assets/cmilogo.svg')} class='h-14 w-auto hidden xl:block ml-4' alt='cmi' />
-				</div>
-			</div>
-			<div class='flex flex-col md:flex-row gap-16 md:gap-5 items-start justify-between w-full text-sm'>
-				<div>
-					<span class='block uppercase text-gray-3 mb-8 font-display'>Quick links</span>
-					<ul>
-						{
-							links.map(link => (
-								<li class='mb-4 last:mb-0'>
-									<a class='text-gray-1' href={link.url}>
-										{link.label}
-									</a>
-								</li>
-							))
-						}
-					</ul>
-				</div>
-				<div>
-					<span class='block uppercase text-gray-3 mb-8 font-display'>Countries</span>
-					<ul class='grid grid-cols-2 gap-x-10'>
-						{
-							countries.default.map(country => (
-								<li class='mb-4 last:mb-0'>
-									<a class='text-gray-1 whitespace-nowrap' href={`/countries/${country.slug}`}>
-										{country.title}
-									</a>
-								</li>
-							))
-						}
-					</ul>
-				</div>
-				<div class='max-w-[195px] w-full'>
-					<span class='block uppercase text-gray-3 mb-8 font-display'>Get in touch</span>
-					<ul class='flex flex-col gap-4'>
-						{
-							touch.map(item => (
-								<li>
-									<a class='text-gray-1' href={item.url}>
-										{item.label}
-									</a>
-									{item.label2 && (
-										<a class='text-gray-1' href={item.url}>
-											{item.label2}
-										</a>
-									)}
-								</li>
-							))
-						}
-						<li>
-							<Button variant='outline' link='/donation' size='sm'>Giving online</Button>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<div class='flex-stack gap-5 py-8 lg:py-10'>
-			<ul class='flex gap-12 text-sm text-gray-3 font-display'>
-				<li><a href='/policy'>Privacy Policy</a></li>
-				<li><a href='/terms'>Terms & Conditions</a></li>
-			</ul>
-			<Image src={import('@/assets/facebook.svg')} alt='facebook' />
-		</div>
-	</div>
-	<div class='bg-black-3 p-2'>
-		<div class='container flex flex-col text-xs sm:flex-row justify-center gap-1 sm:gap-3 items-center text-gray-3'>
-			<span>© {upComingYear} Christian Mission International</span>
-			<span class='hidden sm:block'>|</span>
-			<div class='flex items-center gap-2'>
-				<span>powered by </span>
-				<a href='https://bezalelstudio.co' target='_blank'>
-					<Image src={import('@/assets/bezael.svg')} alt='bezazel' />
-				</a>
-			</div>
-		</div>
-	</div>
+<footer class="footer">
+  <div class="container">
+    <div class="flex-stack w-full gap-10 mb-16 py-10 border-b border-white/30">
+      <a href="/" class="font-logo text-[48px] leading-[32px] flex-auto text-white">cmi</a>
+      <p class="uppercase w-[185px] sm:w-auto text-md md:text-lg lg:text-xl font-medium text-white">christian missions international</p>
+    </div>
+    <div class="flex flex-col xl:flex-row items-start gap-16 md:gap-[114px] pb-14 md:pb-[34px] lg:pb-[75px] border-b border-white/30">
+      <div class="flex flex-col md:flex-row xl:flex-col justify-between gap-6 md:gap-8 xl:flex-[0_0_359px]">
+        <p class="uppercase text-[26px] leading-[31px] lg:text-xl font-medium text-white">
+          Please Pray for <br /> Jim & Brenda Puhr
+        </p>
+        <p class="text-gray-1 text-sm max-w-[359px]">
+          Join in praying to spread the Gospel in Eastern Europe.
+          <span class="text-white"> "And the gospel must first be preached to all nations" (Mark 13:10)" </span>
+        </p>
+        <div class="flex flex-row items-center">
+          <Image src={import('@/assets/ecfa.svg')} class="h-14 w-auto hidden xl:block" alt="ecfa" />
+          <Image src={import('@/assets/cmilogo.svg')} class="h-14 w-auto hidden xl:block ml-4" alt="cmi" />
+        </div>
+      </div>
+      <div class="flex flex-col md:flex-row gap-16 md:gap-5 items-start justify-between w-full text-sm">
+        <div>
+          <span class="block uppercase text-gray-3 mb-8 font-display">Quick links</span>
+          <ul>
+            {
+              links.map((link) => (
+                <li class="mb-4 last:mb-0">
+                  <a class="text-gray-1" href={link.url}>
+                    {link.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div>
+          <span class="block uppercase text-gray-3 mb-8 font-display">Countries</span>
+          <ul class="grid grid-cols-2 gap-x-10">
+            {
+              countries.default.map((country) => (
+                <li class="mb-4 last:mb-0">
+                  <a class="text-gray-1 whitespace-nowrap" href={`/countries/${country.slug}`}>
+                    {country.title}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div class="max-w-[195px] w-full">
+          <span class="block uppercase text-gray-3 mb-8 font-display">Get in touch</span>
+          <ul class="flex flex-col gap-4">
+            {
+              touch.map((item) => (
+                <li>
+                  <a class="text-gray-1" href={item.url}>
+                    {item.label}
+                  </a>
+                  {item.label2 && (
+                    <a class="text-gray-1" href={item.url}>
+                      {item.label2}
+                    </a>
+                  )}
+                </li>
+              ))
+            }
+            <li>
+              <Button variant="outline" link="/donation" size="sm">Giving online</Button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="flex-stack gap-5 py-8 lg:py-10">
+      <ul class="flex gap-12 text-sm text-gray-3 font-display">
+        <li><a href="/policy">Privacy Policy</a></li>
+        <li><a href="/terms">Terms & Conditions</a></li>
+      </ul>
+      <Image src={import('@/assets/facebook.svg')} alt="facebook" />
+    </div>
+  </div>
+  <div class="bg-black-3 p-2">
+    <div class="container flex flex-col text-xs sm:flex-row justify-center gap-1 sm:gap-3 items-center text-gray-3">
+      <span>© {currentYear} Christian Mission International</span>
+      <span class="hidden sm:block">|</span>
+      <div class="flex items-center gap-2">
+        <span>powered by </span>
+        <a href="https://bezalelstudio.co" target="_blank">
+          <Image src={import('@/assets/bezael.svg')} alt="bezazel" />
+        </a>
+      </div>
+    </div>
+  </div>
 </footer>
 
 <style>
-	.footer {
-		background: linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%),
-			linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%), var(--Black, #1e1e1e);
-	}
+  .footer {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%),
+      linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%), var(--Black, #1e1e1e);
+  }
 </style>
