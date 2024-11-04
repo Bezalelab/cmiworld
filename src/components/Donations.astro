@@ -2,7 +2,8 @@
 import { Image } from 'astro:assets';
 import { Tooltip } from 'astrolace:components';
 import { Icon } from 'astro-icon/components';
-import { currentYear } from '@/utils/currentYears';
+const generalsData = await import('@/data/generals.json');
+const upComingYear = generalsData.default.upcomingYear;
 const payments = [
 	{ price: '$25', link: 'https://pushpay.com/g/cmiworld?src=hpp&a=25' },
 	{ price: '$50', link: 'https://pushpay.com/g/cmiworld?src=hpp&a=50' },
@@ -19,7 +20,7 @@ const items = [
 	{
 		delay: 300,
 		count: '7+',
-		title: `NEW CHURCHES PLANNED TO OPEN IN ${currentYear()}`,
+		title: `NEW CHURCHES PLANNED TO OPEN IN ${upComingYear}`,
 	},
 	{
 		delay: 500,

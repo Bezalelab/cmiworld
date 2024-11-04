@@ -3,10 +3,11 @@ import Layout from '@/layouts/Layout.astro';
 import Donations from '@/components/Donations.astro';
 import { Icon } from 'astro-icon/components';
 import { Button } from '@/components/ui/button';
-
+const generalsData = await import('@/data/generals.json');
+const upComingYear = generalsData.default.upcomingYear;
 ---
 
-<Layout >
+<Layout>
 	<div class='container pt-16 md:pt-[72px] lg:pt-25'>
 		<div class='mb-[72px] md:mb-20'>
 			<span class='section-caption'>Donation</span>
@@ -31,7 +32,7 @@ import { Button } from '@/components/ui/button';
 				<span class='absolute text-[22px] top-6 left-6 font-medium'>03.</span>
 				<Icon name='email' class='size-[72px]' />
 				<span class='block uppercase text-[26px] md:text-xl font-medium text-black'>Mail a Check</span>
-				<span class='text-md text-center font-bold'>PO Box 880363<br/>Port St Lucie, FL 34988</span>
+				<span class='text-md text-center font-bold'>PO Box 880363<br />Port St Lucie, FL 34988</span>
 			</div>
 		</div>
 		<section class='py-16 my-20 border-t border-b border-gray-1'>
@@ -39,7 +40,7 @@ import { Button } from '@/components/ui/button';
 				If you have any questions or need assistance with your donation, please don’t hesitate to contact us. We’re here to support you every step of the way!
 			</p>
 			<div class='text-center'>
-				<Button variant='outlineDark' link='/contacts'  size='sm'>Contact us</Button>
+				<Button variant='outlineDark' link='/contacts' size='sm'>Contact us</Button>
 			</div>
 		</section>
 		<Donations />
@@ -47,9 +48,9 @@ import { Button } from '@/components/ui/button';
 	<div class='bg-black-2'>
 		<div class='container flex-stack flex-wrap gap-6 py-6'>
 			<p class='text-sm max-w-[430px] text-gray-1'>
-				Learn more about our “Vision 2024” and see how God, through CMI, is transforming lives globally
+				Learn more about our “Vision {upComingYear} and see how God, through CMI, is transforming lives globally
 			</p>
-			<Button variant='outline' size='sm' link='/our-vision'>Vision 2024</Button>
+			<Button variant='outline' size='sm' link='/our-vision'>Vision {upComingYear}</Button>
 		</div>
 	</div>
 </Layout>

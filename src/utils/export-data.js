@@ -14,7 +14,7 @@ async function fetchAPI({ query }) {
 }
 
 async function getPostsAndSaveToFile() {
-  const {posts} = await fetchAPI({
+  const { posts } = await fetchAPI({
     query: `
 			query BLOG {
           posts(first: 1000) {
@@ -37,8 +37,6 @@ async function getPostsAndSaveToFile() {
         }
 			`,
   });
-
-  
 
   const { countries } = await fetchAPI({
     query: `
@@ -64,10 +62,23 @@ async function getPostsAndSaveToFile() {
 			`,
   });
 
+  const generals = await fetchAPI({
+    query: `
+        query generals {
+          page(id: "general", idType: URI) {
+          mainSettings {
+            upcomingYear
+          }
+        }
+      }
+			`,
+  });
+
   try {
     await mkdir('src/data', { recursive: true });
     await writeFile('src/data/data.json', JSON.stringify(posts.nodes, null, 2), 'utf8');
     await writeFile('src/data/countries.json', JSON.stringify(countries.nodes, null, 2), 'utf8');
+    await writeFile('src/data/generals.json', JSON.stringify(generals.page.mainSettings), 'utf8');
     console.log('Data has been saved successfully!');
   } catch (error) {
     console.error('An error occurred:', error);

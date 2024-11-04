@@ -6,9 +6,12 @@ import Contacts from '@/components/Contacts.astro';
 import Pictures from '@/components/Pictures.astro';
 import mobileImage from '@/assets/welcome/mission-mobile.png';
 import desktopImage from '@/assets/welcome/mission.png';
+
+const generalsData = await import('@/data/generals.json');
+const upComingYear = generalsData.default.upcomingYear;
 ---
 
-<Layout >
+<Layout>
 	<div class='container pt-[72px] lg:pt-25'>
 		<section>
 			<div class='mb-8 md:mb-14 lg:mb-20'>
@@ -64,9 +67,9 @@ import desktopImage from '@/assets/welcome/mission.png';
 						the nations of Costa Rica, Jamaica, United States and Russia.
 					</li>
 					<li>
-						<strong>Goals for 2024:</strong> In 2024 CMI will be focused on starting SEVEN brand-new churches in five nations in Eastern Europe. CMI will network with key national pastors in Slovakia,
-						Hungary, Poland, the Czech Republic and Romania to start these churches. Cities of populations of 20,000 or more with no evangelical churches will be targeted. To start each of the new churches
-						CMI will invest approximately $4000.
+						<strong>Goals for {upComingYear}:</strong> In {upComingYear} CMI will be focused on starting SEVEN brand-new churches in five nations in Eastern Europe. CMI will network with key national pastors
+						in Slovakia, Hungary, Poland, the Czech Republic and Romania to start these churches. Cities of populations of 20,000 or more with no evangelical churches will be targeted. To start each of
+						the new churches CMI will invest approximately $4000.
 					</li>
 					<li>
 						<strong>Goals for the next five years:</strong> In the next five years CMI plans to help start at least 75 new churches in Eastern Europe. Focus for these new churches will be in Bulgaria,
