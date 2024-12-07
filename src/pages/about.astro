@@ -96,7 +96,7 @@ const { page } = await fetchAPI({
               {
                 page.about.breefHistory.sliderItems.map((item) => (
                   <button class="embla__dot" type="button">
-                    <span class="switch-title">{item.year}</span>
+                    <span class="switch-title"><Fragment set:html={item.year} /></span>
                   </button>
                 ))
               }
@@ -208,5 +208,5 @@ const { page } = await fetchAPI({
 </style>
 
 <script>
-  import '../components/ui/embla/index';
+  import '../components/ui/embla/index'
 </script>

@@ -1,6 +1,5 @@
 ---
 import { Image } from 'astro:assets';
-import { Tooltip } from 'astrolace:components';
 import { Icon } from 'astro-icon/components';
 const generalsData = await import('@/data/generals.json');
 const upComingYear = generalsData.default.upcomingYear;
@@ -67,10 +66,6 @@ const items = [
 	<div class='flex items-center justify-center gap-2'>
 		<Image src={import('@/assets/ecfa.svg')} class='size-8' quality={100} alt='ecfa' />
 		<span class='text-sm'>ECFA Accredited</span>
-		<Tooltip>
-			<div slot='content'>ECFA Accreditation ensures our financial accountability and transparency.</div>
-			<Icon name='questions' size={16} />
-		</Tooltip>
 	</div>
 </section>
 
@@ -102,8 +97,8 @@ const items = [
 </style>
 
 <script>
-	import { gsap } from 'gsap';
-	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+	import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 	gsap.registerPlugin(ScrollTrigger);
 	document.addEventListener('astro:page-load', () => {
 		const options = {

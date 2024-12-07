@@ -1,10 +1,9 @@
-import { defineConfig } from 'astro/config';
-import react from '@astrojs/react';
-import tailwind from '@astrojs/tailwind';
-import icon from 'astro-icon';
-import matthiesenxyzlace from '@matthiesenxyz/astrolace';
-import sitemap from '@astrojs/sitemap';
-import robots from 'astro-robots';
+import react from '@astrojs/react'
+import sitemap from '@astrojs/sitemap'
+import tailwind from '@astrojs/tailwind'
+import icon from 'astro-icon'
+import robots from 'astro-robots'
+import { defineConfig } from 'astro/config'
 // https://astro.build/config
 export default defineConfig({
   site: 'https://cmiworld.org',
@@ -21,7 +20,6 @@ export default defineConfig({
       applyBaseStyles: false,
     }),
     icon(),
-    matthiesenxyzlace(),
     sitemap(),
     robots(),
   ],

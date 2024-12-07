@@ -1,10 +1,8 @@
 ---
-import { Image } from 'astro:assets';
-import Header from '@/components/common/Header';
-import Head from '@/components/common/Head.astro';
-import Footer from '@/components/common/Footer.astro';
-import { WelcomeModal } from '@/components/WelcomeModal';
-import '@/styles/globals.css';
+import Footer from '@/components/common/Footer.astro'
+import Head from '@/components/common/Head.astro'
+import Header from '@/components/common/Header'
+import '@/styles/globals.css'
 const { title, description } = Astro.props;
 const countries = await import('@/data/countries.json');
 const generalsData = await import('@/data/generals.json');
@@ -19,8 +17,5 @@ const upComingYear = generalsData.default.upcomingYear;
 		<Header client:load currentPath={currentPath} countries={countries} year={upComingYear} />
 		<main class='flex-auto pt-[82px] md:pt-25 overflow-x-hidden'><slot /></main>
 		<Footer />
-		<WelcomeModal client:idle>
-			<Image src={import('@/assets/welcome-modal.png')} alt='welcome' class='h-[160px] w-full rounded-2xl object-cover object-[center_-30px] sm:h-full sm:object-center' />
-		</WelcomeModal>
 	</body>
 </html>
