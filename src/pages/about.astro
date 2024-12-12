@@ -120,7 +120,7 @@ const { page } = await fetchAPI({
               page.about.breefHistory.sliderItems.map((item, index) => (
                 <div class="embla__slide flex flex-col xl:flex-row items-start gap-10 lg:gap-20 flex-[0_0_100%]">
                   <div class="xl:flex-[0_0_539px]">
-                    <span class="text-gray-2 text-sm block mb-2">{item.year}</span>
+                    <span class="text-gray-2 text-sm block mb-2"><Fragment set:html={item.year} /></span>
                     <h2 class="text-lg md:text-xl lg:text-2xl mb-6">{item.title}</h2>
                     <div class="xl:max-w-[430px]">
                       <Fragment set:html={item.description} />
