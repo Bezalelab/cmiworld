@@ -11,11 +11,11 @@ export const countries = [
   { city: 'bg', top: 76, right: 37 },
   { city: 'al', top: 80, right: 43.5 },
   { city: 'mk', top: 79, right: 41.4 },
-]
+];
 
 export const TestCountries = (jsonData) => {
   return countries.map((country) => {
-    const matchingJsonItem = jsonData.find((item) => item.countryContent.codeLang === country.city)
+    const matchingJsonItem = jsonData.find((item) => item.countryContent.codeLang === country.city);
     if (matchingJsonItem) {
       return {
         ...country,
@@ -23,9 +23,9 @@ export const TestCountries = (jsonData) => {
         countCity: matchingJsonItem.countryContent.numberOfCities,
         countChurches: matchingJsonItem.countryContent.numberOfChurces,
         countryContent: matchingJsonItem.countryContent,
-        slug: matchingJsonItem.slug
-      }
+        slug: matchingJsonItem.slug,
+      };
     }
-    return country
-  })
-}
+    return country;
+  });
+};

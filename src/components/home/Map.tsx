@@ -1,8 +1,7 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { TestCountries } from '@/utils/countries';
 import MapTooltips from '../ui/map-tooltips';
-import { animated } from '@react-spring/web';
 import jsonData from '@/data/countries.json';
 import { ReactSVG } from 'react-svg';
 
@@ -19,165 +18,45 @@ export function Map() {
   });
 
   const [currentState, setCurrentState] = useState('countries');
-  const [isPaused, setIsPaused] = useState(false);
-  const currentProgressRef = useRef(0);
+  const [progress, setProgress] = useState(0);
   const intervalRef = useRef(null);
-  const animationRef = useRef(null);
-  const pauseTimeoutRef = useRef(null);
-
-  const setProgress = useCallback(
-    (progress, duration = 250) => {
-      if (!inView) return;
-
-      const startProgress = currentProgressRef.current;
-      const startTime = performance.now();
-
-      const animateToProgress = (timestamp) => {
-        if (!inView) return;
-
-        const elapsed = timestamp - startTime;
-        if (elapsed < duration) {
-          const t = elapsed / duration;
-          const currentProgress = startProgress + (progress - startProgress) * t;
-          currentProgressRef.current = currentProgress;
-
-          const progressBar = document.getElementById('progress-bar');
-          if (progressBar) {
-            if (window.innerWidth < 768) {
-              progressBar.style.width = `${currentProgress}%`;
-            } else {
-              progressBar.style.height = `${currentProgress * 3.8}px`;
-            }
-          }
-
-          requestAnimationFrame(animateToProgress);
-        } else {
-          currentProgressRef.current = progress;
-          const progressBar = document.getElementById('progress-bar');
-          if (progressBar) {
-            if (window.innerWidth < 768) {
-              progressBar.style.width = `${progress}%`;
-            } else {
-              progressBar.style.height = `${progress * 3.8}px`;
-            }
-          }
-        }
-      };
-
-      requestAnimationFrame(animateToProgress);
-    },
-    [inView],
-  );
-
-  const animateProgress = useCallback(
-    (timestamp) => {
-      if (!inView) return;
-
-      if (!animationRef.current.startTime) {
-        animationRef.current.startTime = timestamp;
-      }
-
-      const elapsed = timestamp - animationRef.current.startTime;
-      const duration = 3800; // Увеличиваем длительность анимации до 3.8 секунд
-
-      let newProgress;
-      if (currentState === 'countries') {
-        newProgress = (elapsed / duration) * 50;
-      } else if (currentState === 'churches') {
-        newProgress = 50 + (elapsed / duration) * 50;
-      } else {
-        newProgress = 100;
-      }
-
-      if (elapsed < duration) {
-        setProgress(newProgress, 0);
-        animationRef.current.frameId = requestAnimationFrame(animateProgress);
-      } else {
-        setProgress(currentState === 'years' ? 100 : newProgress, 0);
-        animationRef.current.frameId = null;
-      }
-    },
-    [currentState, setProgress, inView],
-  );
 
   useEffect(() => {
-    if (!inView) {
-      clearInterval(intervalRef.current);
-      if (animationRef.current?.frameId) {
-        cancelAnimationFrame(animationRef.current.frameId);
-      }
-      return;
-    }
-
-    if (isPaused) return;
-
-    if (animationRef.current?.frameId) {
-      cancelAnimationFrame(animationRef.current.frameId);
-    }
-
-    if (currentState === 'countries' && currentProgressRef.current === 100) {
-      setProgress(0);
-      setTimeout(() => {
-        animationRef.current = {
-          startTime: null,
-          frameId: requestAnimationFrame(animateProgress),
-        };
-      }, 250);
-    } else {
-      animationRef.current = {
-        startTime: null,
-        frameId: requestAnimationFrame(animateProgress),
-      };
-    }
+    if (!inView) return;
 
     intervalRef.current = setInterval(() => {
       setCurrentState((prevState) => {
         const currentIndex = items.findIndex((item) => item.title === prevState);
         const nextIndex = (currentIndex + 1) % items.length;
+        setProgress(items[nextIndex].progress);
         return items[nextIndex].title;
       });
-    }, 4000); // Оставляем интервал 4 секунды
+    }, 4000);
 
-    return () => {
-      clearInterval(intervalRef.current);
-      if (animationRef.current?.frameId) {
-        cancelAnimationFrame(animationRef.current.frameId);
-      }
-    };
-  }, [currentState, isPaused, inView, animateProgress, setProgress]);
+    return () => clearInterval(intervalRef.current);
+  }, [inView]);
 
-  const handleItemClick = useCallback(
-    (title) => {
-      if (!inView) return;
+  const handleItemClick = (title) => {
+    if (!inView) return;
 
+    const item = items.find((i) => i.title === title);
+    if (item) {
       setCurrentState(title);
+      setProgress(item.progress);
+
       clearInterval(intervalRef.current);
-
-      if (title === 'countries') {
-        setProgress(0, 500);
-      } else if (title === 'churches') {
-        setProgress(50, 500);
-      } else if (title === 'years') {
-        setProgress(100, 500);
-      }
-
-      setIsPaused(true);
-      if (pauseTimeoutRef.current) {
-        clearTimeout(pauseTimeoutRef.current);
-      }
-      pauseTimeoutRef.current = setTimeout(() => {
-        setIsPaused(false);
+      intervalRef.current = setTimeout(() => {
         intervalRef.current = setInterval(() => {
           setCurrentState((prevState) => {
             const currentIndex = items.findIndex((item) => item.title === prevState);
             const nextIndex = (currentIndex + 1) % items.length;
+            setProgress(items[nextIndex].progress);
             return items[nextIndex].title;
           });
         }, 4000);
       }, 3000);
-    },
-    [setProgress, inView],
-  );
+    }
+  };
 
   const itemIndex = items.findIndex((i) => i.title === currentState);
   const mappedItems = items.map((item, index) => ({
@@ -185,6 +64,7 @@ export function Map() {
     isActive: index === itemIndex,
     isActiveOrPassed: index <= itemIndex,
   }));
+
   return (
     <section className="map container overflow-hidden pt-20 md:overflow-visible md:pt-[120px]" id="eastern" ref={ref}>
       <div className="relative mb-10 flex h-[900px] w-full flex-col md:h-[950px] lg:flex-row xl:h-auto">
@@ -202,13 +82,14 @@ export function Map() {
           </div>
           <div className="relative z-20">
             <div className="absolute left-0 top-0 h-[3px] w-full bg-gray-300 lg:top-12 lg:h-[375px] lg:w-[3px]"></div>
-            <animated.div
+            <div
               id="progress-bar"
-              className="absolute left-0 top-0 h-[3px] overflow-x-hidden bg-black lg:top-12 lg:w-[2px]"
+              className="absolute left-0 top-0 h-[3px] overflow-x-hidden bg-black transition-all duration-500 lg:top-12 lg:w-[2px]"
               style={{
-                width: window.innerWidth < 768 ? `${currentProgressRef.current}%` : '3px',
-                height: window.innerWidth < 768 ? '3px' : `${currentProgressRef.current * 3.8}px`,
-              }}></animated.div>
+                width: window.innerWidth < 768 ? `${progress}%` : '3px',
+                height: window.innerWidth < 768 ? '3px' : `${progress * 3.8}px`,
+              }}
+            />
             <ol className="lg5 :z-0 relative flex justify-between lg:flex-col lg:gap-10 lg:pl-14">
               {mappedItems.map((item, index) => (
                 <li
@@ -229,7 +110,7 @@ export function Map() {
         <div className="absolute -bottom-20 -left-[500px] sm:-left-[400px] md:-bottom-40 md:-left-[300px] lg:left-0 lg:top-20 lg:translate-x-[200px] xl:translate-x-[400px]" id="map">
           <div className="relative after:pointer-events-none after:absolute after:top-20 after:z-10 after:h-[350px] after:w-full after:bg-steps md:mb-20 lg:mb-0 lg:after:hidden">
             <ReactSVG src="/europe.svg" />
-            <MapTooltips items={TestCountries(jsonData)} isActive={inView} />
+            <MapTooltips items={TestCountries(jsonData)} />
           </div>
         </div>
       </div>
