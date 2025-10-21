@@ -5,9 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
 import { Toaster } from '@/components/ui/toaster';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { AutosizeTextarea } from '@/components/ui/autosize-textarea';
 import emailjs from '@emailjs/browser';
+import ReCAPTCHA from 'react-google-recaptcha';
+
 const contactsItems = [
   { id: 'first_name', label: 'First Name' },
   { id: 'last_name', label: 'Last Name' },
@@ -26,8 +28,16 @@ const formSchema = z.object({
 
 const ContactsForm = () => {
   const [loading, setLoading] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const { toast } = useToast();
   const formRef = useRef<HTMLFormElement>(null);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+
+  // Only render ReCAPTCHA on client
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,10 +51,11 @@ const ContactsForm = () => {
 
   const { reset } = form;
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const sendEmail = (recaptchaToken: string | null) => {
     if (!formRef.current) return;
 
     setLoading(true);
+
     emailjs.sendForm('service_c43d9si', 'template_gefrcvk', formRef.current, '0k9_FzjV3UUd_ew8E').then(
       (result) => {
         setLoading(false);
@@ -52,14 +63,23 @@ const ContactsForm = () => {
           description: 'Your email has been sent.',
         });
         reset();
+        recaptchaRef.current?.reset();
       },
       (error) => {
         setLoading(false);
         toast({
-          description: 'Something went wrong. Do it again later',
+          description: 'Something went wrong. Please try again later.',
+          variant: 'destructive',
         });
+        recaptchaRef.current?.reset();
       },
     );
+  };
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    if (isMounted && recaptchaRef.current) {
+      recaptchaRef.current.execute();
+    }
   }
 
   const onNumberOnlyChange = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -87,15 +107,13 @@ const ContactsForm = () => {
                     <FormItem>
                       <FormControl>
                         {item.id !== 'message' ? (
-                          <>
-                            <input
-                              onKeyDown={item.id === 'phone' ? onNumberOnlyChange : undefined}
-                              {...field}
-                              id={item.id}
-                              placeholder={item.label}
-                              className={`h-10 w-full border-b text-sm text-black outline-none placeholder:uppercase focus:border-black focus:placeholder:text-black ${fieldState.invalid ? 'border-[#FF9292] placeholder:text-[#FF9292]' : 'border-gray-2 placeholder-gray-2'}`}
-                            />
-                          </>
+                          <input
+                            onKeyDown={item.id === 'phone' ? onNumberOnlyChange : undefined}
+                            {...field}
+                            id={item.id}
+                            placeholder={item.label}
+                            className={`h-10 w-full border-b text-sm text-black outline-none placeholder:uppercase focus:border-black focus:placeholder:text-black ${fieldState.invalid ? 'border-[#FF9292] placeholder:text-[#FF9292]' : 'border-gray-2 placeholder-gray-2'}`}
+                          />
                         ) : (
                           <AutosizeTextarea {...field} placeholder="MESSAGE" className={`${fieldState.invalid && 'border-[#FF9292] !placeholder-[#FF9292]'}`} />
                         )}
@@ -106,7 +124,18 @@ const ContactsForm = () => {
               </div>
             ))}
           </div>
-          <Button type="submit" variant="outlineDark" className="px-10" disabled={loading ? true : false}>
+
+          {/* Only render ReCAPTCHA after component mounts */}
+          {isMounted && (
+            <ReCAPTCHA
+              ref={recaptchaRef}
+              sitekey="6LeNBfIqAAAAAAiiE18b1ajl8nceGnSdOJN5bCJN"
+              size="invisible"
+              onChange={sendEmail}
+            />
+          )}
+
+          <Button type="submit" variant="outlineDark" className="px-10" disabled={loading}>
             {loading ? 'Sending...' : 'Send'}
           </Button>
         </form>
