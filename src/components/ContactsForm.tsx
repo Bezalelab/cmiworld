@@ -29,11 +29,11 @@ const formSchema = z.object({
 const ContactsForm = () => {
   const [loading, setLoading] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const { toast } = useToast();
   const formRef = useRef<HTMLFormElement>(null);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
 
-  // Only render ReCAPTCHA on client
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -51,8 +51,17 @@ const ContactsForm = () => {
 
   const { reset } = form;
 
-  const sendEmail = (recaptchaToken: string | null) => {
+  function onSubmit(values: z.infer<typeof formSchema>) {
     if (!formRef.current) return;
+
+    // Check if reCAPTCHA was completed
+    if (!recaptchaToken) {
+      toast({
+        description: 'Please complete the reCAPTCHA verification.',
+        variant: 'destructive',
+      });
+      return;
+    }
 
     setLoading(true);
 
@@ -64,6 +73,7 @@ const ContactsForm = () => {
         });
         reset();
         recaptchaRef.current?.reset();
+        setRecaptchaToken(null);
       },
       (error) => {
         setLoading(false);
@@ -72,14 +82,9 @@ const ContactsForm = () => {
           variant: 'destructive',
         });
         recaptchaRef.current?.reset();
+        setRecaptchaToken(null);
       },
     );
-  };
-
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    if (isMounted && recaptchaRef.current) {
-      recaptchaRef.current.execute();
-    }
   }
 
   const onNumberOnlyChange = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -91,6 +96,10 @@ const ContactsForm = () => {
       event.preventDefault();
       return;
     }
+  };
+
+  const handleRecaptchaChange = (token: string | null) => {
+    setRecaptchaToken(token);
   };
 
   return (
@@ -125,17 +134,23 @@ const ContactsForm = () => {
             ))}
           </div>
 
-          {/* Only render ReCAPTCHA after component mounts */}
+          {/* reCAPTCHA v2 Checkbox - only render after mount */}
           {isMounted && (
-            <ReCAPTCHA
-              ref={recaptchaRef}
-              sitekey="6LeNBfIqAAAAAAiiE18b1ajl8nceGnSdOJN5bCJN"
-              size="invisible"
-              onChange={sendEmail}
-            />
+            <div className="mb-6">
+              <ReCAPTCHA
+                ref={recaptchaRef}
+                sitekey="6LfYRvIrAAAAAJ1Ce_cbKTgUnlkdxH1IVBbZUrIG"
+                onChange={handleRecaptchaChange}
+              />
+              {!recaptchaToken && form.formState.isSubmitted && (
+                <p className="mt-2 text-sm text-[#FF9292]">
+                  Please complete the reCAPTCHA verification
+                </p>
+              )}
+            </div>
           )}
 
-          <Button type="submit" variant="outlineDark" className="px-10" disabled={loading}>
+          <Button type="submit" variant="outlineDark" className="px-10" disabled={loading || !recaptchaToken}>
             {loading ? 'Sending...' : 'Send'}
           </Button>
         </form>
