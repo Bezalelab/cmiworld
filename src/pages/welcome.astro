@@ -6,9 +6,7 @@ import Contacts from '@/components/Contacts.astro';
 import Pictures from '@/components/Pictures.astro';
 import mobileImage from '@/assets/welcome/mission-mobile.png';
 import desktopImage from '@/assets/welcome/mission.png';
-
-const generalsData = await import('@/data/generals.json');
-const upComingYear = generalsData.default.upcomingYear;
+import { currentYear } from '@/utils/currentYears';
 ---
 
 <Layout>
@@ -67,7 +65,7 @@ const upComingYear = generalsData.default.upcomingYear;
 						the nations of Costa Rica, Jamaica, United States and Russia.
 					</li>
 					<li>
-						<strong>Goals for {upComingYear}:</strong> In {upComingYear} CMI will be focused on starting SEVEN brand-new churches in five nations in Eastern Europe. CMI will network with key national pastors
+						<strong>Goals for {currentYear}:</strong> In {currentYear} CMI will be focused on starting SEVEN brand-new churches in five nations in Eastern Europe. CMI will network with key national pastors
 						in Slovakia, Hungary, Poland, the Czech Republic and Romania to start these churches. Cities of populations of 20,000 or more with no evangelical churches will be targeted. To start each of
 						the new churches CMI will invest approximately $4000.
 					</li>

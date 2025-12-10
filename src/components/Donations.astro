@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
-const generalsData = await import('@/data/generals.json');
-const upComingYear = generalsData.default.upcomingYear;
+import { getVisionYear } from '@/utils/getVisionYear';
+const upComingYear = getVisionYear();
 const payments = [
   { price: '$25', link: 'https://pushpay.com/g/cmiworld?src=hpp&a=25' },
   { price: '$50', link: 'https://pushpay.com/g/cmiworld?src=hpp&a=50' },

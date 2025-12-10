@@ -2,8 +2,8 @@
 import { Image } from 'astro:assets';
 import { Button } from '../ui/button';
 import { currentYear } from '@/utils/currentYears';
-const generalsData = await import('@/data/generals.json');
-const upComingYear = generalsData.default.upcomingYear;
+import { getVisionYear } from '@/utils/getVisionYear';
+const upComingYear = getVisionYear();
 
 const links = [
   { label: 'Home', url: '/' },

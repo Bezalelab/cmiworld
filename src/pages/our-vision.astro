@@ -4,8 +4,8 @@ import { Image } from 'astro:assets';
 import Vision from '@/components/home/Vision.astro';
 import { Button } from '@/components/ui/button';
 import { fetchAPI } from '@/lib/api';
-const generalsData = await import('@/data/generals.json');
-const upComingYear = generalsData.default.upcomingYear;
+import { getVisionYear } from '@/utils/getVisionYear';
+const upComingYear = getVisionYear();
 const { page } = await fetchAPI({
 	query: `
 		query vision {

@@ -3,11 +3,11 @@ import Footer from '@/components/common/Footer.astro'
 import Head from '@/components/common/Head.astro'
 import Header from '@/components/common/Header'
 import '@/styles/globals.css'
+import { getVisionYear } from '@/utils/getVisionYear';
 const { title, description } = Astro.props;
 const countries = await import('@/data/countries.json');
-const generalsData = await import('@/data/generals.json');
 const currentPath = Astro.url.pathname;
-const upComingYear = generalsData.default.upcomingYear;
+const upComingYear = getVisionYear();
 ---
 
 <!doctype html>

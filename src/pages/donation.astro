@@ -3,8 +3,8 @@ import Layout from '@/layouts/Layout.astro';
 import Donations from '@/components/Donations.astro';
 import { Icon } from 'astro-icon/components';
 import { Button } from '@/components/ui/button';
-const generalsData = await import('@/data/generals.json');
-const upComingYear = generalsData.default.upcomingYear;
+import { getVisionYear } from '@/utils/getVisionYear';
+const upComingYear = getVisionYear();
 ---
 
 <Layout>
