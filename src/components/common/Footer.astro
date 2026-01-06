@@ -20,8 +20,6 @@ const touch = [
   { label: 'jimpuhr@cmiworld.org', url: 'mailto:jimpuhr@cmiworld.org' },
   { label: 'PO Box 880363', label2: 'Port St Lucie, FL 34988', url: '#' },
 ];
-
-//PO Box 880363 Port St Lucie, FL 34988'
 ---
 
 <footer class="footer">
@@ -107,7 +105,7 @@ const touch = [
   </div>
   <div class="bg-black-3 p-2">
     <div class="container flex flex-col text-xs sm:flex-row justify-center gap-1 sm:gap-3 items-center text-gray-3">
-      <span>© {currentYear} Christian Mission International</span>
+      <p>© <span id="currentYear"></span> Christian Mission International</p>
       <span class="hidden sm:block">|</span>
       <div class="flex items-center gap-2">
         <span>powered by </span>
@@ -121,7 +119,13 @@ const touch = [
 
 <style>
   .footer {
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%),
+    background:
+      linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%),
       linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%), var(--Black, #1e1e1e);
   }
 </style>
+
+<script>
+  const currentYear = new Date().getFullYear();
+  document.getElementById('currentYear').textContent = currentYear.toString();
+</script>
