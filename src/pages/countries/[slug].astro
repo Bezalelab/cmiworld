@@ -26,7 +26,7 @@ const { country } = Astro.props;
 				<div class='embla__viewport relative'>
 					<div class='embla__container flex'>
 						{
-							country.countryContent.images.nodes.map(image => (
+							(country.countryContent.images?.nodes ?? []).map(image => (
 								<div class='embla__slide mb-4 h-[400px] md:h-[480px]'>
 									<Image src={image.mediaItemUrl} inferSize alt='image' quality={90} class='size-full object-cover' />
 								</div>
@@ -41,7 +41,7 @@ const { country } = Astro.props;
 					<div class='embla-thumbs__viewport overflow-hidden'>
 						<div class='embla-thumbs__container flex gap-2'>
 							{
-								country.countryContent.images.nodes.map((image, index) => (
+								(country.countryContent.images?.nodes ?? []).map((image, index) => (
 									<div class={`embla-thumbs__slide ${index === 0 && 'embla-thumbs__slide--selected'}`}>
 										<button type='button' class='embla-thumbs__slide__number size-[100px]'>
 											<Image src={image.mediaItemUrl} inferSize alt='image' class='size-full object-cover' />

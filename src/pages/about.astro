@@ -6,6 +6,7 @@ import ReadMore from '@/components/ReadMore';
 import { Icon } from 'astro-icon/components';
 import Contacts from '@/components/Contacts.astro';
 import { fetchAPI } from '@/lib/api';
+import { getMediaUrl } from '@/utils/media';
 
 const { page } = await fetchAPI({
   query: `
@@ -85,7 +86,7 @@ const { page } = await fetchAPI({
 <Layout title="Jim & Brenda Puhr">
   <div class="container pt-[72px] lg:pt-25">
     <section class="pb-10 md:pb-20">
-      <h2 class="text-[30px] leading-[38px] md:text-2xl lg:text-3xl mb-4 md:mb-9 text-center">Brief History of the Ministry of <spa class="text-gray-3">Jim and Brenda Puhr</spa></h2>
+      <h2 class="text-[30px] leading-[38px] md:text-2xl lg:text-3xl mb-4 md:mb-9 text-center">Brief History of the Ministry of <span class="text-gray-3">Jim and Brenda Puhr</span></h2>
       <p class="text-center max-w-[753px] mx-auto mb-20 md:mb-40">
         {page.about.breefHistory.description}
       </p>
@@ -117,18 +118,21 @@ const { page } = await fetchAPI({
         <div class="embla__viewport">
           <div class="embla__container">
             {
-              page.about.breefHistory.sliderItems.map((item, index) => (
-                <div class="embla__slide flex flex-col xl:flex-row items-start gap-10 lg:gap-20 flex-[0_0_100%]">
-                  <div class="xl:flex-[0_0_539px]">
-                    <span class="text-gray-2 text-sm block mb-2"><Fragment set:html={item.year} /></span>
-                    <h2 class="text-lg md:text-xl lg:text-2xl mb-6">{item.title}</h2>
-                    <div class="xl:max-w-[430px]">
-                      <Fragment set:html={item.description} />
+              page.about.breefHistory.sliderItems.map((item) => {
+                const slideImage = getMediaUrl(item.image);
+                return (
+                  <div class="embla__slide flex flex-col xl:flex-row items-start gap-10 lg:gap-20 flex-[0_0_100%]">
+                    <div class="xl:flex-[0_0_539px]">
+                      <span class="text-gray-2 text-sm block mb-2"><Fragment set:html={item.year} /></span>
+                      <h2 class="text-lg md:text-xl lg:text-2xl mb-6">{item.title}</h2>
+                      <div class="xl:max-w-[430px]">
+                        <Fragment set:html={item.description} />
+                      </div>
                     </div>
+                    {slideImage && <Image src={slideImage} inferSize alt="slide image" class="w-full max-h-[415px] object-cover" />}
                   </div>
-                  <Image src={item.image.node.mediaItemUrl} inferSize alt="slide image" class="w-full max-h-[415px] object-cover" />
-                </div>
-              ))
+                );
+              })
             }
           </div>
         </div>
@@ -144,11 +148,11 @@ const { page } = await fetchAPI({
 
     <section class="flex flex-col md:flex-row items-start gap-6 justify-between">
       <div class="flex flex-col w-full md:flex-[0_0_358px] xl:flex-[0_1_490px] gap-6 md:gap-[2rem] xl:gap-12">
-        <Image src={page.about.topSection.firstImage.node.mediaItemUrl} width={490} height={240} alt="jim & brenda purh" class="w-full h-[240px] md:h-[250px] lg:h-[340px] object-cover" />
-        <Image src={page.about.topSection.secondImage.node.mediaItemUrl} width={490} height={420} alt="jim & brenda purh" class="w-full h-[245px] md:h-[255px] lg:h-[420px] object-cover" />
+        <Image src={getMediaUrl(page.about.topSection.firstImage, '/post-preview.png')} width={490} height={240} alt="Jim & Brenda Puhr" class="w-full h-[240px] md:h-[250px] lg:h-[340px] object-cover" />
+        <Image src={getMediaUrl(page.about.topSection.secondImage, '/post-preview.png')} width={490} height={420} alt="Jim & Brenda Puhr" class="w-full h-[245px] md:h-[255px] lg:h-[420px] object-cover" />
       </div>
       <div class="flex flex-col w-full md:flex-[0_0_356px] xl:flex-initial gap-7 xl:max-w-[590px]">
-        <Image src={page.about.topSection.thirdImage.node.mediaItemUrl} inferSize alt="jim & brenda purh" class="w-full" />
+        <Image src={getMediaUrl(page.about.topSection.thirdImage, '/post-preview.png')} inferSize alt="Jim & Brenda Puhr" class="w-full" />
         <p class="text-md lg:text-base">
           {page.about.topSection.textUnderPhoto}
         </p>

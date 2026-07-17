@@ -2,6 +2,7 @@
 import Layout from '@/layouts/Layout.astro';
 import Card from '@/components/countries/Card.astro';
 import Join from '@/components/Join';
+import { getMediaUrl } from '@/utils/media';
 const countries = await import('@/data/countries.json');
 countries.default.sort((a, b) => {
   if (a.slug === 'hungary') return -1;
@@ -20,7 +21,7 @@ countries.default.sort((a, b) => {
 			</div>
 		</div>
 		<ul class='grid md:grid-cols-2 gap-6 sm:gap-5 lg:gap-8 xl:gap-12'>
-			{countries.default.map((item, index) => <Card slug={item.slug} title={item.title} index={index} city={item.countryContent.city} description={item.countryContent.description} image={item.featuredImage.node.mediaItemUrl} />)}
+			{countries.default.map((item, index) => <Card slug={item.slug} title={item.title} index={index} city={item.countryContent.city} description={item.countryContent.description} image={getMediaUrl(item.featuredImage, '/post-preview.png')} />)}
 		</ul>
 	</div>
 	<Join client:load />

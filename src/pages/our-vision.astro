@@ -5,6 +5,7 @@ import Vision from '@/components/home/Vision.astro';
 import { Button } from '@/components/ui/button';
 import { fetchAPI } from '@/lib/api';
 import { getVisionYear } from '@/utils/getVisionYear';
+import { getMediaUrl } from '@/utils/media';
 const upComingYear = getVisionYear();
 const { page } = await fetchAPI({
 	query: `
@@ -20,6 +21,7 @@ const { page } = await fetchAPI({
 	}
 	`,
 });
+const heroImage = getMediaUrl(page.featuredImage);
 ---
 
 <Layout title='Vision'>
@@ -29,7 +31,7 @@ const { page } = await fetchAPI({
 		</div>
 		<article
 			class='prose prose-lg prose-figure:!w-full prose-figcaption:text-gray-2 prose-figcaption:text-sm prose-figcaption:text-center prose-blockquote:text-black prose-headings:font-medium prose-img:mx-auto prose-img:min-h-[200px] prose-img:object-cover max-w-full mb-20 md:mb-25'>
-			<Image src={page.featuredImage.node.mediaItemUrl} inferSize alt='image' />
+			{heroImage && <Image src={heroImage} inferSize alt='image' />}
 			<Fragment set:html={page.content} />
 		</article>
 	</div>
