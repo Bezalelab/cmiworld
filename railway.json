@@ -1,7 +1,7 @@
 {
   "$schema": "https://railway.com/railway.schema.json",
   "deploy": {
-    "startCommand": "bunx astro preview --host 0.0.0.0 --port 4321",
+    "startCommand": "PORT=4321 node scripts/serve.mjs",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 3
   }
