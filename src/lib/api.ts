@@ -1,3 +1,5 @@
+import { WP_GRAPHQL } from '@/lib/wp'
+
 interface WPGraphQLParams {
 	query: string
 	variables?: object
@@ -5,7 +7,7 @@ interface WPGraphQLParams {
 
 export async function fetchAPI({ query, variables = {} }: WPGraphQLParams) {
 	const headers = { 'Content-Type': 'application/json' }
-	const res = await fetch('http://cmiworld.bezalelstudio.co/graphql', {
+	const res = await fetch(WP_GRAPHQL, {
 		method: 'POST',
 		headers,
 		body: JSON.stringify({ query, variables }),

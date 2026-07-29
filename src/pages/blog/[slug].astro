@@ -4,6 +4,7 @@ import { Icon } from 'astro-icon/components';
 import { Image } from 'astro:assets';
 import { formatDate } from '@/utils/blog';
 import { Markup } from 'astro-remote';
+import { WP_URL } from '@/lib/wp';
 
 interface Post {
   slug: string;
@@ -64,17 +65,23 @@ const next = posts.default[currentIndex - 1];
   </div>
 </Layout>
 
-<script>
+<script define:vars={{ wpUrl: WP_URL }}>
+  // Rewrites legacy image URLs left in post content by the original
+  // (pre-headless) www.cmiworld.org site onto the current CMS host,
+  // dropping any -WxH size suffix so the full-size original is used.
+  //
+  // define:vars injects wpUrl at build time, so this follows the CMS
+  // wherever PUBLIC_WP_URL points. It also makes this an inline script,
+  // which is why the TypeScript annotations that used to be here are
+  // gone — they are not valid in a non-processed script block.
   document.addEventListener('DOMContentLoaded', () => {
-    const images: NodeListOf<HTMLImageElement> = document.querySelectorAll('article img');
+    const images = document.querySelectorAll('article img');
     const regex = /^http:\/\/www\.cmiworld\.org\/wp-content\/uploads\/(\d{4}\/\d{2}\/.*?)(?:-\d+x\d+)?\.(jpeg|jpg|png)$/;
 
-    images.forEach((img: HTMLImageElement) => {
-      const currentUrl = img.src;
-      const match = currentUrl.match(regex);
+    images.forEach((img) => {
+      const match = img.src.match(regex);
       if (match) {
-        const newUrl = `http://cmiworld.bezalelstudio.co/wp-content/uploads/${match[1]}.${match[2]}`;
-        img.src = newUrl;
+        img.src = `${wpUrl}/wp-content/uploads/${match[1]}.${match[2]}`;
       }
     });
   });

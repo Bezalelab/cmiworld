@@ -1,8 +1,13 @@
 import { writeFile, mkdir } from 'fs/promises';
 
+// This runs under plain node (see the "build" script), not through Astro,
+// so it reads process.env rather than import.meta.env. Keep the default in
+// sync with src/lib/wp.ts.
+const WP_URL = (process.env.PUBLIC_WP_URL || 'https://cms.cmiworld.org').replace(/\/+$/, '');
+
 // Функция для выполнения запроса к API
 async function fetchAPI({ query }) {
-  const response = await fetch('https://cmiworld.bezalelstudio.co/graphql', {
+  const response = await fetch(`${WP_URL}/graphql`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
